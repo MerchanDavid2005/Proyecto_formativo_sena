@@ -45,7 +45,11 @@ export const useStore = defineStore('storeId', {
 
       // Variables globales
 
-      claro: true,
+      claro: true as boolean,
+      productoVerificar: {} as Producto,
+      idEliminar: 0,
+      carrito: [] as Producto [],
+      carritoFiltrar: [] as Producto [],
 
       // Lista informacion
 

@@ -1,18 +1,28 @@
 <template>
     <div class="products-all">
+
+        <div class="products-all-prd">
+
+            <h1 v-if="pinia.listaProductosPagina.length < 1"> No hay resultados de tu busqueda </h1>
         
-        <div v-for="(prd, i) in pinia.listaProductosPagina.slice(0, 12)" :key="i">
-            <h1> {{ prd.nombre }} </h1>
-            <p> <strong> Categoria:  </strong> {{ prd.categoria }} </p>
-            <article class="imagen">
-                <img :src="prd.img" alt="">
-            </article>
-            <p class="products-all-descripcion"> <strong> Descripcion:  </strong> {{ prd.descripcion }} </p>
-            <p> <strong> Cantidad:  </strong> {{ prd.cantidad }} </p>
-            <p> <strong> Precio:  </strong> {{ prd.precio }} </p>
+            <div class="products-all-prd-product" v-for="(prd, i) in pinia.listaProductosPagina.slice(0, 12)" :key="i">
+                <h1> {{ prd.nombre }} </h1>
+                <p> <strong> Categoria:  </strong> {{ prd.categoria }} </p>
+                <article class="products-all-prd-product-imagen">
+                    <img :src="prd.img" alt="">
+                </article>
+                <p class="products-all-prd-product-descripcion"> <strong> Descripcion:  </strong> {{ prd.descripcion }} </p>
+                <p> <strong> Cantidad:  </strong> {{ prd.cantidad }} </p>
+                <p> <strong> Precio:  </strong> {{ prd.precio }} </p>
+                <button @click="comprar(prd.id)"> 
+                    Añadir al carrito 
+                    <v-icon style="margin-left: 5px" name="bi-cart-plus-fill" scale="1.3"></v-icon>
+                </button>
+            </div>
+
         </div>
 
-        <div class="contenedor-compras-paginas">
+        <div class="products-all-pagination">
             <router-link 
                 :class="{'urls': router.params.id != pag, 'url-selected': router.params.id == pag}"
                 v-for="(pag, i) in numeroPaginas" 
@@ -30,15 +40,27 @@
 
     import { useRoute, useRouter } from 'vue-router';
     import { useStore } from '../store/pinia';
-    import { ref, onUpdated } from 'vue'
+    import { ref, onUpdated, defineEmits } from 'vue'
 
     const router = useRoute()
     const enrutado = useRouter()
     const pinia = useStore()
+    const emits = defineEmits(['verificar'])
 
     let paginaAnterior = ref<number>(1)
 
     let numeroPaginas = ref<Array<string>>(["1"])
+
+    const comprar = async (id: number) => {
+
+        const prd = await fetch(`http://localhost:8000/get/product/${id}/`)
+        const data = await prd.json()
+
+        pinia.productoVerificar = data.producto
+
+        emits('verificar') 
+
+    }
 
     function traerDatos(){
 
@@ -62,6 +84,12 @@
 
         numeroPaginas.value = paginas
 
+        if(pinia.listaProductosFiltrar.length <= 12){
+
+            enrutado.push('/productos/pagina/1/')
+
+        }
+
     }
 
     onUpdated(() => {
@@ -80,51 +108,75 @@
 
         width: 80%;
         height: max-content;
-        box-sizing: border-box;
         display: flex;
-        justify-content: space-evenly;
-        flex-wrap: wrap;
+        flex-direction: column;
+        align-items: center;
 
-        div{
+        &-prd{
 
-            width: 30%;
-            height: 600px;
+            width: 100%;
+            height: 100%;
             box-sizing: border-box;
+            display: flex;
+            justify-content: space-evenly;
+            flex-wrap: wrap;
 
-            h1{
+            &-product{
 
-                text-align: center;
-                margin-bottom: 35px;
-
-            }
-
-            .imagen{
-
-                width: 100%;
-                height: 30%;
+                width: 30%;
+                height: 500px;
+                box-sizing: border-box;
+                display: flex;
+                flex-direction: column;
                 margin: 20px 0;
-
-            }
-
-            p{
-
-                margin: 20px 0;
-                font-size: 18px;
-
-            }
-
-            &-descripcion{
-
-                height: 30%;
-                overflow: auto;
-
+    
+                h1{
+    
+                    text-align: center;
+                    margin-bottom: 20px;
+    
+                }
+    
+                &-imagen{
+    
+                    width: 100%;
+                    height: 30%;
+                    margin: 10px 0;
+    
+                }
+    
+                p{
+    
+                    margin: 10px 0;
+                    font-size: 18px;
+    
+                }
+    
+                &-descripcion{
+    
+                    height: 15%;
+                    overflow: auto;
+    
+                }
+    
+                button{
+    
+                    @include botones($fondo-boton-crear);
+                    align-self: center;
+                    width: 65%;
+                    font-size: 18px;
+                    padding: 15px;
+                    margin-top: 10px;
+    
+                }
+    
             }
 
         }
 
-        .contenedor-compras-paginas{
+        &-pagination{
 
-            width: 100%;
+            width: max-content;
             height: max-content;
             display: flex;
             justify-content: center;

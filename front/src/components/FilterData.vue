@@ -10,7 +10,8 @@
             <li 
                 @click="pinia.listaCategoriasFiltrar = pinia.listaCategorias,
                 pinia.listaProductosFiltrar = pinia.listaProductos,
-                pinia.listaProductosPagina = pinia.listaProductos"
+                pinia.listaProductosPagina = pinia.listaProductos,
+                pinia.carritoFiltrar = pinia.carrito"
             > Todas </li>
            <li 
                 v-for="(cate, i) in pinia.listaCategorias" :key="i"
@@ -40,6 +41,10 @@
             i => i.nombre.toLowerCase().startsWith(busqueda.value.toLowerCase())
         )
 
+        pinia.carritoFiltrar = pinia.carrito.filter(
+            i => i.nombre.toLowerCase().startsWith(busqueda.value.toLowerCase())
+        )
+
     }
 
     const filtrar = (categoria: string) => {
@@ -48,6 +53,7 @@
         pinia.listaCategoriasFiltrar = pinia.listaCategorias.filter(i => i.nombre == categoria)
 
         pinia.listaProductosPagina = pinia.listaProductos.filter(i => i.categoria == categoria)
+        pinia.carritoFiltrar = pinia.carrito.filter(i => i.categoria == categoria)
 
     }
 

@@ -1,9 +1,25 @@
 <template>
     <MainDefault>
 
-        <div class="contenedor-compras">
+        <div class="verificar-compra">
 
-            <ProductsAll />
+            <transition name="cuadroCompra">
+            
+                <CheckBuy v-show="interfazVerificacion" @animacion="verAnimacion" @ocultar="ocultarInterfaz" />
+
+            </transition>
+
+            <transition name="animacionCompra">
+            
+                <AnimationBuy v-if="comprado" @ocultar="cerrarAnimacion" />
+
+            </transition>
+
+        </div>
+
+        <div :class="{'contenedor-compras' : funcionando, 'contenedor-compras-none' : !funcionando}">
+
+            <ProductsAll @verificar="verificarCompra" />
             <FilterData />
 
         </div>
@@ -13,9 +29,44 @@
 
 <script lang="ts" setup>
 
+    import { ref } from 'vue';
+
     import MainDefault from '../layouts/MainDefault.vue'
     import ProductsAll from '../components/ProductsAll.vue'
     import FilterData from '../components/FilterData.vue';
+    import CheckBuy from '../components/CheckBuy.vue';
+    import AnimationBuy from '../components/AnimationBuy.vue';
+
+    let interfazVerificacion = ref<boolean>(false)
+    let funcionando = ref<boolean>(true)
+    let comprado = ref<boolean>(false)
+
+
+    const verificarCompra = () => {
+        
+        interfazVerificacion.value = true
+        funcionando.value = false
+
+    }
+
+    const ocultarInterfaz = () => {
+
+        interfazVerificacion.value = false
+        funcionando.value = true
+
+    }
+
+    const verAnimacion = () => {
+
+        comprado.value = true
+
+    }
+
+    const cerrarAnimacion = () => {
+
+        comprado.value = false
+
+    }
 
 </script>
 
@@ -23,13 +74,59 @@
 
     .contenedor-compras{
 
+        position: static;
+        z-index: 1000;
         width: 100%;
         height: 85vh;
         display: flex;
         justify-content: space-around;
         padding-top: 5vh;
         overflow: auto;
+        filter: blur(0px);
+        pointer-events: all;
 
+    }
+
+    .contenedor-compras-none{
+
+        position: static;
+        z-index: 1000;
+        width: 100%;
+        height: 85vh;
+        display: flex;
+        justify-content: space-around;
+        padding-top: 5vh;
+        overflow: hidden;
+        filter: blur(7px);
+        pointer-events: none;
+
+    }
+
+    .verificar-compra{
+
+        width: 100%;
+        height: 90vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+
+    }
+
+    .cuadroCompra-enter-active, .cuadroCompra-leave-active {
+        transition: transform 0.5s ease-in-out;
+    }
+
+    .cuadroCompra-enter-from, .cuadroCompra-leave-to {
+        transform: scale(0.1);
+    }
+
+    .animacionCompra-enter-active, .animacionCompra-leave-active {
+        transition: width 0.5s ease-in-out;
+    }
+
+    .animacionCompra-enter-from, .animacionCompra-leave-to {
+        width: 0;
     }
 
 </style>

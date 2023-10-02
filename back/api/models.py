@@ -6,7 +6,7 @@ class Usuario(models.Model):
 
     nombre_usuario = models.CharField(max_length=50, null=False)
     password = models.CharField(max_length=50, null=False)
-    rol = models.CharField(max_length=50, null=True, default="Cliente")
+    rol = models.CharField(max_length=50, null=False, default="Cliente")
 
 class Categoria(models.Model):
 

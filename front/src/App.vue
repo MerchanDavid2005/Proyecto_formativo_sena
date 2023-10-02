@@ -17,6 +17,13 @@
     pinia.getCategorias()
     pinia.getServicios()
 
+    if(localStorage.getItem("Carrito") !== null){
+
+      pinia.carrito = JSON.parse(localStorage.getItem("Carrito") ?? "{}")
+      pinia.carritoFiltrar = pinia.carrito
+
+    }
+
   })
 
 </script>

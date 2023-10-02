@@ -22,7 +22,7 @@
                 />
             </transition>
         </div>
-        <main :style="{filter : enfoque, pointerEvents : funcionamiento, overflow : barra}" class="datos">
+        <main :class="{'datos': funcionando, 'datos-none' : !funcionando}">
             <ChangeTable @changeModel="cambioTabla" />
             <component 
                 :is="model" 
@@ -55,9 +55,7 @@
     let newCategory = ref<boolean>(false)
     let newService = ref<boolean>(false)
 
-    let enfoque = ref<string>('blur(0px)')
-    let funcionamiento = ref<string>('all')
-    let barra = ref<string>('auto')
+    let funcionando = ref<boolean>(true)
 
     // Funciones
 
@@ -70,19 +68,17 @@
             newProdut.value = true
             newCategory.value = false
             newService.value = false
-            enfoque.value = 'blur(7px)'
-            funcionamiento.value = 'none'
-            barra.value = 'hidden'
 
+            funcionando.value = false
+ 
         }
         else if(interfaz == 'categoria'){
 
             newProdut.value = false
             newCategory.value = true
             newService.value = false
-            enfoque.value = 'blur(7px)' 
-            funcionamiento.value = 'none'
-            barra.value = 'hidden'
+
+            funcionando.value = false
 
         }
         else{
@@ -90,9 +86,8 @@
             newProdut.value = false
             newCategory.value = false
             newService.value = true
-            enfoque.value = 'blur(7px)'
-            funcionamiento.value = 'none'
-            barra.value = 'hidden'
+
+            funcionando.value = false
 
         }
 
@@ -103,9 +98,8 @@
         newProdut.value = false
         newCategory.value = false
         newService.value = false
-        enfoque.value = 'blur(0px)'
-        funcionamiento.value = 'all'
-        barra.value = 'auto'
+
+        funcionando.value = true
 
     }
 
@@ -132,6 +126,23 @@
         justify-content: space-around;
         transition: filter 0.5s ease-in-out;
         padding-top: 5vh;
+        filter: blur(0);
+        overflow: auto;
+        pointer-events: all;
+
+    }
+
+    .datos-none{
+
+        width: 100%;
+        height: 85vh;
+        display: flex;
+        justify-content: space-around;
+        transition: filter 0.5s ease-in-out;
+        padding-top: 5vh;
+        filter: blur(7px);
+        overflow: hidden;
+        pointer-events: none;
 
     }
 
