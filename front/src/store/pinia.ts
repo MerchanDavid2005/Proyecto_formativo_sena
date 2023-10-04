@@ -33,7 +33,7 @@ type Pedido = {
 
   readonly id: number,
   pedido_usuario: string,
-  lista_productos: string,
+  lista_productos: Producto [],
   fecha: string
     
 }
@@ -50,6 +50,8 @@ export const useStore = defineStore('storeId', {
       idEliminar: 0,
       carrito: [] as Producto [],
       carritoFiltrar: [] as Producto [],
+      usuario: 1,
+      idPedido: {} as Pedido,
 
       // Lista informacion
 
@@ -63,7 +65,6 @@ export const useStore = defineStore('storeId', {
       listaProductosFiltrar: [] as Producto [],
       listaCategoriasFiltrar: [] as Categoria [],
       listaServiciosFiltrar: [] as Servicio [],
-      listaPedidosFiltrar: [] as Pedido [],
 
       // Lista productos por pagina
 
@@ -84,13 +85,21 @@ export const useStore = defineStore('storeId', {
 
     },
 
-    // async getPedidos(){
+    async getPedidos(){
 
-    //   const data = await fetch("http://127.0.0.1:8000/get/orders/")
-    //   const info = await data.json()
-    //   this.listaPedidos = info.pedidos
+      const data = await fetch(`http://127.0.0.1:8000/get/orders/${this.usuario}/`)
+      const info = await data.json()
+      this.listaPedidos = info.pedidos
+      console.log(this.listaPedidos)
+    },
 
-    // },
+    async getPedidoId(id: string | string[]){
+
+      const data = await fetch(`http://127.0.0.1:8000/get/order/${id}/`)
+      const info = await data.json()
+      this.idPedido = info.pedido
+
+    },
 
     async getCategorias(){
 

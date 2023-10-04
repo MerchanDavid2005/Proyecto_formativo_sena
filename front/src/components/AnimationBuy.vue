@@ -32,19 +32,19 @@
 
         animacionStart.value = true
 
-    }, 1500)
+    }, 1000)
 
     setTimeout(() => {
 
         icono.value = ("bi-cart-check-fill")
 
-    }, 4500)
+    }, 3500)
 
     setTimeout(() => {
 
         opacidad.value = "1"
 
-    }, 7000)
+    }, 5000)
 
 </script>
 

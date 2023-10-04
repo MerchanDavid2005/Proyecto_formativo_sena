@@ -114,24 +114,65 @@ def actualizar_imagen_servicio(request, id):
 
     return HttpResponse ("Actualizado")
 
-def traer_pedidos(request):
+def traer_pedidos(request, id):
 
-    pedidos = Pedido.objects.all()
+    pedidos = Pedido.objects.filter(pedido_usuario = id)
+
     lista_pedidos = []
+
     for i in pedidos:
-        lista_pedidos.append({"id" : i.id,
-                              "pedido_usuario" : i.pedido_usuario.nombre_usuario,
-                              "lista_productos" : i.lista_productos,
-                              "fecha" : i.fecha})
-    return JsonResponse({"productos" : lista_pedidos})
+
+        lista_productos_pedido = []
+        carrito = json.loads(i.lista_productos)
+
+        for prd in carrito:
+
+            lista_productos_pedido.append({
+                "id": prd["id"],
+                "nombre": prd["nombre"],
+                "categoria": prd["categoria"],
+                "img": prd["img"],
+                "descripcion": prd["descripcion"],
+                "cantidad": prd["cantidad"],
+                "precio": prd["precio"]
+            })
+
+        lista_pedidos.append({
+            "id": i.id,
+            "nombre": i.pedido_usuario.nombre_usuario, 
+            "lista_productos": lista_productos_pedido,
+            "fecha": i.fecha
+        })
+
+    return JsonResponse({"pedidos" : lista_pedidos})
 
 def traer_pedido_id(request, id):
 
     pedido = Pedido.objects.get(id = id)
-    datos_pedido = {"id" : pedido.id,
-                    "nombre" : pedido.nombre,
-                    "descripcion" : pedido.descripcion,
-                    "categoria" : pedido.categoria.nombre,
-                    "cantidad" : pedido.cantidad,
-                    "precio" : pedido.precio}
+
+    datos_pedido = {}
+    lista_productos = []
+
+    carrito = json.loads(pedido.lista_productos)
+
+    print(carrito)
+
+    for i in carrito:
+
+        lista_productos.append({
+            "id": i["id"],
+            "nombre": i["nombre"],
+            "categoria": i["categoria"],
+            "img": i["img"],
+            "descripcion": i["descripcion"],
+            "cantidad": i["cantidad"],
+            "precio": i["precio"]
+        })
+
+    datos_pedido = {
+        "usuario": pedido.pedido_usuario.nombre_usuario,
+        "lista_productos": lista_productos,
+        "fecha": pedido.fecha
+    }
+
     return JsonResponse({"pedido" : datos_pedido})

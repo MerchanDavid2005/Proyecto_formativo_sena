@@ -1,9 +1,19 @@
 <template>
     <div class="car-all">
 
-        <h1 v-if="pinia.carritoFiltrar.length < 1"> No tienes productos por esta categoria </h1>
+        <h1 
+            v-if="pinia.carritoFiltrar.length < 1 && pinia.carrito.length > 1"> 
+            No tienes productos por esta categoria 
+        </h1>
+
         <h1 v-if="pinia.carrito.length < 1"> No tienes productos en el carrito </h1>
-        <button @click="hacerPedido" class="car-all-pedido"> Realizar pedido </button>
+        
+        <button 
+            v-if="pinia.carrito.length > 1" 
+            @click="hacerPedido" 
+            class="car-all-pedido"> 
+            Realizar pedido 
+        </button>
         
         <div class="car-all-prd" v-for="(prd, i) in pinia.carritoFiltrar" :key="i">
 
@@ -43,21 +53,13 @@
 
     function hacerPedido(){
 
-        let productos = ""
-
-        for (let i of pinia.carrito){
-
-            productos += `${i.id},`
-
-        }
-
-        fetch("http://localhost:8000/api/Pedido", {
+        fetch("http://localhost:8000/api/Pedido/", {
 
             method: 'POST',
             body: JSON.stringify({
 
                 pedido_usuario: 1,
-                lista_productos: productos
+                lista_productos: JSON.stringify(pinia.carrito)
 
             }),
             headers: {"content-type" : "application/json"}
@@ -67,6 +69,12 @@
         pinia.carrito = []
         pinia.carritoFiltrar = []
         localStorage.removeItem("Carrito")
+
+        setTimeout(() => {
+
+            pinia.getPedidos()
+
+        })
 
     }
 

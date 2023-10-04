@@ -12,7 +12,7 @@
 
   onMounted(() => {
 
-    // pinia.getPedidos()
+    pinia.getPedidos()
     pinia.getProductos()
     pinia.getCategorias()
     pinia.getServicios()

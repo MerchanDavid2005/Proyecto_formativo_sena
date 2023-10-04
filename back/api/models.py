@@ -28,7 +28,7 @@ class Pedido(models.Model):
 
     pedido_usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, null=False)
     lista_productos = models.TextField(null=False)
-    fecha = models.DateTimeField(auto_created=True, null=False)
+    fecha = models.DateTimeField(auto_now_add=True)
 
 class Servicio(models.Model):
 

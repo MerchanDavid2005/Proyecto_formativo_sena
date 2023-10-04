@@ -17,6 +17,12 @@
                         Carrito 
                     </li>
                 </router-link>
+                <router-link style="text-decoration: none;" :to="{name: 'pedidos'}">
+                    <li> 
+                        <v-icon name="bi-bag-check-fill" scale="1.6"></v-icon>
+                        Pedidos 
+                    </li>
+                </router-link>
                 <router-link style="text-decoration: none;" :to="{name: 'servicios'}">
                     <li> 
                         <v-icon name="md-work-sharp" scale="1.6"></v-icon>
@@ -72,7 +78,7 @@
         &-title{
 
             height: 50%;
-            width: 35%;
+            width: 30%;
             border-right: 5px solid #fff;
             display: flex;
             justify-content: center;
@@ -91,7 +97,7 @@
         &-urls{
 
             height: 60%;
-            width: 50%;
+            width: 55%;
             border-right: 5px solid #fff;
 
             ul{

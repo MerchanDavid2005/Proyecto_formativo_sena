@@ -4,11 +4,12 @@
         <div class="interfaz-eliminar">
 
             <transition>
+                
                 <VerifyDelete 
                 @ocultar="ocultarInterfaz"
                 v-show="eliminarProducto" 
-                texto="¿Estas seguro de querer eliminar este producto del carrito?" 
-            />
+                texto="¿Estas seguro de querer eliminar este producto del carrito?" />
+
             </transition>
 
         </div>
@@ -16,7 +17,7 @@
         <main :class="{'cuerpo-carrito-view': funcionando, 'cuerpo-none' : !funcionando}">
 
             <CarAll @eliminar="eliminacionProducto" />
-            <FilterData/>
+            <FilterData />
 
         </main>
 
