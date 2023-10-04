@@ -155,8 +155,6 @@ def traer_pedido_id(request, id):
 
     carrito = json.loads(pedido.lista_productos)
 
-    print(carrito)
-
     for i in carrito:
 
         lista_productos.append({
