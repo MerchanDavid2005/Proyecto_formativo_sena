@@ -9,6 +9,7 @@
                     <tr>
                         <th> Nombre </th>
                         <th> Descripcion </th>
+                        <th> Imagen </th>
                         <th> Precio </th>
                         <th> Actualizar informacion </th>
                         <th> Eliminar </th>
@@ -18,6 +19,9 @@
                     <tr v-for="(service, i) in pinia.listaServiciosFiltrar" :key="i">
                         <td> {{ service.nombre }} </td>
                         <td> {{ service.descripcion }} </td>
+                        <td class="imagen">
+                            <img :src="service.img" alt="">
+                        </td>
                         <td> {{ service.precio }} </td>
                         <td>
 
@@ -109,7 +113,13 @@
 
                 td:nth-child(2){
 
-                    @include celdas('60%')
+                    @include celdas('50%')
+
+                }
+
+                .imagen{
+
+                    @include celdas('10%')
 
                 }
 

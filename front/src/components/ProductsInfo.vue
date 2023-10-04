@@ -15,6 +15,7 @@
                     <tr>
                         <th> Nombre </th>
                         <th> Descripcion </th>
+                        <th> Imagen </th>
                         <th> Categoria </th>
                         <th> Cantidad </th>
                         <th> Precio </th>
@@ -26,6 +27,9 @@
                     <tr v-for="(prd, i) in pinia.listaProductosFiltrar" :key="i">
                         <td> {{ prd.nombre }} </td>
                         <td> {{ prd.descripcion }} </td>
+                        <td class="imagen">
+                            <img :src="prd.img" alt="">
+                        </td>
                         <td> {{ prd.categoria }} </td>
                         <td> {{ prd.cantidad }} </td>
                         <td> {{ prd.precio }} </td>
@@ -117,9 +121,15 @@
 
                 }
 
+                .imagen{
+
+                    @include celdas('10%')
+
+                }
+
                 td:nth-child(2){
 
-                    @include celdas('70%')
+                    @include celdas('60%')
 
                 }
 

@@ -32,10 +32,28 @@ type Producto = {
 type Pedido = {
 
   readonly id: number,
-  pedido_usuario: string,
+  nombre: string,
   lista_productos: Producto [],
   fecha: string
     
+}
+
+enum rol {
+
+  'Cliente',
+  'Administrador'
+
+}
+
+type Usuario = {
+
+  readonly id: number,
+  nombre_usuario: string,
+  nombre: string,
+  email: string,
+  password: string,
+  rol: rol
+
 }
 
 export const useStore = defineStore('storeId', {
@@ -59,12 +77,15 @@ export const useStore = defineStore('storeId', {
       listaCategorias: [] as Categoria [],
       listaServicios: [] as Servicio [],
       listaPedidos: [] as Pedido [],
+      listaUsuarios: [] as Usuario [],
 
       // Lista informacion para filtrar
 
       listaProductosFiltrar: [] as Producto [],
       listaCategoriasFiltrar: [] as Categoria [],
       listaServiciosFiltrar: [] as Servicio [],
+      listaPedidosFiltrar: [] as Pedido [],
+      listaUsuariosFiltrar: [] as Usuario [],
 
       // Lista productos por pagina
 
@@ -89,8 +110,9 @@ export const useStore = defineStore('storeId', {
 
       const data = await fetch(`http://127.0.0.1:8000/get/orders/${this.usuario}/`)
       const info = await data.json()
-      this.listaPedidos = info.pedidos
-      console.log(this.listaPedidos)
+      this.listaPedidos = info.pedidos.reverse()
+      this.listaPedidosFiltrar = this.listaPedidos
+
     },
 
     async getPedidoId(id: string | string[]){
@@ -118,6 +140,15 @@ export const useStore = defineStore('storeId', {
       this.listaServiciosFiltrar = this.listaServicios
 
     },
+
+    async getUsuarios(){
+
+      const data = await fetch("http://127.0.0.1:8000/api/Usuario/")
+      const info = await data.json()
+      this.listaUsuarios = info.reverse()
+      this.listaUsuariosFiltrar = this.listaUsuarios
+
+    }
 
   }
 

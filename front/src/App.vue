@@ -16,6 +16,7 @@
     pinia.getProductos()
     pinia.getCategorias()
     pinia.getServicios()
+    pinia.getUsuarios()
 
     if(localStorage.getItem("Carrito") !== null){
 

@@ -66,7 +66,6 @@
 
     let cantidad = ref<number>(0)
     let precio = ref<number>(0)
-    let carritoProductos = ref<Producto[]>([])
 
     const sumar = () => {
 
@@ -87,6 +86,9 @@
         emits('ocultar');
         emits('animacion');
 
+        let productoRepetido = false
+        let idProductoRepetido = 0
+
         let productoComprado = {
             
             id: pinia.productoVerificar.id,
@@ -99,9 +101,31 @@
         
         }
 
-        pinia.carrito.push(productoComprado)
+        for(let i in pinia.carrito){
 
-        localStorage.setItem("Carrito", JSON.stringify(pinia.carrito))
+            if(pinia.carrito[i].nombre == productoComprado.nombre){
+
+                productoRepetido = true
+                idProductoRepetido = Number(i)
+                break
+
+            }
+
+        }
+
+        if(productoRepetido){
+
+            pinia.carrito[idProductoRepetido].cantidad += productoComprado.cantidad
+            pinia.carrito[idProductoRepetido].precio += productoComprado.precio
+            localStorage.setItem("Carrito", JSON.stringify(pinia.carrito))
+
+        }else{
+
+            pinia.carrito.push(productoComprado)
+            pinia.carritoFiltrar = pinia.carrito
+            localStorage.setItem("Carrito", JSON.stringify(pinia.carrito))
+
+        }
 
         setTimeout(() => {
 

@@ -5,8 +5,8 @@
             <button @click="cambiarInformacion(productos)"> Productos </button>
             <button @click="cambiarInformacion(servicios)"> Servicios </button>
             <button @click="cambiarInformacion(categorias)"> Categorias </button>
-            <button> Pedidos </button>
-            <button> Usuarios </button>
+            <button @click="cambiarInformacion(pedidos)"> Pedidos </button>
+            <button @click="cambiarInformacion(usuarios)"> Usuarios </button>
         </div>
     </section>
 </template>
@@ -20,6 +20,8 @@
     const productos = defineAsyncComponent(() => import('../components/ProductsInfo.vue'))
     const servicios = defineAsyncComponent(() => import('../components/ServicesInfo.vue'))
     const categorias = defineAsyncComponent(() => import('../components/CategorysInfo.vue'))
+    const pedidos = defineAsyncComponent(() => import('../components/OrdersInfo.vue'))
+    const usuarios = defineAsyncComponent(() => import('../components/UsersInfo.vue'))
 
     const cambiarInformacion = (modeloSeleccionado: any) => {
 

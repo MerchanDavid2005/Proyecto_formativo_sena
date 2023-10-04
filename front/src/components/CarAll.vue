@@ -18,13 +18,13 @@
         <div class="car-all-prd" v-for="(prd, i) in pinia.carritoFiltrar" :key="i">
 
             <h1> {{ prd.nombre }} </h1>
-            <p> <Strong> Categoria:  </Strong> {{ prd.categoria }} </p>
+            <p> <strong> Categoria:  </strong> {{ prd.categoria }} </p>
             <div class="car-all-prd-img">
                 <img :src="prd.img" :alt="prd.nombre">
             </div>
-            <p class="car-all-prd-descripcion"> <Strong> Descripcion:  </Strong> {{ prd.descripcion }} </p>
-            <p> <Strong> Cantidad:  </Strong> {{ prd.cantidad }} </p>
-            <p> <Strong> Precio:  </Strong> {{ prd.precio }} </p>
+            <p class="car-all-prd-descripcion"> <strong> Descripcion:  </strong> {{ prd.descripcion }} </p>
+            <p> <strong> Cantidad:  </strong> {{ prd.cantidad }} </p>
+            <p> <strong> Precio:  </strong> {{ prd.precio }} </p>
             <button @click="eliminar(i)"> 
                 Eliminar del carrito 
                 <v-icon name="bi-cart-x-fill" scale="1.3"></v-icon>

@@ -5,6 +5,8 @@ from django.db import models
 class Usuario(models.Model):
 
     nombre_usuario = models.CharField(max_length=50, null=False)
+    nombre = models.CharField(max_length=255, null=False)
+    email = models.CharField(max_length=255, null=False)
     password = models.CharField(max_length=50, null=False)
     rol = models.CharField(max_length=50, null=False, default="Cliente")
 
