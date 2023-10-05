@@ -9,7 +9,7 @@
         <h1 v-if="pinia.carrito.length < 1"> No tienes productos en el carrito </h1>
         
         <button 
-            v-if="pinia.carrito.length > 1" 
+            v-if="pinia.carrito.length > 0" 
             @click="hacerPedido" 
             class="car-all-pedido"> 
             Realizar pedido 
@@ -108,6 +108,7 @@
             display: flex;
             flex-direction: column;
             margin: 20px 0;
+            transition: transform 0.5s ease-in-out;
 
             h1{
 
@@ -148,6 +149,12 @@
                 margin-top: 10px;
 
             }
+
+        }
+
+        &-prd:hover{
+
+            transform: scale(1.05);
 
         }
     

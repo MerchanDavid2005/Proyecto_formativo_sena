@@ -17,11 +17,55 @@
 
     const emits = defineEmits(['changeModel'])
 
-    const productos = defineAsyncComponent(() => import('../components/ProductsInfo.vue'))
-    const servicios = defineAsyncComponent(() => import('../components/ServicesInfo.vue'))
-    const categorias = defineAsyncComponent(() => import('../components/CategorysInfo.vue'))
-    const pedidos = defineAsyncComponent(() => import('../components/OrdersInfo.vue'))
-    const usuarios = defineAsyncComponent(() => import('../components/UsersInfo.vue'))
+    const productos = defineAsyncComponent({
+
+        loader: () => import('./ProductsInfo.vue'),
+        loadingComponent: () => import('./LoaderComp.vue'),
+        delay: 200,
+        errorComponent: () => import('./ErrorComp.vue'),
+        timeout: 3000
+
+    })
+
+    const servicios = defineAsyncComponent({
+
+        loader: () => import('./ServicesInfo.vue'),
+        loadingComponent: () => import('./LoaderComp.vue'),
+        delay: 200,
+        errorComponent: () => import('./ErrorComp.vue'),
+        timeout: 3000
+
+    })
+
+    const categorias = defineAsyncComponent({
+
+        loader: () => import('./CategorysInfo.vue'),
+        loadingComponent: () => import('./LoaderComp.vue'),
+        delay: 200,
+        errorComponent: () => import('./ErrorComp.vue'),
+        timeout: 3000
+
+    })
+
+    const pedidos = defineAsyncComponent({
+
+        loader: () => import('./OrdersInfo.vue'),
+        loadingComponent: () => import('./LoaderComp.vue'),
+        delay: 200,
+        errorComponent: () => import('./ErrorComp.vue'),
+        timeout: 3000
+
+    })
+ 
+    const usuarios = defineAsyncComponent({
+
+        loader: () => import('./UsersInfo.vue'),
+        loadingComponent: () => import('./LoaderComp.vue'),
+        delay: 200,
+        errorComponent: () => import('./ErrorComp.vue'),
+        timeout: 3000
+
+    })
 
     const cambiarInformacion = (modeloSeleccionado: any) => {
 

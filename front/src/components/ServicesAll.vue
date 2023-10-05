@@ -44,12 +44,13 @@
 
         &-srv{
 
-            width: 60%;
+            width: 80%;
             height: max-content;
             box-sizing: border-box;
             padding: 5%;
             display: flex;
             justify-content: space-between;
+            transition: transform 0.5s ease-in-out;
 
             &-img{
 
@@ -72,6 +73,13 @@
 
                 }
 
+                p:nth-child(2){
+
+                    height: 40%;
+                    overflow: auto;
+
+                }
+
                 p{
 
                     align-self: flex-start;
@@ -80,6 +88,12 @@
                 }
 
             }
+
+        }
+
+        &-srv:hover{
+
+            transform: scale(1.03);
 
         }
 

@@ -72,6 +72,7 @@
                 flex-direction: column;
                 justify-content: space-between;
                 align-items: center;
+                transition: transform 0.5s ease-in-out;
     
                 &-img{
     
@@ -110,6 +111,12 @@
 
                 }
     
+            }
+
+            &-prd:hover{
+
+                transform: scale(1.05);
+
             }
     
         }

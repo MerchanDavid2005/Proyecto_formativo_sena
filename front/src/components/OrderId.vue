@@ -42,7 +42,8 @@
 
         width: 100%;
         height: 85vh;
-        padding-top: 5vh;
+        padding: 5vh;
+        box-sizing: border-box;
         overflow: auto;
         display: flex;
         justify-content: space-evenly;
@@ -57,6 +58,7 @@
             box-sizing: border-box;
             display: flex;
             margin: 20px 0;
+            transition: transform 0.5s ease-in-out;
 
             h1{
     
@@ -86,6 +88,12 @@
                 overflow: auto;
 
             }
+
+        }
+
+        &-data:hover{
+
+            transform: scale(1.05);
 
         }
 

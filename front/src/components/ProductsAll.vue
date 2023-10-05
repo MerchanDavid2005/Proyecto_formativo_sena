@@ -129,6 +129,7 @@
                 display: flex;
                 flex-direction: column;
                 margin: 20px 0;
+                transition: transform 0.5s ease-in-out;
     
                 h1{
     
@@ -144,7 +145,7 @@
                     margin: 10px 0;
     
                 }
-    
+
                 p{
     
                     margin: 10px 0;
@@ -170,6 +171,12 @@
     
                 }
     
+            }
+
+            &-product:hover{
+
+                transform: scale(1.05);
+
             }
 
         }

@@ -54,16 +54,6 @@
     const pinia = useStore()
     const emits = defineEmits(['ocultar', 'animacion'])
 
-    type Producto = {
-
-        nombre: string,
-        categoria: string,
-        descripcion: string,
-        cantidad: number,
-        precio: number
-    
-    }
-
     let cantidad = ref<number>(0)
     let precio = ref<number>(0)
 
