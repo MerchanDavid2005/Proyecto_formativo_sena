@@ -29,6 +29,7 @@ urlpatterns = [
     path('put/product/img/<int:id>/', views.actualizar_imagen_producto, name="Actualizar iamgen producto"),
     path('post/service/', views.crear_servicio, name="Crear producto"),
     path('put/service/img/<int:id>/', views.actualizar_imagen_servicio, name="Actualizar imagen servicio"),
+    path('get/orders/all/', views.traer_todos_pedidos, name="Traer todos los pedidos"),
     path('get/orders/<int:id>/', views.traer_pedidos, name="Traer pedidos"),
     path('get/order/<int:id>/', views.traer_pedido_id, name="Traer pedido por id")
 ]

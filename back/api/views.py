@@ -114,6 +114,38 @@ def actualizar_imagen_servicio(request, id):
 
     return HttpResponse ("Actualizado")
 
+def traer_todos_pedidos(request):
+
+    pedidos = Pedido.objects.all()
+
+    lista_pedidos = []
+
+    for i in pedidos:
+
+        lista_productos_pedido = []
+        carrito = json.loads(i.lista_productos)
+
+        for prd in carrito:
+
+            lista_productos_pedido.append({
+                "id": prd["id"],
+                "nombre": prd["nombre"],
+                "categoria": prd["categoria"],
+                "img": prd["img"],
+                "descripcion": prd["descripcion"],
+                "cantidad": prd["cantidad"],
+                "precio": prd["precio"]
+            })
+
+        lista_pedidos.append({
+            "id": i.id,
+            "nombre": i.pedido_usuario.nombre_usuario, 
+            "lista_productos": lista_productos_pedido,
+            "fecha": i.fecha
+        })
+
+    return JsonResponse({"pedidos" : lista_pedidos})
+
 def traer_pedidos(request, id):
 
     pedidos = Pedido.objects.filter(pedido_usuario = id)

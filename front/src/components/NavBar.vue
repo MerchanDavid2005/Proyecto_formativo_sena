@@ -35,12 +35,6 @@
                         Contacto 
                     </li>
                 </router-link>
-                <router-link style="text-decoration: none;" :to="{name: 'datos'}">
-                    <li> 
-                        <v-icon name="fa-database" scale="1.6"></v-icon>
-                        Datos 
-                    </li>
-                </router-link>
             </ul>
         </div>
         <div class="nav-tema">

@@ -1,0 +1,19 @@
+@mixin botones($fondo){
+
+    border: 0;
+    border-radius: 10px;
+    padding: 10px;
+    background: #{$fondo};
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+
+}
+
+@mixin inputs(){
+
+    padding: 10px;
+    border: 0;
+    border-radius: 10px;
+
+}
