@@ -1,11 +1,17 @@
 <template>
 
-    <div class="categorys-all">
+    <div class="users-all">
         
-        <section class="categorys-all-table">
-            <div class="categorys-all-table-title">
+        <section class="users-all-table">
+            <div class="users-all-table-title">
+                <div>
+                    <strong> Usuario </strong>
+                </div>
                 <div>
                     <strong> Nombre </strong>
+                </div>
+                <div>
+                    <strong> Email </strong> 
                 </div>
                 <div>
                     <strong> Actualizar </strong>
@@ -14,10 +20,17 @@
                     <strong> Eliminar </strong>
                 </div>
             </div>
-            <transition-group name="newCategory" tag="article">
-                <div class="categorys-all-table-data" v-for="(cate, i) in pinia.listaCategoriasFilter" :key="i">
+            <transition-group name="newUser" tag="article">
+                <h1 v-if="pinia.listaUsuariosFilter < 1"> No hay resultados de tu busqueda </h1>
+                <div class="users-all-table-data" v-for="(user, i) in pinia.listaUsuariosFilter" :key="i">
                     <div>
-                        <p> {{ cate.nombre }} </p>
+                        <p> {{ user.nombre_usuario }} </p>
+                    </div>
+                    <div>
+                        <p> {{ user.nombre }} </p>
+                    </div>
+                    <div>
+                        <p> {{ user.email }} </p>
                     </div>
                     <div style="color: #0fa;">
                         <v-icon 
@@ -28,7 +41,7 @@
                     </div>
                     <div style="color: #f05;">
                         <v-icon 
-                            @click="emits('eliminar'); pinia.idEliminar = cate.id"
+                            @click="emits('eliminar'); pinia.idEliminar = user.id"
                             style="cursor:pointer" 
                             name="ri-delete-back-2-fill" 
                             scale="2">
@@ -48,13 +61,14 @@
     import { defineEmits } from 'vue'
 
     const emits = defineEmits(['eliminar'])
+
     const pinia = useStore()
 
 </script>
 
 <style lang="scss" scoped>
 
-    .categorys-all{
+    .users-all{
 
         width: 100%;
         height: 100%;
@@ -79,11 +93,18 @@
 
                 div{
 
-                    width: 30%;
+                    width: 15%;
                     display: flex;
                     align-items: center;
                     justify-content: center;
                     padding: 5px;
+
+                }
+
+                div:nth-child(3){
+
+                    width: 40%;
+                    overflow: auto;
 
                 }
 
@@ -95,7 +116,13 @@
                 display: flex;
                 flex-direction: column-reverse;
 
-                .categorys-all-table-data{
+                h1{
+
+                    text-align: center;
+
+                }
+
+                .users-all-table-data{
 
                     width: 100%;
                     height: max-content;
@@ -104,12 +131,19 @@
                     
                     div{
     
-                        width: 30%;
-                        height: 100px;
+                        width: 15%;
+                        height: 120px;
                         display: flex;
                         align-items: center;
                         justify-content: center;
                         padding: 5px;
+    
+                    }
+    
+                    div:nth-child(3){
+    
+                        width: 40%;
+                        overflow: auto;
     
                     }
     
@@ -121,16 +155,22 @@
 
     }
 
-    .newCategory-enter-active, .newCategory-leave-active{
+    .newUser-move, .newUser-enter-active, .newUser-leave-active{
 
         transition: all 1s ease-in-out;
 
     }
 
-    .newCategory-enter-from, .newCategory-leave-to{
+    .newUser-enter-from, .newUser-leave-to{
 
         transform: translateX(-80px);
         opacity: 0;
+
+    }
+
+    .newUser-leave-active{
+
+        position: absolute;
 
     }
 

@@ -40,13 +40,13 @@
                 </router-link>
                 <router-link 
                     class="navTop-urls-url" 
-                    to="/admin/product">
+                    to="/admin/order">
                     <v-icon name="bi-bag-check-fill" scale="1.5"></v-icon>
                     Pedidos
                 </router-link>
                 <router-link 
                     class="navTop-urls-url" 
-                    to="/admin/product">
+                    to="/admin/users">
                     <v-icon name="fa-users" scale="1.5"></v-icon>
                     Usuarios
                 </router-link>

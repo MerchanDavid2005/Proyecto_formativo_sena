@@ -2,11 +2,11 @@
 
     <AdminDefault>
   
-      <div :class="{'user-body': !advertencia, 'user-body-none': advertencia}">
+      <div :class="{'orders-body': !advertencia, 'orders-body-none': advertencia}">
   
-        <h1 class="user-body-title"> Usuarios </h1>
-        <FilterUser />
-        <UsersAll @eliminar="mostrar" />
+        <h1 class="orders-body-title"> Pedidos </h1>
+        <FilterOrder />
+        <OrdersAll @eliminar="mostrar" />
   
       </div>
 
@@ -17,8 +17,8 @@
           <DeleteConfirm 
             @cerrar="ocultar" 
             v-show="advertencia" 
-            modelo="Usuario" 
-            registro="este usuario" />
+            modelo="Pedido" 
+            registro="este pedido" />
   
         </transition>
   
@@ -27,12 +27,12 @@
     </AdminDefault>
     
 </template>
-  
+
 <script setup>
-  
+
   import AdminDefault from '@/layouts/adminDefault.vue'
-  import UsersAll from '@/components/UsersAll.vue';
-  import FilterUser from '@/components/FilterUser.vue'
+  import OrdersAll from '@/components/OrdersAll.vue';
+  import FilterOrder from '@/components/FilterOrder.vue'
   import DeleteConfirm from '@/components/DeleteConfirm.vue';
 
   import { ref } from 'vue';
@@ -47,7 +47,7 @@
 
 <style lang="scss" scoped>
 
-  .user-body{
+  .orders-body{
 
     width: 100%;
     height: 100%;
@@ -72,7 +72,7 @@
 
   }
 
-  .user-body-none{
+  .orders-body-none{
 
     width: 100%;
     height: 100%;

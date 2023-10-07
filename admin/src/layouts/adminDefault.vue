@@ -30,9 +30,9 @@
         &-contenido{
 
             display: flex;
+            justify-content: flex-start;
             height: 90vh;
             width: 100%;
-            justify-content: space-between;
 
         }
 

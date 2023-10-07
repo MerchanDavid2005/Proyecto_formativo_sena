@@ -2,7 +2,6 @@
 
     <div class="products-all">
         
-        <h1 class="products-all-title"> Productos </h1>
         <section class="products-all-table">
             <div class="products-all-table-title">
                 <div>
@@ -31,6 +30,7 @@
                 </div>
             </div>
             <transition-group name="newProduct" tag="article">
+                <h1 v-if="pinia.listaProductosFilter < 1"> No hay resultados de tu busqueda </h1>
                 <div class="products-all-table-data" v-for="(prd, i) in pinia.listaProductosFilter" :key="i">
                     <div>
                         <p> {{ prd.nombre }} </p>
@@ -59,6 +59,7 @@
                     </div>
                     <div style="color: #f05;">
                         <v-icon 
+                            @click="emits('eliminar'); pinia.idEliminar = prd.id"
                             style="cursor:pointer" 
                             name="ri-delete-back-2-fill" 
                             scale="2">
@@ -75,7 +76,9 @@
 <script setup>
 
     import { useStore } from '@/store/pinia';
+    import { defineEmits } from 'vue'
 
+    const emits = defineEmits(['eliminar'])
     const pinia = useStore()
 
 </script>
@@ -84,18 +87,11 @@
 
     .products-all{
 
-        width: 85%;
+        width: 100%;
         height: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
-
-        &-title{
-
-            font-size: 50px;
-            margin-bottom: 10vh;
-
-        }
 
         &-table{
 
@@ -137,6 +133,12 @@
                 display: flex;
                 flex-direction: column-reverse;
 
+                h1{
+
+                    text-align: center;
+
+                }
+
                 .products-all-table-data{
 
                     width: 100%;
@@ -170,7 +172,7 @@
 
     }
 
-    .newProduct-enter-active, .newProduct-leave-active{
+    .newProduct-move, .newProduct-enter-active, .newProduct-leave-active{
 
         transition: all 1s ease-in-out;
 
@@ -180,6 +182,12 @@
 
         transform: translateX(-80px);
         opacity: 0;
+
+    }
+
+    .newProduct-leave-active{
+
+        position: absolute;
 
     }
 

@@ -2,11 +2,13 @@
 
     <div class="services-all">
         
-        <h1 class="services-all-title"> Productos </h1>
         <section class="services-all-table">
             <div class="services-all-table-title">
                 <div>
                     <strong> Nombre </strong>
+                </div>
+                <div>
+                    <strong> Foto </strong>
                 </div>
                 <div>
                     <strong> Descripcion </strong> 
@@ -27,6 +29,9 @@
                         <p> {{ service.nombre }} </p>
                     </div>
                     <div>
+                        <img :src="service.img" :alt="service.nombre">
+                    </div>
+                    <div>
                         <p> {{ service.descripcion }} </p>
                     </div>
                     <div>
@@ -41,6 +46,7 @@
                     </div>
                     <div style="color: #f05;">
                         <v-icon 
+                            @click="emits('eliminar'); pinia.idEliminar = service.id"
                             style="cursor:pointer" 
                             name="ri-delete-back-2-fill" 
                             scale="2">
@@ -57,7 +63,9 @@
 <script setup>
 
     import { useStore } from '@/store/pinia';
+    import { defineEmits } from 'vue'
 
+    const emits = defineEmits(['eliminar'])
     const pinia = useStore()
 
 </script>
@@ -104,9 +112,9 @@
 
                 }
 
-                div:nth-child(2){
+                div:nth-child(3){
 
-                    width: 60%;
+                    width: 25%;
                     overflow: auto;
 
                 }
@@ -137,9 +145,9 @@
     
                     }
     
-                    div:nth-child(2){
+                    div:nth-child(3){
     
-                        width: 60%;
+                        width: 25%;
                         overflow: auto;
     
                     }

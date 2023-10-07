@@ -2,11 +2,26 @@
 
   <AdminDefault>
 
-    <div class="products-body">
+    <div :class="{'products-body' : !advertencia, 'products-body-none' : advertencia}">
 
-      <ProductsAll />
-      <FilterComp />
+      <h1 class="products-body-title"> Productos </h1>
+      <FilterProduct />
+      <ProductsAll @eliminar="mostrar" />
 
+    </div>
+
+    <div class="interfaz">
+
+      <transition>
+
+        <DeleteConfirm 
+          @cerrar="ocultar" 
+          v-show="advertencia" 
+          modelo="Producto" 
+          registro="este producto" />
+          
+      </transition>
+    
     </div>
 
   </AdminDefault>
@@ -17,7 +32,16 @@
 
   import AdminDefault from '@/layouts/adminDefault.vue'
   import ProductsAll from '@/components/ProductsAll.vue';
-  import FilterComp from '@/components/FilterComp.vue'
+  import FilterProduct from '@/components/FilterProduct.vue'
+  import DeleteConfirm from '@/components/DeleteConfirm.vue';
+
+  import { ref } from 'vue';
+
+  let advertencia = ref(false)
+
+  const mostrar = () => advertencia.value = true
+
+  const ocultar = () => advertencia.value = false
 
 </script>
 
@@ -29,8 +53,62 @@
     height: 100%;
     padding: 2%;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    filter: brightness(100%);
+    background: transparent;
+    pointer-events: all;
     overflow: auto;
+    position: static;
+    z-index: 1000;
+    transition: all 0.5s ease-in-out;
+
+    &-title{
+
+      font-size: 50px;
+      margin-bottom: 10vh;
+      text-align: center;
+
+    } 
+
+  }
+
+  .products-body-none{
+
+    width: 100%;
+    height: 100%;
+    padding: 2%;
+    display: flex;
+    flex-direction: column;
+    filter: brightness(20%);
+    background: #444;
+    pointer-events: none;
+    overflow: hidden;
+    position: static;
+    z-index: 1000;
+    transition: all 0.5s ease-in-out;
+
+  }
+
+  .interfaz{
+
+    width: 100%;
+    height: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+
+  }
+
+  .v-enter-active, .v-leave-active{
+
+    transition: all 0.5s ease-in-out;
+
+  }
+
+  .v-enter-from, .v-leave-to{
+
+    transform: scale(0.1);
 
   }
 
