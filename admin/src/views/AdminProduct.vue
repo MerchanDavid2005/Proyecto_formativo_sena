@@ -12,7 +12,7 @@
 
     <div class="interfaz">
 
-      <transition>
+      <transition name="transicionProductDanger">
 
         <DeleteConfirm 
           @cerrar="ocultar" 
@@ -100,13 +100,13 @@
 
   }
 
-  .v-enter-active, .v-leave-active{
+  .transicionProductDanger-enter-active, .transicionProductDanger-leave-active{
 
     transition: all 2s cubic-bezier(1, -0.3, 0, 1.2);
 
   }
 
-  .v-enter-from, .v-leave-to{
+  .transicionProductDanger-enter-from, .transicionProductDanger-leave-to{
 
     transform: translateY(-800px);
 

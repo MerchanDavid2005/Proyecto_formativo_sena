@@ -1,5 +1,5 @@
 <template>
-  <transition name="transicionesVistas">
+  <transition name="transitionViews">
     <router-view/>
   </transition>
 </template>
@@ -57,15 +57,14 @@
     background-color: #f1f1f1;
   }
 
-  .transicionesVistas-enter-active, .transicionesVistas-leave-active{
+  .transitionViews-enter-active, .transitionViews-leave-active{
 
-    transition: all 1s cubic-bezier(1, 1, 1, 1);
+    transition: opacity 0.5s cubic-bezier(1, 1, 1, 1);
 
   }
 
-  .transicionesVistas-enter-from, .transicionesVistas-leave-to{
+  .transitionViews-enter-from, .transitionViews-leave-to{
 
-    transform: translateX(20%);
     opacity: 0;
 
   }

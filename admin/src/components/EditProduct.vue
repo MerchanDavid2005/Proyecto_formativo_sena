@@ -1,5 +1,5 @@
 <template>
-    <div class="edit-product">
+    <div class="edit-product" :style="{background: pinia.fondoEdits}">
         
         <h1 class="edit-product-title"> Editar producto </h1>
         <div class="edit-product-campo">
@@ -33,7 +33,7 @@
             <input v-model="precio" type="text" placeholder="Precio">
         </div>
         <div class="edit-product-button">
-            <button @click="editarProducto"> Editar </button>
+            <button :style="{background: pinia.greentheme}" @click="editarProducto"> Editar </button>
         </div>
 
     </div>
@@ -104,24 +104,25 @@
 
     .edit-product{
 
-        height: 80%;
+        height: 90%;
         width: 30%;
         display: flex;
         flex-direction: column;
         outline: 2px solid #000;
         border-radius: 15px;
         padding: 15px;
+        transition: background 0.5s ease;
 
         &-title{
 
             text-align: center;
-            margin: 40px;
+            margin-bottom: 20px;
 
         }
 
         &-campo{
 
-            margin-bottom: 20px;
+            margin-bottom: 10px;
 
             input, textarea, select{
 
@@ -168,7 +169,7 @@
 
             button{
 
-                @include botones($first-color);
+                @include botones();
                 height: max-content;
 
             }

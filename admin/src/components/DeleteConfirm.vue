@@ -90,7 +90,8 @@
 
             button:nth-child(1){
 
-                @include botones($forth-color);
+                @include botones();
+                background: $forth-color;
                 margin-right: 10px;
                 color: #000;
                 font-weight: 100;
@@ -99,7 +100,8 @@
 
             button:nth-child(2){
 
-                @include botones($forth-color);
+                @include botones();
+                background: $forth-color;
                 color: #000;
                 font-weight: 100;
 

@@ -1,10 +1,10 @@
 <template>
-    <div class="filtrar">
+    <div class="filtrar" :style="{background: pinia.fondoFiltros}">
         
         <div>
             <label> Buscar producto:  </label>
             <input v-model="producto" type="text" placeholder="Nombre producto">
-            <button @click="buscarProducto"> Buscar </button>
+            <button :style="{background: pinia.greentheme}" @click="buscarProducto"> Buscar </button>
             <label> Filtrar por categoria:  </label>
             <select v-model="categoria">
                 <option value="Todo">
@@ -25,7 +25,7 @@
             <label> Menor precio: </label>
             <input v-model="precio" type="radio" name="precio" value="Menor precio">
         </div>
-        <button @click="todo"> Todo </button>
+        <button :style="{background: pinia.greentheme}" @click="todo"> Todo </button>
 
     </div>
 </template>
@@ -114,9 +114,9 @@
         align-items: center;
         color: #fff;
         margin: 0 0 30px 0;
-        background: $second-color;
         padding: 10px;
         border-radius: 15px;
+        transition: background 0.5s ease;
 
         input, select{
 
@@ -127,8 +127,9 @@
 
         button{
 
-            @include botones($first-color);
+            @include botones();
             margin: 0 10px;
+            transition: background 0.5s ease;
 
         }
 

@@ -1,5 +1,5 @@
 <template>
-    <div class="select-product">
+    <div class="select-product" :style="{background: pinia.fondoEdits}">
         
         <h1 class="select-product-title"> Producto sin editar </h1>
         <div class="select-product-campo">
@@ -65,24 +65,25 @@
 
     .select-product{
 
-        height: 80%;
+        height: 90%;
         width: 30%;
         display: flex;
         flex-direction: column;
         outline: 2px solid #000;
         border-radius: 15px;
         padding: 15px;
+        transition: background 0.5s ease;
 
         &-title{
 
             text-align: center;
-            margin: 40px;
+            margin-bottom: 20px;
 
         }
 
         &-campo{
 
-            margin-bottom: 20px;
+            margin-bottom: 10px;
 
             input, textarea, select{
 

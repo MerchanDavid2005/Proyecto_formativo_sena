@@ -5,6 +5,8 @@ export const useStore = defineStore('storeId', {
 
     return {
 
+      temaClaro: true,
+
       listaProductos: [],
       listaServicios: [],
       listaPedidos: [],
@@ -18,6 +20,11 @@ export const useStore = defineStore('storeId', {
       listaUsuariosFilter: [],
 
       idEliminar: 0,
+
+      fondoFiltros: '#0af',
+      greentheme: '#0fa',
+      fondoEdits: '#fff',
+      colorLetraPanel: '#fff',
 
     }
 

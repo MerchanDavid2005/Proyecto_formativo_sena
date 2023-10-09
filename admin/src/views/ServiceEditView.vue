@@ -4,7 +4,11 @@
 
         <div class="body-service-edit">
 
-            <button @click="enrutado.push('/admin/service')" class="body-service-edit-volver"> Volver </button>
+            <button
+                :style="{background: pinia.fondoFiltros}"
+                @click="enrutado.push('/admin/service')" 
+                class="body-service-edit-volver"> Volver 
+            </button>
             <ServiceSelected />
             <EditService />
 
@@ -21,7 +25,9 @@
     import ServiceSelected from '@/components/ServiceSelected.vue';
 
     import { useRouter } from 'vue-router';
+    import { useStore } from '@/store/pinia';
 
+    const pinia = useStore()
     const enrutado = useRouter()
 
 </script>
@@ -40,8 +46,8 @@
 
             position: absolute;
             left: 2%;
-            top: 15%;
-            @include botones($second-color)
+            top: 10%;
+            @include botones();
 
         }
 

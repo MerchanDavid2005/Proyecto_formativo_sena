@@ -1,9 +1,9 @@
 <template>
-    <div class="navTop">
+    <div class="navTop" :style="{background: pinia.fondoFiltros}">
 
         <div class="navTop-panel">
 
-            <button>
+            <button @click="emits('panel')">
                 <v-icon name="md-reorder-twotone" scale="1.5"></v-icon>
             </button>
 
@@ -58,6 +58,16 @@
     </div>
 </template>
 
+<script setup>
+
+    import { defineEmits } from 'vue';
+    import { useStore } from '@/store/pinia';
+
+    const pinia = useStore()
+    const emits = defineEmits(['panel'])
+    
+</script>
+
 <style lang="scss" scoped>
 
     .navTop{
@@ -67,7 +77,7 @@
         display: flex;
         justify-content: space-around;
         align-items: center;
-        background: $second-color;
+        transition: background 0.5s ease;
 
         &-title{
 
@@ -134,7 +144,8 @@
 
             button{
 
-                @include botones('transparent')
+                @include botones();
+                background: transparent;
 
             }
 

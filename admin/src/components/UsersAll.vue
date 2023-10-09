@@ -14,9 +14,6 @@
                     <strong> Email </strong> 
                 </div>
                 <div>
-                    <strong> Actualizar </strong>
-                </div>
-                <div>
                     <strong> Eliminar </strong>
                 </div>
             </div>
@@ -31,13 +28,6 @@
                     </div>
                     <div>
                         <p> {{ user.email }} </p>
-                    </div>
-                    <div style="color: #0fa;">
-                        <v-icon 
-                            style="cursor:pointer" 
-                            name="md-modeeditoutline" 
-                            scale="2">
-                        </v-icon> 
                     </div>
                     <div style="color: #f05;">
                         <v-icon 
@@ -93,7 +83,7 @@
 
                 div{
 
-                    width: 15%;
+                    width: 20%;
                     display: flex;
                     align-items: center;
                     justify-content: center;
@@ -131,7 +121,7 @@
                     
                     div{
     
-                        width: 15%;
+                        width: 20%;
                         height: 120px;
                         display: flex;
                         align-items: center;

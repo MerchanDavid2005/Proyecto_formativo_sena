@@ -1,9 +1,9 @@
 <template>
-    <div class="select-category">
+    <div class="select-category" :style="{background: pinia.fondoEdits}">
         
-        <h1 class="select-category-title"> Servicio sin editar </h1>
+        <h1 class="select-category-title"> Categoria sin editar </h1>
         <div class="select-category-campo">
-            <label> Nombre del servicio:  </label>
+            <label> Nombre de la categoria:  </label>
             <input v-model="nombre" type="text" readonly>
         </div>
 
@@ -40,17 +40,18 @@
         outline: 2px solid #000;
         border-radius: 15px;
         padding: 15px;
+        transition: background 0.5s ease;
 
         &-title{
 
             text-align: center;
-            margin: 40px;
+            margin-bottom: 20px;
 
         }
 
         &-campo{
 
-            margin-bottom: 20px;
+            margin-bottom: 10px;
 
             input, textarea, select{
 

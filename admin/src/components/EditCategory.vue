@@ -1,5 +1,5 @@
 <template>
-    <div class="edit-category">
+    <div class="edit-category" :style="{background: pinia.fondoEdits}">
         
         <h1 class="edit-category-title"> Editar categoria </h1>
         <div class="edit-category-campo">
@@ -7,7 +7,7 @@
             <input v-model="nombre" type="text" placeholder="Nombre">
         </div>
         <div class="edit-category-button">
-            <button @click="editarCategoria"> Editar </button>
+            <button :style="{background: pinia.greentheme}" @click="editarCategoria"> Editar </button>
         </div>
 
     </div>
@@ -27,9 +27,9 @@
 
     function editarCategoria(){
 
-        let producto = pinia.listaProductos[ruta.params.id]
+        let categoria = pinia.listaCategorias[ruta.params.id]
 
-        fetch(`http://127.0.0.1:8000/api/Producto/${producto.id}/`, {
+        fetch(`http://127.0.0.1:8000/api/Categoria/${categoria.id}/`, {
 
             method: 'PATCH',
             body: JSON.stringify({
@@ -64,17 +64,18 @@
         outline: 2px solid #000;
         border-radius: 15px;
         padding: 15px;
+        transition: background 0.5s ease;
 
         &-title{
 
             text-align: center;
-            margin: 40px;
+            margin-bottom: 20px;
 
         }
 
         &-campo{
 
-            margin-bottom: 20px;
+            margin-bottom: 10px;
 
             input, textarea, select{
 
@@ -94,7 +95,7 @@
 
             button{
 
-                @include botones($first-color);
+                @include botones();
                 height: max-content;
 
             }

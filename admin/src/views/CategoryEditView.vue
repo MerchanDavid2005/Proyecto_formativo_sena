@@ -4,7 +4,11 @@
 
         <div class="body-category-edit">
 
-            <button @click="enrutado.push('/admin/category')" class="body-category-edit-volver"> Volver </button>
+            <button 
+                :style="{background: pinia.fondoFiltros}"
+                @click="enrutado.push('/admin/category')" 
+                class="body-category-edit-volver"> Volver 
+            </button>
             <EditCategory />
             <CategorySelected />
 
@@ -21,7 +25,9 @@
     import CategorySelected from '@/components/CategorySelected.vue';
 
     import { useRouter } from 'vue-router';
+    import { useStore } from '@/store/pinia';
 
+    const pinia = useStore()
     const enrutado = useRouter()
 
 </script>
@@ -41,8 +47,8 @@
 
             position: absolute;
             left: 2%;
-            top: 15%;
-            @include botones($second-color)
+            top: 10%;
+            @include botones();
 
         }
 

@@ -157,6 +157,7 @@
                         align-items: center;
                         justify-content: center;
                         padding: 5px;
+                        margin: 10px 0;
     
                     }
     

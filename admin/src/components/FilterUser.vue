@@ -1,13 +1,13 @@
 <template>
-    <div class="filtrar">
+    <div class="filtrar" :style="{background: pinia.fondoFiltros}">
         
         <div>
             <label> Buscar usuario:  </label>
             <input v-model="usuario" type="text" placeholder="Usuario">
-            <button @click="buscarUsuario"> Buscar </button>
+            <button :style="{background: pinia.greentheme}" @click="buscarUsuario"> Buscar </button>
             <label> Buscar nombre:  </label>
             <input v-model="nombre" type="text" placeholder="Nombre">
-            <button @click="buscarNombre"> Buscar </button>
+            <button :style="{background: pinia.greentheme}" @click="buscarNombre"> Buscar </button>
             <label> Filtrar por email:  </label>
             <select v-model="email">
                 <option value="Todo"> Todo </option>
@@ -16,7 +16,7 @@
                 </option>
             </select>
         </div>
-        <button @click="todo"> Todo </button>
+        <button :style="{background: pinia.greentheme}" @click="todo"> Todo </button>
 
     </div>
 </template>
@@ -109,9 +109,9 @@
         align-items: center;
         color: #fff;
         margin: 0 0 30px 0;
-        background: $second-color;
         padding: 10px;
         border-radius: 15px;
+        transition: background 0.5s ease;
 
         input, select{
 
@@ -122,8 +122,9 @@
 
         button{
 
-            @include botones($first-color);
+            @include botones();
             margin: 0 10px;
+            transition: background 0.5s ease;
 
         }
 

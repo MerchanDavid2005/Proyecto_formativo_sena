@@ -1,5 +1,5 @@
 <template>
-    <div class="select-service">
+    <div class="select-service" :style="{background: pinia.fondoEdits}">
         
         <h1 class="select-service-title"> Servicio sin editar </h1>
         <div class="select-service-campo">
@@ -53,24 +53,25 @@
 
     .select-service{
 
-        height: 75%;
+        height: 80%;
         width: 30%;
         display: flex;
         flex-direction: column;
         outline: 2px solid #000;
         border-radius: 15px;
         padding: 15px;
+        transition: background 0.5s ease;
 
         &-title{
 
             text-align: center;
-            margin: 40px;
+            margin-bottom: 20px;
 
         }
 
         &-campo{
 
-            margin-bottom: 20px;
+            margin-bottom: 10px;
 
             input, textarea, select{
 
