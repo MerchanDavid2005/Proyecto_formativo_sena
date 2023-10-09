@@ -1,30 +1,30 @@
 <template>
 
-    <AdminDefault>
-  
-      <div :class="{'user-body': !advertencia, 'user-body-none': advertencia}">
-  
-        <h1 class="user-body-title"> Usuarios </h1>
-        <FilterUser />
-        <UsersAll @eliminar="mostrar" />
-  
-      </div>
+  <AdminDefault>
 
-      <div class="interfaz">
+    <div :class="{'user-body': !advertencia, 'user-body-none': advertencia}">
 
-        <transition>
-  
-          <DeleteConfirm 
-            @cerrar="ocultar" 
-            v-show="advertencia" 
-            modelo="Usuario" 
-            registro="este usuario" />
-  
-        </transition>
-  
-      </div>
-  
-    </AdminDefault>
+      <h1 class="user-body-title"> Usuarios </h1>
+      <FilterUser />
+      <UsersAll @eliminar="mostrar" />
+
+    </div>
+
+    <div class="interfaz">
+
+      <transition>
+
+        <DeleteConfirm 
+          @cerrar="ocultar" 
+          v-show="advertencia" 
+          modelo="Usuario" 
+          registro="este usuario" />
+
+      </transition>
+
+    </div>
+
+  </AdminDefault>
     
 </template>
   
@@ -102,13 +102,13 @@
 
   .v-enter-active, .v-leave-active{
 
-    transition: all 0.5s ease-in-out;
+    transition: all 2s cubic-bezier(1, -0.3, 0, 1.2);
 
   }
 
   .v-enter-from, .v-leave-to{
 
-    transform: scale(0.1);
+    transform: translateY(-800px);
 
   }
 

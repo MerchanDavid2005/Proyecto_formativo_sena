@@ -5,7 +5,7 @@
         <NavTop />
 
         <div class="todo-contenido">
-
+            
             <slot></slot>
 
         </div>
@@ -36,6 +36,19 @@
 
         }
 
+    }
+
+    .XD-enter-active, .XD-leave-active{
+
+        transition: all 0.5s cubic-bezier(1, 1, 1, 1);
+    
+    }
+    
+    .XD-enter-from, .XD-leave-to{
+    
+        transform: translateX(20%);
+        opacity: 0;
+    
     }
 
 </style>

@@ -1,30 +1,30 @@
 <template>
 
-    <AdminDefault>
-  
-      <div :class="{'services-body' : !advertencia, 'services-body-none': advertencia}">
-  
-        <h1 class="services-body-title"> Servicios </h1>
-        <FilterService />
-        <ServiceAll @eliminar="mostrar" />
-  
-      </div>
+  <AdminDefault>
 
-      <div class="interfaz">
+    <div :class="{'services-body' : !advertencia, 'services-body-none': advertencia}">
 
-        <transition>
-  
-          <DeleteConfirm 
-            @cerrar="ocultar" 
-            v-show="advertencia" 
-            modelo="Servicio" 
-            registro="este servicio" />
-  
-        </transition>
-  
-      </div>
-  
-    </AdminDefault>
+      <h1 class="services-body-title"> Servicios </h1>
+      <FilterService />
+      <ServiceAll @eliminar="mostrar" />
+
+    </div>
+
+    <div class="interfaz">
+
+      <transition>
+
+        <DeleteConfirm 
+          @cerrar="ocultar" 
+          v-show="advertencia" 
+          modelo="Servicio" 
+          registro="este servicio" />
+
+      </transition>
+
+    </div>
+
+  </AdminDefault>
 
 </template>
 
@@ -103,13 +103,13 @@
 
   .v-enter-active, .v-leave-active{
 
-    transition: all 0.5s ease-in-out;
+    transition: all 2s cubic-bezier(1, -0.3, 0, 1.2);
 
   }
 
   .v-enter-from, .v-leave-to{
 
-    transform: scale(0.1);
+    transform: translateY(-800px);
 
   }
 

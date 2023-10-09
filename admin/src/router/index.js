@@ -4,6 +4,9 @@ import AdminCategory from '@/views/AdminCategory.vue'
 import AdminService from '@/views/AdminService.vue'
 import AdminOrder from '@/views/AdminOrder.vue'
 import AdminUsers from '@/views/AdminUsers.vue'
+import ProductEditView from '@/views/ProductEditView.vue'
+import ServiceEditView from '@/views/ServiceEditView.vue'
+import CategoryEditView from '@/views/CategoryEditView.vue'
 
 const routes = [
   {
@@ -23,13 +26,28 @@ const routes = [
   },
   {
     path: '/admin/order',
-    name: 'AdminOrder',
+    name: 'adminOrder',
     component: AdminOrder
   },
   {
     path: '/admin/users',
-    name: 'AdminUsers',
+    name: 'adminUsers',
     component: AdminUsers
+  },
+  {
+    path: '/admin/edit/product/:id',
+    name: 'adminEditProduct',
+    component: ProductEditView
+  },
+  {
+    path: '/admin/edit/service/:id',
+    name: 'adminEditService',
+    component: ServiceEditView
+  },
+  {
+    path: '/admin/edit/category/:id',
+    name: 'adminEditCategory',
+    component: CategoryEditView
   }
 
 ]

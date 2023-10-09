@@ -102,13 +102,13 @@
 
   .v-enter-active, .v-leave-active{
 
-    transition: all 0.5s ease-in-out;
+    transition: all 2s cubic-bezier(1, -0.3, 0, 1.2);
 
   }
 
   .v-enter-from, .v-leave-to{
 
-    transform: scale(0.1);
+    transform: translateY(-800px);
 
   }
 

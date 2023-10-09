@@ -39,6 +39,7 @@
                     </div>
                     <div style="color: #0fa;">
                         <v-icon 
+                            @click="enrutado.push(`/admin/edit/service/${i}`)"
                             style="cursor:pointer" 
                             name="md-modeeditoutline" 
                             scale="2">
@@ -64,9 +65,11 @@
 
     import { useStore } from '@/store/pinia';
     import { defineEmits } from 'vue'
+    import { useRouter } from 'vue-router';
 
     const emits = defineEmits(['eliminar'])
     const pinia = useStore()
+    const enrutado = useRouter()
 
 </script>
 

@@ -1,5 +1,7 @@
 <template>
-  <router-view/>
+  <transition name="transicionesVistas">
+    <router-view/>
+  </transition>
 </template>
 
 <script setup>
@@ -53,6 +55,19 @@
 
   ::-webkit-scrollbar-track {
     background-color: #f1f1f1;
+  }
+
+  .transicionesVistas-enter-active, .transicionesVistas-leave-active{
+
+    transition: all 1s cubic-bezier(1, 1, 1, 1);
+
+  }
+
+  .transicionesVistas-enter-from, .transicionesVistas-leave-to{
+
+    transform: translateX(20%);
+    opacity: 0;
+
   }
 
 </style>
