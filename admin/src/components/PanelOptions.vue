@@ -12,15 +12,15 @@
             </h1>
         </div>
         <div class="panel-crear">
-            <div class="panel-crear-producto"> 
+            <div @click="emits('nuevo', 'producto')" class="panel-crear-producto"> 
                 <p> Nuevo producto  </p>
                 <v-icon name="md-fibernew-round" scale="1.5"></v-icon>
             </div>
-            <div class="panel-crear-categoria"> 
+            <div @click="emits('nuevo', 'categoria')" class="panel-crear-categoria"> 
                 <p> Nueva categoria  </p>
                 <v-icon name="io-duplicate" scale="1.5"></v-icon>
             </div>
-            <div class="panel-crear-servicio"> 
+            <div @click="emits('nuevo', 'servicio')" class="panel-crear-servicio"> 
                 <p> Nuevo servicio  </p>
                 <v-icon name="md-task" scale="1.5"></v-icon>
             </div>
@@ -49,7 +49,9 @@
 <script setup>
 
     import { useStore } from '@/store/pinia'
+    import { defineEmits } from 'vue'
 
+    const emits = defineEmits(['nuevo'])
     const pinia = useStore()
 
     function cambioTema(){
@@ -60,6 +62,7 @@
             pinia.fondoFiltros = '#004'
             pinia.greentheme = '#084'
             pinia.fondoEdits = '#444'
+            pinia.fondoRed = '#b00'
 
         }else{
 
@@ -67,6 +70,7 @@
             pinia.fondoFiltros = '#0af'
             pinia.greentheme = '#0fa'
             pinia.fondoEdits = '#fff'
+            pinia.fondoRed = '#f05'
 
         }
 

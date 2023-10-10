@@ -9,7 +9,7 @@
             <div class="todo-contenido-panel">
 
                 <transition name="panel">
-                    <PanelOptionsVue v-show="panel" />
+                    <PanelOptionsVue v-show="panel" @nuevo="mostrarTabla" />
                 </transition>
 
             </div>
@@ -18,11 +18,17 @@
             
                 :class="{
                     'todo-contenido-info-ok': panel == false,
-                    'todo-contenido-info-none': panel == true,
+                    'todo-contenido-info-none': panel == true || tablaMostrada == true,
                     'todo-contenido-info-dark': pinia.temaClaro == false
                 }">
 
                 <slot></slot>
+
+            </div>
+
+            <div :class="{'todo-contenido-new': pinia.temaClaro, 'todo-contenido-new-dark': pinia.temaClaro == false}">
+                
+                <component v-show="tablaMostrada" :is="tablaCreacion" @cerrar="ocultarTabla" />
 
             </div>
 
@@ -37,11 +43,18 @@
     import NavTop from '@/components/NavTop.vue';
     import PanelOptionsVue from '../components/PanelOptions.vue';
 
-    import { ref } from 'vue'
+    import { ref, defineAsyncComponent } from 'vue'
     import { useStore } from '@/store/pinia';
 
-    let panel = ref(false)
     const pinia = useStore()
+
+    let panel = ref(false)
+    let tablaCreacion = ref()
+    let tablaMostrada = ref(false)
+
+    let tablaProducto = defineAsyncComponent(() => import('@/components/NewProduct.vue'))
+    let tablaCategoria = defineAsyncComponent(() => import('@/components/NewCategory.vue'))
+    let tablaServicio = defineAsyncComponent(() => import('@/components/NewService.vue'))
 
     const abrirCerrarPanel = () => {
 
@@ -59,6 +72,31 @@
 
     }
 
+    function mostrarTabla(tabla){
+
+        abrirCerrarPanel()
+
+        if(tabla == 'producto'){
+
+            tablaCreacion = tablaProducto
+            tablaMostrada.value = true
+
+        }else if(tabla == 'categoria'){
+
+            tablaCreacion = tablaCategoria
+            tablaMostrada.value = true
+
+        }else{
+
+            tablaCreacion = tablaServicio
+            tablaMostrada.value = true
+
+        }
+
+    }
+
+    const ocultarTabla = () => tablaMostrada.value = false
+
 </script>
 
 <style lang="scss" scoped>
@@ -72,6 +110,7 @@
 
             height: 90vh;
             width: 100%;
+            display: flex;
 
             &-panel{
 
@@ -92,6 +131,8 @@
                 filter: brightness(100%);
                 pointer-events: all;
                 transition: all 0.5s ease-in-out;
+                position: static;
+                z-index: 10;
 
             }
 
@@ -104,6 +145,8 @@
                 filter: brightness(20%);
                 pointer-events: none;
                 transition: all 0.5s ease-in-out;
+                position: static;
+                z-index: 10;
 
             }
 
@@ -113,6 +156,32 @@
                 height: 100%;
                 display: flex;
                 background: #000;
+                color: #fff;
+                position: static;
+                z-index: 10;
+
+            }
+
+            &-new{
+
+                width: 100%;
+                height: 90vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                position: absolute;
+                color: #000;
+
+            }
+
+            &-new-dark{
+
+                width: 100%;
+                height: 90vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                position: absolute;
                 color: #fff;
 
             }

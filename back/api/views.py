@@ -1,10 +1,12 @@
 import json
+from django.conf import settings
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from rest_framework.viewsets import ModelViewSet
 from .serializer import ProductoSerializer, CategoriaSerializer, UsuarioSerializer, PedidoSerializer, ServicioSerializer
 from .models import Producto, Categoria, Usuario, Pedido, Servicio
 from django.views.decorators.csrf import csrf_exempt
+import os
 
 class ProductoViewset(ModelViewSet):
 
@@ -87,6 +89,24 @@ def actualizar_imagen_producto(request, id):
     producto.save()
 
     return HttpResponse('Exito')
+
+@csrf_exempt
+def eliminar_imagen_producto(request, id):
+
+    producto = Producto.objects.get(id = id)
+
+    img = 'C:/Users/lenovo/Desktop/Proyecto_formativo_David/back/media/' + producto.img.name
+
+    if os.path.exists(img):
+
+        os.remove(img)
+        print("Imagen eliminada :D")
+
+    else:
+
+        print("Tas loco mi perro")
+
+    return HttpResponse ("Exito")
 
 # ----------------------------------------------- Endpoints de tabla productos ------------------------
 
@@ -206,3 +226,21 @@ def traer_pedido_id(request, id):
     }
 
     return JsonResponse({"pedido" : datos_pedido})
+
+@csrf_exempt
+def eliminar_imagen_servicio(request, id):
+
+    servicio = Servicio.objects.get(id = id)
+
+    img = 'C:/Users/lenovo/Desktop/Proyecto_formativo_David/back/media/' + servicio.img.name
+
+    if os.path.exists(img):
+
+        os.remove(img)
+        print("Imagen eliminada :D")
+
+    else:
+
+        print("Tas loco mi perro")
+
+    return HttpResponse ("Exito")

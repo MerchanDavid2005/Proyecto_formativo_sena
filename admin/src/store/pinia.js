@@ -25,6 +25,7 @@ export const useStore = defineStore('storeId', {
       greentheme: '#0fa',
       fondoEdits: '#fff',
       colorLetraPanel: '#fff',
+      fondoRed: '#f05'
 
     }
 
@@ -83,7 +84,17 @@ export const useStore = defineStore('storeId', {
         method: 'DELETE',
         headers: {"content-type" : "application/json"}
 
-      })
+      });
+
+      if(modelo == 'Producto'){
+
+        fetch(`http://localhost:8000/delete/img/product/${this.idEliminar}/`);
+
+      }else if(modelo == 'Servicio'){
+
+        fetch(`http://localhost:8000/delete/img/service/${this.idEliminar}/`);
+
+      }
 
     }
 

@@ -34,7 +34,27 @@
 
         setTimeout(() => {
 
-            pinia.getProductos()
+            if(props.modelo == "Producto"){
+
+                pinia.getProductos()
+
+            }else if(props.modelo == "Categoria"){
+
+                pinia.getCategorias()
+
+            }else if(props.modelo == "Servicio"){
+
+                pinia.getServicios()
+
+            }else if(props.modelo == 'Pedido'){
+
+                pinia.getPedidos()
+                
+            }else{
+
+                pinia.getUsuarios()
+
+            }
 
         }, 600)
 
