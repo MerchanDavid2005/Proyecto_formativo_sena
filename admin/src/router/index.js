@@ -7,8 +7,20 @@ import AdminUsers from '@/views/AdminUsers.vue'
 import ProductEditView from '@/views/ProductEditView.vue'
 import ServiceEditView from '@/views/ServiceEditView.vue'
 import CategoryEditView from '@/views/CategoryEditView.vue'
+import LoginView from '@/views/LoginView.vue'
+import RegisterView from '@/views/RegisterView.vue'
 
 const routes = [
+  {
+    path: '/',
+    name: 'login',
+    component: LoginView
+  },
+  {
+    path: '/register',
+    name: 'register',
+    component: RegisterView
+  },
   {
     path: '/admin/product',
     name: 'adminProduct',
