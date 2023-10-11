@@ -25,7 +25,11 @@ export const useStore = defineStore('storeId', {
       greentheme: '#0fa',
       fondoEdits: '#fff',
       colorLetraPanel: '#fff',
-      fondoRed: '#f05'
+      fondoRed: '#f05',
+
+      datosUsuarioCrear: [],
+      codigoVerificacion: "",
+      mensajeUsuarioRegistrado: false,
 
     }
 

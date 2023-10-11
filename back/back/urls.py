@@ -33,7 +33,9 @@ urlpatterns = [
     path('get/orders/all/', views.traer_todos_pedidos, name="Traer todos los pedidos"),
     path('get/orders/<int:id>/', views.traer_pedidos, name="Traer pedidos"),
     path('get/order/<int:id>/', views.traer_pedido_id, name="Traer pedido por id"),
-    path('delete/img/service/<int:id>/', views.eliminar_imagen_servicio, name="Eliminar imagen")
+    path('delete/img/service/<int:id>/', views.eliminar_imagen_servicio, name="Eliminar imagen"),
+    path('send/code/verify/', views.enviar_correo_verificacion, name="Enviar correo de verificacion de usuario"),
+    path('post/user/', views.crear_usuario_admin, name="Crear usuario administrador"),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

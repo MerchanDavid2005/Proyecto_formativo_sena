@@ -68,7 +68,7 @@
                     <p> Inicia sesion siguiendo el siguien enlace 
                         <router-link to="/"> iniciar sesion </router-link>
                     </p>
-                    <button> Registrarse </button>
+                    <button @click="panelVerificacion"> Registrarse </button>
     
                 </div>
     
@@ -88,7 +88,11 @@
 
 <script setup>
 
-    import { ref } from 'vue';
+    import { ref, defineEmits } from 'vue';
+    import { useStore } from '@/store/pinia'
+
+    const emits = defineEmits(['mostrarCodigo'])
+    const pinia = useStore()
 
     let usuario = ref("")
     let nombre = ref("")
@@ -103,6 +107,25 @@
         
         imagenMostrar.value = URL.createObjectURL(img.target.files[0])
         imagen.value = img.target.files[0]
+
+    }
+
+    const panelVerificacion = async () => {
+
+        pinia.datosUsuarioCrear.push(usuario.value)
+        pinia.datosUsuarioCrear.push(nombre.value)
+        pinia.datosUsuarioCrear.push(correo.value)
+        pinia.datosUsuarioCrear.push(imagen.value)
+        pinia.datosUsuarioCrear.push(contraseña.value)
+
+        const data = await fetch("http://localhost:8000/send/code/verify/")
+        const info = await data.json()
+
+        pinia.codigoVerificacion = info.Codigo
+
+        console.log(pinia.codigoVerificacion)
+
+        emits('mostrarCodigo')
 
     }
 

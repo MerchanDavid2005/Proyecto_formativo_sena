@@ -4,7 +4,21 @@
 
         <div class="login-fondo"></div>
 
-        <LoginComp />
+        <div class="login-body">
+
+            <LoginComp />
+
+        </div>
+
+        <div class="login-mensaje">
+
+            <transition name="panelMensaje">
+            
+                <UsuarioCreado v-show="pinia.mensajeUsuarioRegistrado" />
+
+            </transition>
+
+        </div>
 
     </div>
 
@@ -13,6 +27,13 @@
 <script setup>
 
     import LoginComp from '@/components/LoginComp.vue';
+    import UsuarioCreado from '@/components/UsuarioCreado.vue';
+
+    import { useStore } from '@/store/pinia';
+
+    const pinia = useStore()
+
+    
 
 </script>
 
@@ -23,10 +44,7 @@
         width: 100%;
         height: 100vh;
         display: flex;
-        justify-content: center;
-        align-items: center;
-        position: static;
-        z-index: 10;
+        overflow: hidden;
 
         &-fondo{
 
@@ -37,8 +55,69 @@
             filter: blur(4px);
             background-repeat: no-repeat;
             background-size: 100%;
+            overflow: hidden;
 
         }
+
+        &-body{
+
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: static;
+            z-index: 10;
+            overflow: hidden;
+
+        }
+
+        &-mensaje{
+
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-start;
+            padding: 2%;
+            position: absolute;
+            overflow: hidden;
+
+        }
+
+    }
+
+    @keyframes mensajeCreado{
+
+        0%{
+
+            transform: translateX(300px);
+
+        }
+
+        50%{
+
+            transform: translateX(-50px);
+
+        }
+
+        100%{
+
+            transform: translateX(0);
+
+        }
+
+    }
+
+    .panelMensaje-enter-active{
+
+        animation: mensajeCreado 1s;
+
+    }
+
+    .panelMensaje-leave-active{
+
+        animation: mensajeCreado 1s reverse;
 
     }
 

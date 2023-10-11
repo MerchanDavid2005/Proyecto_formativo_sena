@@ -7,6 +7,7 @@ from .serializer import ProductoSerializer, CategoriaSerializer, UsuarioSerializ
 from .models import Producto, Categoria, Usuario, Pedido, Servicio
 from django.views.decorators.csrf import csrf_exempt
 import os
+import random
 
 class ProductoViewset(ModelViewSet):
 
@@ -244,3 +245,36 @@ def eliminar_imagen_servicio(request, id):
         print("Tas loco mi perro")
 
     return HttpResponse ("Exito")
+
+# ----------------------------------------------- Endpoints de tabla usuarios ------------------------
+
+def enviar_correo_verificacion(request):
+
+    lista_caracteres = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
+
+    codigo = ""
+
+    caracteres = random.sample(lista_caracteres, k=6)
+
+    for i in caracteres:
+
+        codigo += i
+
+    return JsonResponse({"Codigo": codigo})
+
+
+@csrf_exempt
+def crear_usuario_admin(request):
+
+    Usuario.objects.create(
+
+        nombre_usuario = request.POST["usuario"],
+        nombre = request.POST["nombre"],
+        email = request.POST["email"],
+        foto = request.FILES.get("img"),
+        password = request.POST["descripcion"],
+        rol = "Cliente"
+
+    )
+
+    return HttpResponse ('Creado')
