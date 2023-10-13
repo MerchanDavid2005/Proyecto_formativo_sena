@@ -11,7 +11,13 @@
                     <strong> Nombre </strong>
                 </div>
                 <div>
+                    <strong> Foto </strong>
+                </div>
+                <div>
                     <strong> Email </strong> 
+                </div>
+                <div>
+                    <strong> Rol </strong> 
                 </div>
                 <div>
                     <strong> Eliminar </strong>
@@ -21,13 +27,19 @@
                 <h1 v-if="pinia.listaUsuariosFilter < 1"> No hay resultados de tu busqueda </h1>
                 <div class="users-all-table-data" v-for="(user, i) in pinia.listaUsuariosFilter" :key="i">
                     <div>
-                        <p> {{ user.nombre_usuario }} </p>
+                        <p> {{ user.usuario }} </p>
                     </div>
                     <div>
                         <p> {{ user.nombre }} </p>
                     </div>
                     <div>
+                        <img :src="user.foto" :alt="user.nombre">
+                    </div>
+                    <div>
                         <p> {{ user.email }} </p>
+                    </div>
+                    <div>
+                        <p> {{ user.rol }} </p>
                     </div>
                     <div style="color: #f05;">
                         <v-icon 
@@ -83,7 +95,7 @@
 
                 div{
 
-                    width: 20%;
+                    width: 15%;
                     display: flex;
                     align-items: center;
                     justify-content: center;
@@ -93,7 +105,7 @@
 
                 div:nth-child(3){
 
-                    width: 40%;
+                    width: 25%;
                     overflow: auto;
 
                 }
@@ -121,7 +133,7 @@
                     
                     div{
     
-                        width: 20%;
+                        width: 15%;
                         height: 120px;
                         display: flex;
                         align-items: center;
@@ -132,7 +144,7 @@
     
                     div:nth-child(3){
     
-                        width: 40%;
+                        width: 25%;
                         overflow: auto;
     
                     }

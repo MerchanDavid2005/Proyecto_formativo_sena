@@ -36,7 +36,7 @@
                 </div>
                 <v-icon name="md-darkmode" scale="1.5"></v-icon>
             </div>
-            <div class="panel-ajustes-sesion">
+            <div @click="cerrarSesion" class="panel-ajustes-sesion">
                 <p> Cerrar sesion </p>
                 <v-icon name="md-powersettingsnew-sharp" scale="1.5"></v-icon>
             </div>
@@ -50,7 +50,9 @@
 
     import { useStore } from '@/store/pinia'
     import { defineEmits } from 'vue'
+    import { useRouter } from 'vue-router';
 
+    const enrutado = useRouter()
     const emits = defineEmits(['nuevo'])
     const pinia = useStore()
 
@@ -73,6 +75,13 @@
             pinia.fondoRed = '#f05'
 
         }
+
+    }
+
+    function cerrarSesion(){
+
+        localStorage.removeItem('token');
+        enrutado.push('/')
 
     }
 
@@ -218,6 +227,7 @@
                 flex-direction: column-reverse;
                 align-items: center;
                 justify-content: center;
+                cursor: pointer;
 
                 p{
 

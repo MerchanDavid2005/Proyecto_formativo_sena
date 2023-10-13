@@ -34,12 +34,21 @@
   import DeleteConfirm from '@/components/DeleteConfirm.vue';
 
   import { ref } from 'vue';
+  import { useRouter } from 'vue-router';
+
+  const enrutado = useRouter()
 
   let advertencia = ref(false)
 
   const mostrar = () => advertencia.value = true
 
   const ocultar = () => advertencia.value = false
+
+  if(localStorage.getItem('token') == "error" || localStorage.getItem("token") == null){
+
+    enrutado.push('/')
+
+  }
 
 </script>
 

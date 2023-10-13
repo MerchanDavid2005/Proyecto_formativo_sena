@@ -8,6 +8,8 @@ from .models import Producto, Categoria, Usuario, Pedido, Servicio
 from django.views.decorators.csrf import csrf_exempt
 import os
 import random
+from django.core.mail import send_mail
+import jwt
 
 class ProductoViewset(ModelViewSet):
 
@@ -60,6 +62,7 @@ def traer_productos(request):
     productos = Producto.objects.all()
     lista_productos = []
     for i in productos:
+
         lista_productos.append({"id" : i.id,
                                 "nombre" : i.nombre,
                                 "descripcion" : i.descripcion,
@@ -96,7 +99,8 @@ def eliminar_imagen_producto(request, id):
 
     producto = Producto.objects.get(id = id)
 
-    img = 'C:/Users/lenovo/Desktop/Proyecto_formativo_David/back/media/' + producto.img.name
+    ruta_imagen = producto.img.name.split("/")
+    img = os.path.join(settings.MEDIA_ROOT, ruta_imagen[1])
 
     if os.path.exists(img):
 
@@ -109,7 +113,7 @@ def eliminar_imagen_producto(request, id):
 
     return HttpResponse ("Exito")
 
-# ----------------------------------------------- Endpoints de tabla productos ------------------------
+# ----------------------------------------------- Endpoints de tabla servicios ------------------------
 
 @csrf_exempt
 def crear_servicio(request):
@@ -134,6 +138,27 @@ def actualizar_imagen_servicio(request, id):
     servicio.save()
 
     return HttpResponse ("Actualizado")
+
+@csrf_exempt
+def eliminar_imagen_servicio(request, id):
+
+    servicio = Servicio.objects.get(id = id)
+
+    ruta_imagen = servicio.img.name.split("/")
+    img = os.path.join(settings.MEDIA_ROOT, ruta_imagen[1])
+
+    if os.path.exists(img):
+
+        os.remove(img)
+        print("Imagen eliminada :D")
+
+    else:
+
+        print("Tas loco mi perro")
+
+    return HttpResponse ("Exito")
+
+# ----------------------------------------------- Endpoints de tabla pedidos ------------------------
 
 def traer_todos_pedidos(request):
 
@@ -228,30 +253,114 @@ def traer_pedido_id(request, id):
 
     return JsonResponse({"pedido" : datos_pedido})
 
+# ----------------------------------------------- Endpoints de tabla usuarios ------------------------
+
 @csrf_exempt
-def eliminar_imagen_servicio(request, id):
+def crear_usuario_admin(request):
 
-    servicio = Servicio.objects.get(id = id)
+    avatar = ""
 
-    img = 'C:/Users/lenovo/Desktop/Proyecto_formativo_David/back/media/' + servicio.img.name
+    if request.FILES.get("img") != None:
 
-    if os.path.exists(img):
-
-        os.remove(img)
-        print("Imagen eliminada :D")
-
+        avatar = request.FILES.get("img")
+    
     else:
 
-        print("Tas loco mi perro")
+        avatar = os.path.join(settings.MEDIA_ROOT, "usuarios/default.png")
+
+    Usuario.objects.create(
+
+        nombre_usuario = request.POST["usuario"],
+        nombre = request.POST["nombre"],
+        email = request.POST["email"],
+        foto = avatar,
+        password = request.POST["password"],
+        rol = "Administrador"
+    )
+
+    return HttpResponse ('Creado')
+
+def traer_usuarios(request):
+
+    usuarios = Usuario.objects.all()
+
+    lista_usuario = []
+
+    for i in usuarios:
+
+        lista_usuario.append({
+
+            "id": i.id,
+            "usuario": i.nombre_usuario,
+            "nombre": i.nombre,
+            "email": i.email,
+            "foto": "http://127.0.0.1:8000/media/" + i.foto.name,
+            "rol": i.rol
+        })
+
+    return JsonResponse({"usuarios": lista_usuario})
+
+@csrf_exempt
+def eliminar_imagen_usuario(request, id):
+
+    user = Usuario.objects.get(id = id)
+
+    ruta_imagen = user.foto.name.split("/")
+    img = os.path.join(settings.MEDIA_ROOT, ruta_imagen[0], ruta_imagen[1])
+
+    imgDefault = os.path.join(settings.MEDIA_ROOT, "usuarios\default.png")
+
+    if img != imgDefault:
+
+        if os.path.exists(img):
+
+            os.remove(img)
+            print("Imagen eliminada :D")
+
+        else:
+
+            print("Tas loco mi perro")
 
     return HttpResponse ("Exito")
 
-# ----------------------------------------------- Endpoints de tabla usuarios ------------------------
+# ----------------------------------------------- Endpoints login ------------------------
 
+clave_secreta = 'F9dyj4'
+
+@csrf_exempt
+def iniciar_sesion(request):
+
+    usuarios = Usuario.objects.all()
+    datos = json.loads(request.body)
+
+    token = ""
+
+    for i in usuarios:
+
+        if i.nombre_usuario == datos["usuario"] and i.password == datos["password"]:
+
+            payload={
+                "usuario": datos["usuario"],
+                "password": datos["password"]
+            }
+
+            token = jwt.encode(payload, clave_secreta, algorithm='HS256')
+
+        else:
+
+            token = "Error"
+
+    return JsonResponse({"token": token})
+
+@csrf_exempt
 def enviar_correo_verificacion(request):
 
-    lista_caracteres = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
+    datos_usuario = json.loads(request.body)
+    nombre_usuario = datos_usuario["usuario"]
+    email_usuario = datos_usuario["email"]
 
+    lista_caracteres = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
+    
     codigo = ""
 
     caracteres = random.sample(lista_caracteres, k=6)
@@ -260,21 +369,11 @@ def enviar_correo_verificacion(request):
 
         codigo += i
 
+    subject = 'Codigo de verificacion'
+    message = "¡Bienvenido {}!, este es el ultimo paso para estar completamente registrado en servitca admin, solo necesitas copiar el siguiente codigo: {} y ponerlo en el campo correspondiente".format(nombre_usuario, codigo)
+    email_from = settings.EMAIL_HOST_USER
+    recipient_list = [email_usuario]
+
+    send_mail(subject, message, email_from, recipient_list)
+
     return JsonResponse({"Codigo": codigo})
-
-
-@csrf_exempt
-def crear_usuario_admin(request):
-
-    Usuario.objects.create(
-
-        nombre_usuario = request.POST["usuario"],
-        nombre = request.POST["nombre"],
-        email = request.POST["email"],
-        foto = request.FILES.get("img"),
-        password = request.POST["descripcion"],
-        rol = "Cliente"
-
-    )
-
-    return HttpResponse ('Creado')

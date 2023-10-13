@@ -74,9 +74,9 @@ export const useStore = defineStore('storeId', {
   
     async getUsuarios(){
   
-      const data = await fetch("http://127.0.0.1:8000/api/Usuario/")
+      const data = await fetch("http://127.0.0.1:8000/get/users/")
       const info = await data.json()
-      this.listaUsuarios = info
+      this.listaUsuarios = info.usuarios
       this.listaUsuariosFilter = this.listaUsuarios
 
     },
@@ -97,6 +97,10 @@ export const useStore = defineStore('storeId', {
       }else if(modelo == 'Servicio'){
 
         fetch(`http://localhost:8000/delete/img/service/${this.idEliminar}/`);
+
+      }else{
+
+        fetch(`http://localhost:8000/delete/img/user/${this.idEliminar}/`)
 
       }
 

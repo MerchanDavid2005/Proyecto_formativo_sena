@@ -4,26 +4,65 @@
         
         <h1 class="cuerpo-login-titulo"> Iniciar sesion </h1>
         <p class="cuerpo-login-campo-text"> Ingresa tu nombre de usuario </p>
-        <input type="text" placeholder="Usuario">
+        <input v-model="usuario" type="text" placeholder="Usuario">
         <p class="cuerpo-login-campo-text"> Ingresa tu contraseña </p>
-        <input type="password" placeholder="Contraseña">
+        <input v-model="password" type="password" placeholder="Contraseña">
         <p class="cuerpo-login-mensaje"> ¿Aun no tienes una cuenta?  </p>
         <p class="cuerpo-login-mensaje"> 
             Puedes registrarte siguiendo el siguien enlace 
             <router-link to="/register"> registrarse </router-link>
         </p>
-        <button> Iniciar sesion </button>
+        <button @click="iniciarSesion"> Iniciar sesion </button>
 
     </div>
 
 </template>
 
+<script setup>
+
+    import { ref } from 'vue';
+    import { useRouter } from 'vue-router';
+
+    const enrutado = useRouter();
+
+    let usuario = ref("");
+    let password = ref("");
+
+    function iniciarSesion(){
+
+        fetch("http://localhost:8000/login/", {
+
+            method: 'POST',
+            body: JSON.stringify({
+
+                usuario: usuario.value,
+                password: password.value 
+
+            }),
+            headers: {"content-type": "application/json"}
+
+            }).then(res => res.json()).then(info => {
+
+            localStorage.setItem('token', JSON.stringify({"token": info.token}))
+
+        });
+
+    }
+
+    if(localStorage.getItem('token') != "error" && localStorage.getItem("token") !== null){
+
+        enrutado.push('/admin/product');
+
+    }
+
+</script>
+
 <style lang="scss" scoped>
 
     .cuerpo-login{
 
-        height: 45%;
-        width: 25%;
+        height: 65%;
+        width: 30%;
         display: flex;
         flex-direction: column;
         justify-content: center;

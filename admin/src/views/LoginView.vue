@@ -32,9 +32,7 @@
     import { useStore } from '@/store/pinia';
 
     const pinia = useStore()
-
     
-
 </script>
 
 <style lang="scss" scoped>

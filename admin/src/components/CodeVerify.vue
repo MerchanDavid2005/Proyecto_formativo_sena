@@ -25,6 +25,21 @@
 
         if(code.value == pinia.codigoVerificacion){
 
+            let bodyData = new FormData
+
+            bodyData.append("usuario", pinia.datosUsuarioCrear[0]);
+            bodyData.append("nombre", pinia.datosUsuarioCrear[1]);
+            bodyData.append("email", pinia.datosUsuarioCrear[2]);
+            bodyData.append("img", pinia.datosUsuarioCrear[3]);
+            bodyData.append("password", pinia.datosUsuarioCrear[4]);
+
+            fetch("http://localhost:8000/post/user/", {
+
+                method: 'POST',
+                body: bodyData
+
+            });
+
             enrutado.push('/')
 
             setTimeout(() => {
@@ -44,7 +59,7 @@
     .panel-code{
 
         width: 30%;
-        height: 25%;
+        height: 35%;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -53,6 +68,7 @@
         background: #fff;
         border-radius: 15px;
         padding: 15px;
+        box-shadow: 0 15px 15px 0 #555;
 
         h1{
 

@@ -22,7 +22,7 @@
 
         pinia.mensajeUsuarioRegistrado = false
 
-    }, 5000)
+    }, 3500)
 
 </script>
 
@@ -30,12 +30,12 @@
 
     .mensaje-creado{
 
-        width: 15%;
+        width: 20%;
         height: 10%;
         position: absolute;
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: space-between;
         padding: 15px;
         position: absolute;
         z-index: 1000000;
@@ -46,7 +46,7 @@
         &-icono{
 
             height: 100%;
-            width: 30%;
+            width: 20%;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -55,7 +55,7 @@
 
         &-texto{
 
-            width: 60%;
+            width: 75%;
             height: 100%;
             display: flex;
             justify-content: center;

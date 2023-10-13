@@ -110,7 +110,7 @@
 
     }
 
-    const panelVerificacion = async () => {
+    const panelVerificacion = () => {
 
         pinia.datosUsuarioCrear.push(usuario.value)
         pinia.datosUsuarioCrear.push(nombre.value)
@@ -118,12 +118,22 @@
         pinia.datosUsuarioCrear.push(imagen.value)
         pinia.datosUsuarioCrear.push(contraseña.value)
 
-        const data = await fetch("http://localhost:8000/send/code/verify/")
-        const info = await data.json()
+        fetch("http://localhost:8000/send/code/verify/", {
 
-        pinia.codigoVerificacion = info.Codigo
+            method: 'POST',
+            body: JSON.stringify({
 
-        console.log(pinia.codigoVerificacion)
+                usuario: usuario.value,
+                email: correo.value
+
+            }),
+            headers: {"content-type": "application/json"}
+
+        }).then(res => res.json()).then(info => {
+            
+            pinia.codigoVerificacion = info.Codigo
+        
+        })
 
         emits('mostrarCodigo')
 
@@ -135,8 +145,8 @@
 
     .cuerpo-login{
 
-        height: 65%;
-        width: 60%;
+        height: 80%;
+        width: 65%;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -227,6 +237,7 @@
 
                 width: 45%;
                 height: 100%;
+                padding: 10px;
 
             }
 
