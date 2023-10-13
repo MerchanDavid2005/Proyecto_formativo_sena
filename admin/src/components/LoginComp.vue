@@ -47,6 +47,13 @@
 
         });
 
+        
+        if(localStorage.getItem('token') != "error" && localStorage.getItem("token") !== null){
+
+            enrutado.push('/admin/product');
+
+        }
+
     }
 
     if(localStorage.getItem('token') != "error" && localStorage.getItem("token") !== null){
