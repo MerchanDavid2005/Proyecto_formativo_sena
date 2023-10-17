@@ -1,18 +1,18 @@
 <template>
     <section class="filtrar-informacion">
-        <h1> Buscar producto </h1>
         <div class="filtrar-informacion-buscar">
-            <input v-model="busqueda" type="text" placeholder="Nombre">
-            <button @click="buscar" > Buscar </button>
+            <h1 class="filtrar-informacion-buscar-titulo"> Buscar producto </h1>
+            <div class="filtrar-informacion-buscar-boton">
+                <input v-model="busqueda" type="text" placeholder="Nombre">
+                <button @click="buscar" > Buscar </button>
+            </div>
         </div>
-        <h1> Filtrar por categoria </h1>
-        <div>
+        <div class="filtrar-informacion-categoria">
+            <h1 class="filtrar-informacion-categoria-titulo"> Filtrar por categoria </h1>
             <ul>
                 <li 
-                    @click="pinia.listaCategoriasFiltrar = pinia.listaCategorias,
-                    pinia.listaProductosFiltrar = pinia.listaProductos,
-                    pinia.listaProductosPagina = pinia.listaProductos,
-                    pinia.carritoFiltrar = pinia.carrito"
+                    @click="pinia.listaProductosFiltrar = pinia.listaProductos,
+                    pinia.listaProductosPagina = pinia.listaProductos"
                 > Todas </li>
                <li 
                     v-for="(cate, i) in pinia.listaCategorias" :key="i"
@@ -21,16 +21,16 @@
                </li> 
             </ul>
         </div>
-        <div>
-            <h1> Filtrar por precio </h1>
-            <div @click="precio=true" class="filtrar-informacion-precio">
-                <label> Mayor precio: </label>
+        <div class="filtrar-informacion-precio">
+            <h1 class="filtrar-informacion-precio-titulo"> Filtrar por precio </h1>
+            <li @click="precio=true" class="filtrar-informacion-precio-mayor">
+                Mayor precio: 
                 <v-icon name="bi-arrow-down-square-fill" scale="1.2" flip="vertical"></v-icon>
-            </div>
-            <div @click="precio=false" class="filtrar-informacion-precio">
-                <label> Menor precio: </label>
+            </li>
+            <li @click="precio=false" class="filtrar-informacion-precio-menor">
+                Menor precio: 
                 <v-icon name="bi-arrow-down-square-fill" scale="1.2"></v-icon>
-            </div>
+            </li>
         </div>
     </section>
 </template>
@@ -74,18 +74,18 @@
     watch(precio, () => {
 
         if(precio.value){
-
-            pinia.listaProductosFiltrar = pinia.listaProductosFiltrar.sort(
+      
+            pinia.listaProductosPagina = pinia.listaProductosFiltrar.sort(
                 
-                (a, b) => a.precio - b.precio
+                (a, b) => b.precio - a.precio
             
             )
 
         }else{
 
-            pinia.listaProductosFiltrar = pinia.listaProductosFiltrar.sort(
+            pinia.listaProductosPagina = pinia.listaProductosFiltrar.sort(
                 
-                (a, b) => b.precio - a.precio
+                (a, b) => a.precio - b.precio
             
             )
 
@@ -99,70 +99,110 @@
 
     .filtrar-informacion{
 
-        @include barras-laterales('15%');
+        width: 15%;
+        position: sticky;
+        top: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        background: $fondo-div;
+        box-sizing: border-box;
+        border-radius: 10px;
+        height: 95%;
         overflow: auto;
-
-        h1{
-
-            text-align: center;
-            color: #fff;
-            font-size: 30px;
-            margin-bottom: 20px;
-
-        }
 
         &-buscar{
 
-            width: 100%;
-            height: max-content;
+            width: 80%;
+            height: 20%;
             display: flex;
-            justify-content: space-evenly;
-            margin: 30px 0;
+            flex-direction: column;
+            border-bottom: 2px solid #fff;
 
-            input{
+            &-titulo{
 
-                width: 50%;
-                border: 0;
-                padding: 10px;
-                background: #eee;
-                border-radius: 10px;
-
-            }
-
-            button{
-
-                @include botones('#fff');
-                color: #000;
-                font-weight: 100;
+                text-align: center;
+                color: #fff;
+                font-size: 35px;
+                margin-bottom: 20px;
 
             }
 
-            button:hover{
+            &-boton{
 
-                background: #ddd;
+                display: flex;
+                width: 100%;
+                justify-content: space-evenly;
+
+                input{
+
+                    width: 50%;
+                    border: 0;
+                    padding: 10px;
+                    background: #eee;
+                    border-radius: 10px;
+                    height: max-content;
+    
+                }
+    
+                button{
+    
+                    @include botones('#fff');
+                    color: #000;
+                    font-weight: 100;
+                    height: max-content;
+    
+                }
+    
+                button:hover{
+    
+                    background: #ddd;
+    
+                }
 
             }
 
         }
 
-        ul{
+        &-categoria{
 
-            list-style: none;
-            padding-top: 40px;
+            width: 100%;
+            height: 40%;
+            overflow: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
 
-            li{
+            &-titulo{
 
-                font-size: 20px;
-                cursor: pointer;
-                margin-bottom: 20px;
+                text-align: center;
                 color: #fff;
+                font-size: 35px;
+                margin-bottom: 20px;
 
             }
-            
-            li:hover{
 
-                color: #bbb;
+            ul{
 
+                list-style: none;
+                padding-top: 40px;
+    
+                li{
+    
+                    font-size: 20px;
+                    cursor: pointer;
+                    margin-bottom: 20px;
+                    color: #fff;
+    
+                }
+                
+                li:hover{
+    
+                    color: #bbb;
+    
+                }
+    
             }
 
         }
@@ -170,13 +210,58 @@
         &-precio{
 
             width: 80%;
+            height: 20%;
             display: flex;
-            justify-content: space-evenly;
+            flex-direction: column;
+            justify-content: space-between;
             align-items: center;
-            color: #fff;
-            height: max-content;
-            margin: 20px 0;
-            font-size: 20px;
+            border-top: 2px solid #fff;
+
+            &-titulo{
+
+                text-align: center;
+                color: #fff;
+                font-size: 35px;
+
+            }
+
+            &-mayor{
+
+                width: 80%;
+                height: max-content;
+                margin: 10px 0;
+                display: flex;
+                justify-content: space-evenly;
+                font-size: 20px;
+                color: #fff;
+                cursor: pointer;
+
+            }
+
+            &-mayor:hover{
+
+                color: #bbb;
+    
+            }
+
+            &-menor{
+
+                width: 80%;
+                height: 20%;
+                margin: 10px 0;
+                display: flex;
+                justify-content: space-evenly;
+                font-size: 20px;
+                color: #fff;
+                cursor: pointer;
+
+            }
+
+            &-menor:hover{
+
+                color: #bbb;
+
+            }
 
         }
 

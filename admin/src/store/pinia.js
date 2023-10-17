@@ -74,9 +74,9 @@ export const useStore = defineStore('storeId', {
   
     async getUsuarios(){
   
-      const data = await fetch("http://127.0.0.1:8000/get/users/")
+      const data = await fetch("http://127.0.0.1:8000/api/Usuario/")
       const info = await data.json()
-      this.listaUsuarios = info.usuarios
+      this.listaUsuarios = info
       this.listaUsuariosFilter = this.listaUsuarios
 
     },

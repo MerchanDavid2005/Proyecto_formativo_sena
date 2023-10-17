@@ -280,26 +280,6 @@ def crear_usuario_admin(request):
 
     return HttpResponse ('Creado')
 
-def traer_usuarios(request):
-
-    usuarios = Usuario.objects.all()
-
-    lista_usuario = []
-
-    for i in usuarios:
-
-        lista_usuario.append({
-
-            "id": i.id,
-            "usuario": i.nombre_usuario,
-            "nombre": i.nombre,
-            "email": i.email,
-            "foto": "http://127.0.0.1:8000/media/" + i.foto.name,
-            "rol": i.rol
-        })
-
-    return JsonResponse({"usuarios": lista_usuario})
-
 @csrf_exempt
 def eliminar_imagen_usuario(request, id):
 

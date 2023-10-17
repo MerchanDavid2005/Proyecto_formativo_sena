@@ -85,7 +85,7 @@
 
     .car-all{
 
-        width: 80%;
+        width: 95%;
         height: max-content;
         box-sizing: border-box;
         display: flex;

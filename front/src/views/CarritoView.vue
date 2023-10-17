@@ -17,7 +17,6 @@
         <main :class="{'cuerpo-carrito-view': funcionando, 'cuerpo-none' : !funcionando}">
 
             <CarAll @eliminar="eliminacionProducto" />
-            <FilterData />
 
         </main>
 

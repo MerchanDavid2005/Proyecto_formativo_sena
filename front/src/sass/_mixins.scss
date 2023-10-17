@@ -8,22 +8,6 @@
     
 }
 
-@mixin barras-laterales($ancho){
-
-    width: #{$ancho};
-    position: sticky;
-    top: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background: $fondo-div;
-    box-sizing: border-box;
-    padding-top: 5vh;
-    border-radius: 10px;
-    height: 95%;
-
-}
-
 @mixin tablas(){
 
     width: 70%;

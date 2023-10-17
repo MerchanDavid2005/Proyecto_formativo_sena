@@ -27,7 +27,7 @@
                 <h1 v-if="pinia.listaUsuariosFilter < 1"> No hay resultados de tu busqueda </h1>
                 <div class="users-all-table-data" v-for="(user, i) in pinia.listaUsuariosFilter" :key="i">
                     <div>
-                        <p> {{ user.usuario }} </p>
+                        <p> {{ user.nombre_usuario }} </p>
                     </div>
                     <div>
                         <p> {{ user.nombre }} </p>

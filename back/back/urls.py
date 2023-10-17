@@ -30,12 +30,11 @@ urlpatterns = [
     path('delete/img/product/<int:id>/', views.eliminar_imagen_producto, name="Eliminar imagen"),
     path('post/service/', views.crear_servicio, name="Crear producto"),
     path('put/service/img/<int:id>/', views.actualizar_imagen_servicio, name="Actualizar imagen servicio"),
+    path('delete/img/service/<int:id>/', views.eliminar_imagen_servicio, name="Eliminar imagen"),
     path('get/orders/all/', views.traer_todos_pedidos, name="Traer todos los pedidos"),
     path('get/orders/<int:id>/', views.traer_pedidos, name="Traer pedidos"),
     path('get/order/<int:id>/', views.traer_pedido_id, name="Traer pedido por id"),
-    path('delete/img/service/<int:id>/', views.eliminar_imagen_servicio, name="Eliminar imagen"),
     path('post/user/', views.crear_usuario_admin, name="Crear usuario administrador"),
-    path('get/users/', views.traer_usuarios, name="Traer usuarios"),
     path('delete/img/user/<int:id>/', views.eliminar_imagen_usuario, name="Eliminar imagen"),
 
     path('send/code/verify/', views.enviar_correo_verificacion, name="Enviar correo de verificacion de usuario"),
