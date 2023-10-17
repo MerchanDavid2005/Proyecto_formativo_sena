@@ -44,7 +44,7 @@
 
   const ocultar = () => advertencia.value = false
 
-  if(localStorage.getItem('token') == "error" || localStorage.getItem("token") == null){
+  if(localStorage.getItem('token') == "Error" || localStorage.getItem("token") == null){
 
     enrutado.push('/')
 

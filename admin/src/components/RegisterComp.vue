@@ -4,6 +4,9 @@
         
         <h1 class="cuerpo-login-titulo"> Registrarse </h1>
 
+        <p v-if="errorCampos" class="error"> Por favor no dejes ningun campo vacio </p>
+        <p v-if="errorContraseñas" class="error"> Las contraseñas no coinciden </p>
+
         <div class="cuerpo-login-body">
 
             <div class="cuerpo-login-body-info">
@@ -101,6 +104,9 @@
     let contraseña = ref("")
     let contraseñaVerificacion = ref("")
 
+    let errorContraseñas = ref(false)
+    let errorCampos = ref(false)
+
     let imagenMostrar = ref("https://laadministracionelectronica.files.wordpress.com/2014/10/fondo1.jpg") 
 
     const valorImagen = (img) => {
@@ -110,32 +116,74 @@
 
     }
 
+    function validar(){
+
+        let validado = false
+
+        if(usuario.value.trim().length > 0 && nombre.value.trim().length > 0 && correo.value.trim().length > 0 && contraseña.value.trim().length > 0){
+
+            if(contraseña.value == contraseñaVerificacion.value){
+
+                validado = true
+
+            }
+            else{
+
+                validado = false
+                errorContraseñas.value = true
+
+            }
+        
+        }else{
+
+            validado = false
+            errorCampos.value = true
+
+        }
+
+        return validado
+
+    }
+
     const panelVerificacion = () => {
 
-        pinia.datosUsuarioCrear.push(usuario.value)
-        pinia.datosUsuarioCrear.push(nombre.value)
-        pinia.datosUsuarioCrear.push(correo.value)
-        pinia.datosUsuarioCrear.push(imagen.value)
-        pinia.datosUsuarioCrear.push(contraseña.value)
+        if(validar()){
 
-        fetch("http://localhost:8000/send/code/verify/", {
+            pinia.datosUsuarioCrear.push(usuario.value)
+            pinia.datosUsuarioCrear.push(nombre.value)
+            pinia.datosUsuarioCrear.push(correo.value)
+            pinia.datosUsuarioCrear.push(imagen.value)
+            pinia.datosUsuarioCrear.push(contraseña.value)
 
-            method: 'POST',
-            body: JSON.stringify({
+            fetch("http://localhost:8000/send/code/verify/", {
 
-                usuario: usuario.value,
-                email: correo.value
+                method: 'POST',
+                body: JSON.stringify({
 
-            }),
-            headers: {"content-type": "application/json"}
+                    usuario: usuario.value,
+                    email: correo.value
 
-        }).then(res => res.json()).then(info => {
+                }),
+                headers: {"content-type": "application/json"}
+
+            }).then(res => res.json()).then(info => {
+                
+                pinia.codigoVerificacion = info.Codigo
             
-            pinia.codigoVerificacion = info.Codigo
-        
-        })
+            })
 
-        emits('mostrarCodigo')
+            emits('mostrarCodigo')
+
+        }else{
+
+            setTimeout(() => {
+
+                errorCampos.value = false
+                errorContraseñas.value = false
+
+            }, 3000)
+
+        }
 
     }
 
@@ -165,6 +213,13 @@
             align-items: center;
             justify-content: center;
             font-size: 50px;
+
+        }
+
+        .error{
+
+            text-align: center;
+            color: #f00;
 
         }
 

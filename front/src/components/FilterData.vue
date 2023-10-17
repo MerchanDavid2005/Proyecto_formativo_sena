@@ -6,30 +6,44 @@
             <button @click="buscar" > Buscar </button>
         </div>
         <h1> Filtrar por categoria </h1>
-        <ul>
-            <li 
-                @click="pinia.listaCategoriasFiltrar = pinia.listaCategorias,
-                pinia.listaProductosFiltrar = pinia.listaProductos,
-                pinia.listaProductosPagina = pinia.listaProductos,
-                pinia.carritoFiltrar = pinia.carrito"
-            > Todas </li>
-           <li 
-                v-for="(cate, i) in pinia.listaCategorias" :key="i"
-                @click="filtrar(cate.nombre)">
-                {{ cate.nombre }}
-           </li> 
-        </ul>
+        <div>
+            <ul>
+                <li 
+                    @click="pinia.listaCategoriasFiltrar = pinia.listaCategorias,
+                    pinia.listaProductosFiltrar = pinia.listaProductos,
+                    pinia.listaProductosPagina = pinia.listaProductos,
+                    pinia.carritoFiltrar = pinia.carrito"
+                > Todas </li>
+               <li 
+                    v-for="(cate, i) in pinia.listaCategorias" :key="i"
+                    @click="filtrar(cate.nombre)">
+                    {{ cate.nombre }}
+               </li> 
+            </ul>
+        </div>
+        <div>
+            <h1> Filtrar por precio </h1>
+            <div @click="precio=true" class="filtrar-informacion-precio">
+                <label> Mayor precio: </label>
+                <v-icon name="bi-arrow-down-square-fill" scale="1.2" flip="vertical"></v-icon>
+            </div>
+            <div @click="precio=false" class="filtrar-informacion-precio">
+                <label> Menor precio: </label>
+                <v-icon name="bi-arrow-down-square-fill" scale="1.2"></v-icon>
+            </div>
+        </div>
     </section>
 </template>
 
 <script lang="ts" setup>
 
-    import { ref } from 'vue';
+    import { ref, watch } from 'vue';
     import { useStore } from '../store/pinia';
 
     const pinia = useStore()
 
     let busqueda = ref<string>("")
+    let precio = ref<boolean>(false)
 
     const buscar = () => {
 
@@ -57,6 +71,28 @@
 
     }
 
+    watch(precio, () => {
+
+        if(precio.value){
+
+            pinia.listaProductosFiltrar = pinia.listaProductosFiltrar.sort(
+                
+                (a, b) => a.precio - b.precio
+            
+            )
+
+        }else{
+
+            pinia.listaProductosFiltrar = pinia.listaProductosFiltrar.sort(
+                
+                (a, b) => b.precio - a.precio
+            
+            )
+
+        }
+
+    })
+
 </script>
 
 <style lang="scss" scoped>
@@ -70,6 +106,8 @@
 
             text-align: center;
             color: #fff;
+            font-size: 30px;
+            margin-bottom: 20px;
 
         }
 
@@ -79,7 +117,7 @@
             height: max-content;
             display: flex;
             justify-content: space-evenly;
-            margin: 50px 0;
+            margin: 30px 0;
 
             input{
 
@@ -126,6 +164,19 @@
                 color: #bbb;
 
             }
+
+        }
+
+        &-precio{
+
+            width: 80%;
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            color: #fff;
+            height: max-content;
+            margin: 20px 0;
+            font-size: 20px;
 
         }
 

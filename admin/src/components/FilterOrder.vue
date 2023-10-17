@@ -15,7 +15,6 @@
                     {{ data.nombre }}
                 </option>
             </select>
-            <button :style="{background: pinia.greentheme}" @click="filtrarData"> Filtrar </button>
         </div>
         <button :style="{background: pinia.greentheme}" @click="todo"> Todo </button>
 

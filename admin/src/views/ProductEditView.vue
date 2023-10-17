@@ -30,7 +30,7 @@
     const pinia = useStore()
     const enrutado = useRouter()
 
-    if(localStorage.getItem('token') == "error" || localStorage.getItem("token") == null){
+    if(localStorage.getItem('token') == "Error" || localStorage.getItem("token") == null){
 
         enrutado.push('/')
 

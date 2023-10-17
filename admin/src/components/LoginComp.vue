@@ -3,6 +3,7 @@
     <div class="cuerpo-login">
         
         <h1 class="cuerpo-login-titulo"> Iniciar sesion </h1>
+        <p v-if="errorCredenciales" class="error"> Los datos ingresados son incorrectos </p>
         <p class="cuerpo-login-campo-text"> Ingresa tu nombre de usuario </p>
         <input v-model="usuario" type="text" placeholder="Usuario">
         <p class="cuerpo-login-campo-text"> Ingresa tu contraseña </p>
@@ -12,7 +13,7 @@
             Puedes registrarte siguiendo el siguien enlace 
             <router-link to="/register"> registrarse </router-link>
         </p>
-        <button @click="iniciarSesion"> Iniciar sesion </button>
+        <button @click="entrar"> Iniciar sesion </button>
 
     </div>
 
@@ -27,10 +28,11 @@
 
     let usuario = ref("");
     let password = ref("");
+    let errorCredenciales = ref(false);
 
-    function iniciarSesion(){
+    async function verificarDatos(){
 
-        fetch("http://localhost:8000/login/", {
+        const data = await fetch("http://localhost:8000/login/", {
 
             method: 'POST',
             body: JSON.stringify({
@@ -41,23 +43,32 @@
             }),
             headers: {"content-type": "application/json"}
 
-            }).then(res => res.json()).then(info => {
-
-            localStorage.setItem('token', JSON.stringify({"token": info.token}))
-
         });
 
-        
-        if(localStorage.getItem('token') != "error" && localStorage.getItem("token") !== null){
+        return data.json()
 
-            enrutado.push('/admin/product');
+    }
+
+    async function entrar(){
+
+        let informacion = await verificarDatos()
+
+        if(informacion.token == "Error"){
+
+            errorCredenciales.value = true
+
+        }else{
+
+            localStorage.setItem("token", JSON.stringify({"token": informacion.token}))
+            enrutado.push("/admin/product")
 
         }
 
     }
 
-    if(localStorage.getItem('token') != "error" && localStorage.getItem("token") !== null){
+    if(localStorage.getItem("token") != "Error" && localStorage.getItem("token") !== null){
 
+        console.log(localStorage.getItem("token"));
         enrutado.push('/admin/product');
 
     }
@@ -83,6 +94,14 @@
 
             margin: 20px 0;
             align-self: center;
+
+        }
+
+        .error{
+
+            text-align: center;
+            color: #f00;
+            margin: 10px 0;
 
         }
 

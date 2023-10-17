@@ -8,13 +8,6 @@
             <label> Buscar nombre:  </label>
             <input v-model="nombre" type="text" placeholder="Nombre">
             <button :style="{background: pinia.greentheme}" @click="buscarNombre"> Buscar </button>
-            <label> Filtrar por email:  </label>
-            <select v-model="email">
-                <option value="Todo"> Todo </option>
-                <option v-for="(mail, i) in direccionesCorreos" :key="i" :value="mail.extension">
-                    {{ mail.nombre }}
-                </option>
-            </select>
         </div>
         <button :style="{background: pinia.greentheme}" @click="todo"> Todo </button>
 
@@ -24,30 +17,12 @@
 <script setup>
 
     import { useStore } from '@/store/pinia'
-    import { ref, watch } from 'vue'
+    import { ref } from 'vue'
 
     const pinia = useStore()
 
     let usuario = ref("")
     let nombre = ref("")
-    let email = ref("Todo")
-
-    let direccionesCorreos = ref([
-
-        { "nombre": "Gmail", "extension": "@gmail.com"},
-        { "nombre": "Outlook", "extension": "@outlook.com"},
-        { "nombre": "Yahoo", "extension": "@yahoo.com"},
-        { "nombre": "AOL", "extension": "@aol.com"},
-        { "nombre": "iCloud Mail", "extension": "@icloud.com"},
-        { "nombre": "ProtonMail", "extension": "@protonmail.com"},
-        { "nombre": "Yandex", "extension": "@yandex.ru"},
-        { "nombre": "Zoho", "extension": "@zoho.com"},
-        { "nombre": "Mail.com", "extension": "@mail.com"},
-        { "nombre": "Tutanota", "extension": "@tutanota.com"},
-        { "nombre": "Apple", "extension": "@me.com"},
-  
-
-    ])
 
     const buscarUsuario = () => {
 
@@ -68,31 +43,11 @@
         )
 
     }
-
-    watch(email, () => {
-
-        if(email.value == "Todo"){
-
-            pinia.listaUsuariosFilter = pinia.listaUsuarios
-
-        }else{
-
-            pinia.listaUsuariosFilter = pinia.listaUsuarios.filter(
-
-                i => i.email.toLowerCase().endsWith(email.value.toLowerCase())
-
-            )
-
-        }
-
-    })
-
     const todo = () => {
 
         pinia.listaUsuariosFilter = pinia.listaUsuarios
         usuario.value = ""
         nombre.value = ""
-        email.value = "Todo"
 
     }
 

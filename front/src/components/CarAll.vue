@@ -13,6 +13,7 @@
             @click="hacerPedido" 
             class="car-all-pedido"> 
             Realizar pedido 
+            <v-icon style="margin-left:5px;" name="bi-check-circle-fill" scale="1"></v-icon>
         </button>
         
         <div class="car-all-prd" v-for="(prd, i) in pinia.carritoFiltrar" :key="i">
@@ -93,10 +94,13 @@
 
         .car-all-pedido{
 
-            position: sticky;
-            top: 0;
+            position: fixed;
+            left: 2%;
+            top: 5%;
             @include botones($fondo-boton-crear);
             height: max-content;
+            display: flex;
+            align-items: center;
 
         }
 

@@ -19,8 +19,8 @@
 
         <div :class="{'contenedor-compras' : funcionando, 'contenedor-compras-none' : !funcionando}">
 
-            <ProductsAll @verificar="verificarCompra" />
             <FilterData />
+            <ProductsAll @verificar="verificarCompra" />
 
         </div>
 

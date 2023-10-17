@@ -370,7 +370,7 @@ def enviar_correo_verificacion(request):
         codigo += i
 
     subject = 'Codigo de verificacion'
-    message = "¡Bienvenido {}!, este es el ultimo paso para estar completamente registrado en servitca admin, solo necesitas copiar el siguiente codigo: {} y ponerlo en el campo correspondiente".format(nombre_usuario, codigo)
+    message = "¡Bienvenido {}!, este es el ultimo paso para estar completamente registrado en serviteca admin, solo necesitas copiar el siguiente codigo: {} y ponerlo en el campo correspondiente".format(nombre_usuario, codigo)
     email_from = settings.EMAIL_HOST_USER
     recipient_list = [email_usuario]
 
