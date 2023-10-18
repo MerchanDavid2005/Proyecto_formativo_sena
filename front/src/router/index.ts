@@ -4,7 +4,8 @@ import CarritoView from '../views/CarritoView.vue'
 import PedidosView from '../views/PedidosView.vue'
 import ServiciosView from '../views/ServiciosView.vue'
 import ContactoView from '../views/ContactoView.vue'
-import PedidoIndividual from '../views/PedidoIndividual.vue'
+import PedidoIndividualView from '../views/PedidoIndividual.vue'
+import IniciarSesionView from '../views/IniciarSesionView.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -35,7 +36,12 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/pedido/:id',
     name: 'pedido',
-    component: PedidoIndividual
+    component: PedidoIndividualView
+  },
+  {
+    path: '/',
+    name: 'inicion/sesion',
+    component: IniciarSesionView
   }
   
 ]

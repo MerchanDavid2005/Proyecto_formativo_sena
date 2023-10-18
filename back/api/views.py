@@ -378,7 +378,7 @@ def enviar_correo_contacto(request):
     asunto = '{} - {}'.format(request.POST["nombre"] ,request.POST["motivo"])
     mensaje = "{}".format(request.POST["descripcion"])
     remitente = settings.EMAIL_HOST_USER
-    destinatario = ["davidtafur2005@gmail.com"]
+    destinatario = ["pipebarret7@gmail.com"]
 
     nombre_imagen = request.FILES.get("imagen").name
 
@@ -391,10 +391,6 @@ def enviar_correo_contacto(request):
         if os.path.join(directorio_medios, imgs) == os.path.join(directorio_medios, nombre_imagen):
 
             ruta = os.path.join(directorio_medios, imgs)
-
-        else: 
-            
-            print("Chale")
 
     email = EmailMessage(asunto, mensaje, remitente, destinatario)
     email.attach_file(ruta)
