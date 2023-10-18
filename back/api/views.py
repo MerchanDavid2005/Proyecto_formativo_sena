@@ -10,6 +10,7 @@ import os
 import random
 from django.core.mail import send_mail
 import jwt
+from django.core.mail import EmailMessage
 
 class ProductoViewset(ModelViewSet):
 
@@ -357,3 +358,46 @@ def enviar_correo_verificacion(request):
     send_mail(subject, message, email_from, recipient_list)
 
     return JsonResponse({"Codigo": codigo})
+
+@csrf_exempt
+def guardar_imagen_correo(request):
+
+    image = request.FILES.get("imagen")
+
+    file_path = os.path.join(settings.MEDIA_ROOT, 'correos', image.name)
+    
+    with open(file_path, 'wb') as destination:
+        for chunk in image.chunks():
+            destination.write(chunk)
+
+    return JsonResponse({"Mensaje": "Imagen guardada exitosamente"})
+
+@csrf_exempt
+def enviar_correo_contacto(request):
+
+    asunto = '{} - {}'.format(request.POST["nombre"] ,request.POST["motivo"])
+    mensaje = "{}".format(request.POST["descripcion"])
+    remitente = settings.EMAIL_HOST_USER
+    destinatario = ["davidtafur2005@gmail.com"]
+
+    nombre_imagen = request.FILES.get("imagen").name
+
+    directorio_medios = os.path.join(settings.MEDIA_ROOT, 'correos')
+
+    ruta = ""
+
+    for imgs in os.listdir(directorio_medios):
+
+        if os.path.join(directorio_medios, imgs) == os.path.join(directorio_medios, nombre_imagen):
+
+            ruta = os.path.join(directorio_medios, imgs)
+
+        else: 
+            
+            print("Chale")
+
+    email = EmailMessage(asunto, mensaje, remitente, destinatario)
+    email.attach_file(ruta)
+    email.send()
+
+    return HttpResponse("Enviado")

@@ -101,6 +101,7 @@
             height: max-content;
             display: flex;
             align-items: center;
+            z-index: 1000;
 
         }
 
@@ -132,7 +133,7 @@
             p{
 
                 margin: 10px 0;
-                font-size: 18px;
+                font-size: 15px;
 
             }
 
@@ -147,9 +148,9 @@
 
                 @include botones($fondo-boton-eliminar);
                 align-self: center;
-                width: 65%;
-                font-size: 18px;
-                padding: 15px;
+                width: 55%;
+                font-size: 15px;
+                padding: 10px;
                 margin-top: 10px;
 
             }

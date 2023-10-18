@@ -1,7 +1,275 @@
 <template>
+
     <div class="contact-comp">
 
-        <label>  </label>
+        <div class="contact-comp-title">
+            <h1> ¡Bienvenido! </h1>
+            <p> En este apartado podras contactar conmigo ya sea por errores de nuestra pagina o si deseas contactar conmigo por diferentes razones </p>
+        </div>
+        <div class="contact-comp-body">
+            <div class="contact-comp-body-info">
+                <div class="contact-comp-body-info-campo-doble">
+                    <div class="contact-comp-body-info-campo-doble-name">
+                        <label> Nombre: </label>
+                        <input v-model="nombre" type="text" placeholder="Nombre">
+                    </div>
+                    <div class="contact-comp-body-info-campo-doble-razon">
+                        <label> Motivo: </label>
+                        <select>
+                            <option v-for="i in motivosCorreo" :key="i" :value="i"> {{ i }} </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="contact-comp-body-info-campo">
+                    <label> Texto descriptivo:  </label>
+                    <textarea v-model="descripcion" rows="5"></textarea>
+                </div>
+                <div class="contact-comp-body-info-campo">
+                    <label> Imagen descriptiva: ( opcional ) </label>
+                    <input type="file" :onchange="valorImagen">
+                </div>
+                <div class="contact-comp-body-info-button">
+                    <button @click="enviarCorreo"> Enviar </button>
+                </div>
+            </div>
+            <div class="contact-comp-body-imagen">
+                <img :src="imagenDemostracion" alt="">
+            </div>
+        </div>
+        <div class="contact-comp-end">
+            <p> No es necesario ingresar un correo, nuestro sistema esta diseñado para usar un correo anonimo con el cual puedas contactarte </p>
+        </div>
         
     </div>
+
 </template>
+
+<script lang="ts" setup>
+
+    import { ref } from 'vue'
+
+    let nombre = ref<string>("")
+    let motivo = ref<string>("Error")
+    let descripcion = ref<string>("Descripcion del problema o necesidad")
+    let imagen = ref<string>("")
+    let imagenDemostracion = ref<string>("https://m.media-amazon.com/images/I/51w7-OAqI+L.jpg")
+
+    let motivosCorreo = ref<Array<string>>([
+
+        "Error",
+        "Ayuda",
+        "Contactarme",
+        "Otros"
+
+    ])
+
+    const valorImagen = (img: any) => {
+        
+        imagen.value = img.target.files[0]
+        imagenDemostracion.value = URL.createObjectURL(img.target.files[0])
+
+    }
+
+    async function guardarImagen(){
+
+        let cuerpoInfo = new FormData()
+
+        cuerpoInfo.append("imagen", imagen.value)
+
+        const data = await fetch("http://localhost:8000/save/img/correo/", {
+
+            method: 'POST',
+            body: cuerpoInfo
+
+        })
+
+        return data.json()
+
+    }
+
+    async function enviarCorreo(){
+
+        let imagenGuardada = await guardarImagen();
+
+        let infoCorreo = new FormData()
+
+        infoCorreo.append("nombre", nombre.value)
+        infoCorreo.append("motivo", motivo.value)
+        infoCorreo.append("descripcion", descripcion.value)
+        infoCorreo.append("imagen", imagen.value)
+
+        if(imagenGuardada.Mensaje == "Imagen guardada exitosamente"){
+
+            fetch("http://localhost:8000/send/email/contact/", {
+
+                method: 'POST',
+                body: infoCorreo
+
+            })
+
+        }else{
+
+            console.log("Ha habido un problema")
+
+        }
+
+    }
+
+</script>
+
+<style lang="scss" scoped>
+
+    .contact-comp{
+
+        width: 70%;
+        height: 80%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        background: #08f;
+        border-radius: 15px;
+        padding: 25px;
+        color: #fff;
+
+        &-title{
+
+            width: 100%;
+            height: 15%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            h1{
+
+                margin-bottom: 10px;
+
+            }
+
+        }
+
+        &-body{
+
+            width: 100%;
+            height: 75%;
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+
+            &-info{
+
+                width: 45%;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-evenly;
+
+                &-campo-doble{
+
+                    width: 100%;
+                    height: max-content;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+
+                    &-name{
+
+                        width: 45%;
+                        height: max-content;
+                        display: flex;
+                        flex-direction: column;
+
+                        input{
+
+                            @include inputs()
+
+                        }
+
+                    }
+
+                    &-razon{
+
+                        width: 45%;
+                        height: max-content;
+                        display: flex;
+                        flex-direction: column;
+
+                        select{
+
+                            @include inputs()
+
+                        }
+
+                    }
+
+                }
+
+                &-campo{
+
+                    width: 100%;
+                    height: max-content;
+                    display: flex;
+                    flex-direction: column;
+
+                    input{
+
+                        @include inputs();
+
+                    }
+
+                    textarea{
+
+                        @include inputs();       
+                        height: max-content;  
+
+                    }
+
+                    input[type="file"]{
+
+                        color: #000;
+
+                    }
+                        
+                }
+
+                &-button{
+
+                    width: 100%;
+                    height: max-content;
+                    display: flex;
+
+                    button{
+
+                        @include botones('#007');
+                        color: #fff;
+                        font-weight: 100;
+                        width: 50%;
+
+                    }
+
+                }
+                
+            }
+    
+            &-imagen{
+    
+                width: 45%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+    
+            }
+
+        }
+
+        &-end{
+
+            width: 100%;
+            height: 5%;
+            text-align: center;
+
+        }
+
+    }
+
+</style>

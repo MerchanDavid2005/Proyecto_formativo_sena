@@ -44,7 +44,7 @@
 
         opacidad.value = "1"
 
-    }, 5000)
+    }, 6000)
 
 </script>
 
@@ -65,7 +65,7 @@
         &-espacio{
 
             width: 100%;
-            height: 30%;
+            height: 40%;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -75,9 +75,9 @@
 
             .animationNone{
 
-                animation-duration: 5s;
+                animation-duration: 4s;
                 animation-fill-mode: forwards;
-                animation-timing-function: cubic-bezier(0.45, 1, 0.165, 1);
+                animation-timing-function: cubic-bezier(1, 0, 0.6, 1);
                 color: #000;
     
             }
@@ -87,7 +87,7 @@
                 animation-name: comprado;
                 animation-duration: 4s;
                 animation-fill-mode: forwards;
-                animation-timing-function: cubic-bezier(0.75, 1, 0.165, 1);
+                animation-timing-function: cubic-bezier(1, 0, 0.6, 1);
                 color: #000;
     
             }

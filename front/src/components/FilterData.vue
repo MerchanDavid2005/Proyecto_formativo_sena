@@ -1,36 +1,38 @@
 <template>
-    <section class="filtrar-informacion">
-        <div class="filtrar-informacion-buscar">
-            <h1 class="filtrar-informacion-buscar-titulo"> Buscar producto </h1>
-            <div class="filtrar-informacion-buscar-boton">
-                <input v-model="busqueda" type="text" placeholder="Nombre">
-                <button @click="buscar" > Buscar </button>
+    <section class="filtrar">
+        <div class="filtrar-informacion">
+            <div class="filtrar-informacion-buscar">
+                <h1 class="filtrar-informacion-buscar-titulo"> Buscar producto </h1>
+                <div class="filtrar-informacion-buscar-boton">
+                    <input v-model="busqueda" type="text" placeholder="Nombre">
+                    <button @click="buscar" > Buscar </button>
+                </div>
             </div>
-        </div>
-        <div class="filtrar-informacion-categoria">
-            <h1 class="filtrar-informacion-categoria-titulo"> Filtrar por categoria </h1>
-            <ul>
-                <li 
-                    @click="pinia.listaProductosFiltrar = pinia.listaProductos,
-                    pinia.listaProductosPagina = pinia.listaProductos"
-                > Todas </li>
-               <li 
-                    v-for="(cate, i) in pinia.listaCategorias" :key="i"
-                    @click="filtrar(cate.nombre)">
-                    {{ cate.nombre }}
-               </li> 
-            </ul>
-        </div>
-        <div class="filtrar-informacion-precio">
-            <h1 class="filtrar-informacion-precio-titulo"> Filtrar por precio </h1>
-            <li @click="precio=true" class="filtrar-informacion-precio-mayor">
-                Mayor precio: 
-                <v-icon name="bi-arrow-down-square-fill" scale="1.2" flip="vertical"></v-icon>
-            </li>
-            <li @click="precio=false" class="filtrar-informacion-precio-menor">
-                Menor precio: 
-                <v-icon name="bi-arrow-down-square-fill" scale="1.2"></v-icon>
-            </li>
+            <div class="filtrar-informacion-categoria">
+                <h1 class="filtrar-informacion-categoria-titulo"> Filtrar por categoria </h1>
+                <ul>
+                    <li 
+                        @click="pinia.listaProductosFiltrar = pinia.listaProductos,
+                        pinia.listaProductosPagina = pinia.listaProductos"
+                    > Todas </li>
+                   <li 
+                        v-for="(cate, i) in pinia.listaCategorias" :key="i"
+                        @click="filtrar(cate.nombre)">
+                        {{ cate.nombre }}
+                   </li> 
+                </ul>
+            </div>
+            <div class="filtrar-informacion-precio">
+                <h1 class="filtrar-informacion-precio-titulo"> Filtrar por precio </h1>
+                <li @click="precio=true" class="filtrar-informacion-precio-mayor">
+                    Mayor precio: 
+                    <v-icon name="bi-arrow-down-square-fill" scale="1.2" flip="vertical"></v-icon>
+                </li>
+                <li @click="precio=false" class="filtrar-informacion-precio-menor">
+                    Menor precio: 
+                    <v-icon name="bi-arrow-down-square-fill" scale="1.2"></v-icon>
+                </li>
+            </div>
         </div>
     </section>
 </template>
@@ -97,171 +99,181 @@
 
 <style lang="scss" scoped>
 
-    .filtrar-informacion{
+    .filtrar{
 
         width: 15%;
         position: sticky;
         top: 0;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-evenly;
-        align-items: center;
-        background: $fondo-div;
+        height: 95%;
         box-sizing: border-box;
         border-radius: 10px;
-        height: 95%;
+        background: $fondo-div;
         overflow: auto;
 
-        &-buscar{
-
-            width: 80%;
-            height: 20%;
-            display: flex;
-            flex-direction: column;
-            border-bottom: 2px solid #fff;
-
-            &-titulo{
-
-                text-align: center;
-                color: #fff;
-                font-size: 35px;
-                margin-bottom: 20px;
-
-            }
-
-            &-boton{
-
-                display: flex;
-                width: 100%;
-                justify-content: space-evenly;
-
-                input{
-
-                    width: 50%;
-                    border: 0;
-                    padding: 10px;
-                    background: #eee;
-                    border-radius: 10px;
-                    height: max-content;
-    
-                }
-    
-                button{
-    
-                    @include botones('#fff');
-                    color: #000;
-                    font-weight: 100;
-                    height: max-content;
-    
-                }
-    
-                button:hover{
-    
-                    background: #ddd;
-    
-                }
-
-            }
-
-        }
-
-        &-categoria{
+        &-informacion{
 
             width: 100%;
-            height: 40%;
-            overflow: auto;
             display: flex;
             flex-direction: column;
             align-items: center;
+            height: max-content;
 
-            &-titulo{
+            &-buscar{
 
-                text-align: center;
-                color: #fff;
-                font-size: 35px;
-                margin-bottom: 20px;
-
-            }
-
-            ul{
-
-                list-style: none;
-                padding-top: 40px;
+                width: 80%;
+                height: 30vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-evenly;
+                border-bottom: 2px solid #fff;
     
-                li{
+                &-titulo{
     
-                    font-size: 20px;
-                    cursor: pointer;
-                    margin-bottom: 20px;
+                    text-align: center;
                     color: #fff;
+                    font-size: 30px;
+                    margin-bottom: 10px;
     
                 }
-                
-                li:hover{
+    
+                &-boton{
+    
+                    display: flex;
+                    width: 100%;
+                    justify-content: space-between;
+    
+                    input{
+    
+                        width: 45%;
+                        border: 0;
+                        background: #eee;
+                        border-radius: 10px;
+                        height: max-content;
+                        padding: 10px;
+        
+                    }
+        
+                    button{
+        
+                        @include botones('#fff');
+                        color: #000;
+                        font-weight: 100;
+                        height: max-content;
+                        width: 35%;
+        
+                    }
+        
+                    button:hover{
+        
+                        background: #ddd;
+        
+                    }
+    
+                }
+    
+            }
+    
+            &-categoria{
+    
+                width: 90%;
+                height: max-content;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 10px 0;
+    
+                &-titulo{
+    
+                    text-align: center;
+                    color: #fff;
+                    font-size: 30px;
+                    margin-bottom: 10px;
+    
+                }
+    
+                ul{
+    
+                    list-style: none;
+                    padding-top: 20px;
+        
+                    li{
+        
+                        font-size: 18px;
+                        cursor: pointer;
+                        margin-bottom: 15px;
+                        color: #fff;
+        
+                    }
+                    
+                    li:hover{
+        
+                        color: #bbb;
+        
+                    }
+        
+                }
+    
+            }
+    
+            &-precio{
+    
+                width: 90%;
+                height: 20vh;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                border-top: 2px solid #fff;
+                overflow: auto;
+                padding-top: 15px;
+    
+                &-titulo{
+    
+                    text-align: center;
+                    color: #fff;
+                    font-size: 25px;
+    
+                }
+    
+                &-mayor{
+    
+                    width: 80%;
+                    height: max-content;
+                    margin: 10px 0;
+                    display: flex;
+                    justify-content: space-evenly;
+                    font-size: 15px;
+                    color: #fff;
+                    cursor: pointer;
+    
+                }
+    
+                &-mayor:hover{
+    
+                    color: #bbb;
+        
+                }
+    
+                &-menor{
+    
+                    width: 80%;
+                    height: 20%;
+                    margin: 10px 0;
+                    display: flex;
+                    justify-content: space-evenly;
+                    font-size: 15px;
+                    color: #fff;
+                    cursor: pointer;
+    
+                }
+    
+                &-menor:hover{
     
                     color: #bbb;
     
                 }
     
             }
-
-        }
-
-        &-precio{
-
-            width: 80%;
-            height: 20%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
-            border-top: 2px solid #fff;
-
-            &-titulo{
-
-                text-align: center;
-                color: #fff;
-                font-size: 35px;
-
-            }
-
-            &-mayor{
-
-                width: 80%;
-                height: max-content;
-                margin: 10px 0;
-                display: flex;
-                justify-content: space-evenly;
-                font-size: 20px;
-                color: #fff;
-                cursor: pointer;
-
-            }
-
-            &-mayor:hover{
-
-                color: #bbb;
     
-            }
-
-            &-menor{
-
-                width: 80%;
-                height: 20%;
-                margin: 10px 0;
-                display: flex;
-                justify-content: space-evenly;
-                font-size: 20px;
-                color: #fff;
-                cursor: pointer;
-
-            }
-
-            &-menor:hover{
-
-                color: #bbb;
-
-            }
 
         }
 

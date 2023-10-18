@@ -37,24 +37,27 @@
                 </router-link>
             </ul>
         </div>
-        <div class="nav-tema">
-            <v-icon name="md-lightmode" scale="1.6"></v-icon>
-            <div class="nav-tema-divButton">
-                <button 
-                    @click="pinia.claro = !pinia.claro"
-                    :class="{'boton-claro' : pinia.claro, 'boton-oscuro' : !pinia.claro}">
-                </button>
+        <div class="nav-account">
+            <div @click="abrirPanel" class="nav-account-img">
+                <img src="https://m.media-amazon.com/images/I/51w7-OAqI+L.jpg" alt="">
             </div>
-            <v-icon name="md-darkmode" scale="1.6"></v-icon>
+            <transition name="panelAccount">
+                <div v-show="panel" class="nav-account-panel">
+                    <v-icon name="ri-logout-box-line" scale="1.5"></v-icon>
+                    <h1> Cerrar sesion </h1>
+                </div>
+            </transition>
         </div>
     </nav>
 </template>
 
 <script lang="ts" setup>
 
-    import { useStore } from '../store/pinia'
+    import { ref } from 'vue'
 
-    const pinia = useStore()
+    let panel = ref(false)
+
+    const abrirPanel = () => panel.value = !panel.value
 
 </script>
 
@@ -124,52 +127,58 @@
 
         }
 
-        &-tema{
+        &-account{
 
             width: 10%;
             height: 100%;
             display: flex;
+            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            justify-content: space-evenly;
-            color: #fff;
 
-            &-divButton{
+            &-img{
 
-                width: 30%;
-                height: 20%;
-                background: $fondo-input;
-                border-radius: 20px;
+                width: max-content;
+                height: 70%;
+                cursor: pointer;
+                clip-path: circle(50%);
+
+            }
+
+            &-panel{
+
+                width: 10%;
+                position: fixed;
+                z-index: 10000;
+                top: 10vh;
+                height: max-content;
+                background: $fondo-boton-limpiar;
                 display: flex;
+                flex-direction: column;
                 align-items: center;
+                box-sizing: border-box;
+                padding: 1%;
+                border-radius: 0 0 10px 10px;
+                color: #fff;
+                cursor: pointer;
 
-                .boton-claro{
+                h1{
 
-                    width: 65%;
-                    height: 200%;
-                    border-radius: 100%;
-                    border: 0;
-                    background: #fff;
-                    transform: translateX(0px);
-                    transition: transform 0.5s ease;
-
-                }
-
-                .boton-oscuro{
-
-                    width: 65%;
-                    height: 200%;
-                    border-radius: 100%;
-                    border: 0;
-                    background: #fff;
-                    transform: translateX(15px);
-                    transition: transform 0.5s ease;
+                    font-size: 18px;
+                    margin-top: 10px;
+                    text-align: center;
 
                 }
 
             }
 
-        }
+            &-panel:hover{
 
+                background: #09f;
+
+            }
+
+        }
     }
 
 </style>

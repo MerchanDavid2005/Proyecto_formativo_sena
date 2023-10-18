@@ -149,7 +149,7 @@
                 p{
     
                     margin: 10px 0;
-                    font-size: 18px;
+                    font-size: 15px;
     
                 }
     
@@ -164,9 +164,9 @@
     
                     @include botones($fondo-boton-crear);
                     align-self: center;
-                    width: 65%;
-                    font-size: 18px;
-                    padding: 15px;
+                    width: 55%;
+                    font-size: 15px;
+                    padding: 10px;
                     margin-top: 10px;
     
                 }

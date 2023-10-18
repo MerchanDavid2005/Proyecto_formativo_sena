@@ -25,9 +25,8 @@
 
 <script lang="ts" setup>
 
-    import MainDefault from '../layouts/MainDefault.vue'
-    import FilterData from '../components/FilterData.vue';
-    import CarAll from '../components/CarAll.vue'
+    import MainDefault from '../layouts/MainDefault.vue';
+    import CarAll from '../components/CarAll.vue';
     import VerifyDelete from '../components/VerifyDelete.vue';
 
     import { ref } from 'vue';
@@ -58,8 +57,8 @@
         position: static;
         z-index: 5000;
         width: 100%;
-        height: 85vh;
-        padding-top: 5vh;
+        height: 80vh;
+        padding-top: 10vh;
         display: flex;
         justify-content: space-around;
         overflow: auto;

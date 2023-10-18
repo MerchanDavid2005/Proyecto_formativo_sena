@@ -35,9 +35,8 @@
     .services-all{
 
         width: 100%;
-        height: 85vh;
+        height: 90vh;
         overflow: auto;
-        margin-top: 5vh;
         display: flex;
         flex-direction: column;
         align-items: center;
