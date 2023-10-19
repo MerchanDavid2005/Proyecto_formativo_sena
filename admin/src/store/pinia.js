@@ -31,6 +31,14 @@ export const useStore = defineStore('storeId', {
       codigoVerificacion: "",
       mensajeUsuarioRegistrado: false,
 
+      datosUsuarioIngresado: {
+
+        nombre: "Nadie",
+        email: "Nada",
+        foto: "https://pbs.twimg.com/profile_images/1390430745705975811/PTN2XO5S_400x400.jpg"
+
+      }
+
     }
 
   },
@@ -78,6 +86,14 @@ export const useStore = defineStore('storeId', {
       const info = await data.json()
       this.listaUsuarios = info
       this.listaUsuariosFilter = this.listaUsuarios
+
+    },
+
+    async getUsuario(id){
+
+      const data = await fetch(`http://127.0.0.1:8000/api/Usuario/${id}/`)
+      const info = await data.json()
+      this.datosUsuarioIngresado = info
 
     },
 

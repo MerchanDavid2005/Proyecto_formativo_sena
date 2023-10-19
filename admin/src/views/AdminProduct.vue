@@ -34,10 +34,13 @@
   import ProductsAll from '@/components/ProductsAll.vue';
   import FilterProduct from '@/components/FilterProduct.vue'
   import DeleteConfirm from '@/components/DeleteConfirm.vue';
+  import jwt_decode from 'jwt-decode'
 
   import { ref } from 'vue';
   import { useRouter } from 'vue-router';
+  import { useStore } from '@/store/pinia'
 
+  const pinia = useStore();
   const enrutado = useRouter()
 
   let advertencia = ref(false)
@@ -48,9 +51,16 @@
 
   if(localStorage.getItem('token') == "Error" || localStorage.getItem("token") == null){
 
-    enrutado.push('/')
+    enrutado.push('/');
+
+  }else{
+
+    const tokenDecodificado = jwt_decode(localStorage.getItem("token"));
+    pinia.getUsuario(tokenDecodificado.id);
 
   }
+
+
 
 </script>
 

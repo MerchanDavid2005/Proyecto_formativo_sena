@@ -4,11 +4,11 @@
 
         <div class="panel-data">
             <div class="panel-data-avatar">
-                <img src="https://pbs.twimg.com/profile_images/1390430745705975811/PTN2XO5S_400x400.jpg" alt="">
+                <img :src="pinia.datosUsuarioIngresado.foto" alt="">
             </div>
             <h1 
                 :class="{'panel-data-titulo': pinia.letraPanel, 'panel-data-titulo-dark': pinia.letraPanel == false}"> 
-                LAMWL 
+                {{ pinia.datosUsuarioIngresado.nombre }} 
             </h1>
         </div>
         <div class="panel-crear">

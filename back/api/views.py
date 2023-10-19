@@ -311,7 +311,7 @@ clave_secreta = 'F9dyj4'
 @csrf_exempt
 def iniciar_sesion(request):
 
-    usuarios = Usuario.objects.all()
+    usuarios = Usuario.objects.filter(rol = "Administrador")
     datos = json.loads(request.body)
 
     token = ""
@@ -321,11 +321,11 @@ def iniciar_sesion(request):
         if i.nombre_usuario == datos["usuario"] and i.password == datos["password"]:
 
             payload={
-                "usuario": datos["usuario"],
-                "password": datos["password"]
+                "id": i.id,
             }
 
             token = jwt.encode(payload, clave_secreta, algorithm='HS256')
+            break
 
         else:
 

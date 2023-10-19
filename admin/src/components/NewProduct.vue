@@ -2,6 +2,7 @@
     <div class="new-product" :style="{background: pinia.fondoEdits}">
         
         <h1 class="new-product-title"> Nuevo producto </h1>
+        <p class="error" v-if="error"> {{ mensajeError }} </p>
         <div class="new-product-campo">
             <label> Nombre del producto:  </label>
             <input v-model="nombre" type="text" placeholder="Nombre">
@@ -16,11 +17,11 @@
                 </option>
             </select>
         </div>
-        <div class="new-product-campo">
+        <div class="new-product-campo-selector">
             <label> Imagen ilustrativa del producto:  </label>
             <input type="file" :onchange="imagenValor">
         </div>
-        <div class="new-product-campo">
+        <div class="new-product-campo-descripcion">
             <label> Descripcion del producto:  </label>
             <textarea v-model="descripcion" rows="5"></textarea>
         </div>
@@ -66,7 +67,40 @@
     let cantidad = ref(1)
     let precio = ref(1)
 
+    let error = ref(false)
+    let mensajeError = ref("")
+
     const imagenValor = (img) => imagen.value = img.target.files[0]
+
+    function validar(){
+
+        let validado = false
+
+        if(nombre.value != "" && categoria.value != "" && imagen.value != "" && descripcion.value != "" && cantidad.value != "" && precio.value != ""){
+
+            if(imagen.value.name.toLowerCase().endsWith(".png") || 
+            imagen.value.name.toLowerCase().endsWith(".jpg") || 
+            imagen.value.name.toLowerCase().endsWith(".jpeg")){
+
+                validado = true
+
+            }else{
+
+                error.value = true
+                mensajeError.value = "Solo se permiten archivos con extension png, jpg o jpeg"
+
+            }
+
+        }else{
+
+            error.value = true
+            mensajeError.value = "No dejes ningun campo en blanco"
+
+        }
+
+        return validado
+    
+    }
 
     function nuevoProducto(){
 
@@ -79,25 +113,29 @@
         bodyForm.append('cantidad', cantidad.value)
         bodyForm.append('precio', precio.value)
 
-        fetch(`http://127.0.0.1:8000/post/product/`, {
+        if(validar()){
 
-            method: 'POST',
-            body: bodyForm
+            fetch(`http://127.0.0.1:8000/post/product/`, {
 
-        });
+                method: 'POST',
+                body: bodyForm
 
-        emits('cerrar')
+            });
 
-        setTimeout(() => {
+            emits('cerrar')
 
-            pinia.getProductos()
-            nombre.value = ""
-            categoria.value = "1"
-            descripcion.value = "Descripcion"
-            cantidad.value = 1
-            precio.value = 1
+            setTimeout(() => {
 
-        }, 600)
+                pinia.getProductos()
+                nombre.value = ""
+                categoria.value = "1"
+                descripcion.value = "Descripcion"
+                cantidad.value = 1
+                precio.value = 1
+
+            }, 600)
+
+        }
         
     }
 
@@ -107,8 +145,8 @@
 
     .new-product{
 
-        height: 90%;
-        width: 30%;
+        height: 95%;
+        width: 35%;
         display: flex;
         flex-direction: column;
         outline: 2px solid #000;
@@ -125,11 +163,19 @@
 
         }
 
+        .error{
+
+            text-align: center;
+            color: #f00;
+            margin-bottom: 20px;
+
+        }
+
         &-campo{
 
-            margin-bottom: 10px;
+            margin-bottom: 20px;
 
-            input, textarea, select{
+            input, select{
 
                 @include inputs();
 
@@ -137,26 +183,28 @@
 
         }
 
-        &-campo:nth-child(4){
+        &-campo-selector{
 
             display: flex;
             flex-direction: column;
 
             input{
 
+                @include inputs();
                 margin: 10px 0;
 
             }
 
         }
 
-        &-campo:nth-child(5){
+        &-campo-descripcion{
 
             display: flex;
             flex-direction: column;
 
             textarea{
 
+                @include inputs();
                 resize: none;
                 margin: 10px 0;
 

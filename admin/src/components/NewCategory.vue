@@ -2,6 +2,7 @@
     <div class="new-category" :style="{background: pinia.fondoEdits}">
         
         <h1 class="new-category-title"> Nueva categoria </h1>
+        <p class="error" v-if="error"> No dejes ningun campo en blanco </p>
         <div class="new-category-campo">
             <label> Nombre de la categoria:  </label>
             <input v-model="nombre" type="text" placeholder="Nombre">
@@ -17,7 +18,7 @@
             <button 
 
                 :style="{background: pinia.greentheme}" 
-                @click="nuevoServicio"> Crear 
+                @click="nuevaCategoria"> Crear 
 
             </button>
         </div>
@@ -35,28 +36,38 @@
 
     let nombre = ref("")
 
-    function nuevoServicio(){
+    let error = ref(false)
 
-        fetch(`http://127.0.0.1:8000/api/Categoria/`, {
+    function nuevaCategoria(){
 
-            method: 'POST',
-            body: JSON.stringify({
+        if(nombre.value != ""){
 
-                nombre: nombre.value
+            fetch(`http://127.0.0.1:8000/api/Categoria/`, {
 
-            }),
-            headers: {"content-type": "application/json"}
+                method: 'POST',
+                body: JSON.stringify({
 
-        });
+                    nombre: nombre.value
 
-        emits('cerrar')
+                }),
+                headers: {"content-type": "application/json"}
 
-        setTimeout(() => {
+            });
 
-            pinia.getCategorias()
-            nombre.value = ""
+            emits('cerrar')
 
-        }, 600)
+            setTimeout(() => {
+
+                pinia.getCategorias()
+                nombre.value = ""
+
+            }, 600)
+
+        }else{
+
+            error.value = true
+
+        }
         
     }
 
@@ -80,6 +91,14 @@
         &-title{
 
             text-align: center;
+            margin-bottom: 20px;
+
+        }
+
+        .error{
+
+            text-align: center;
+            color: #f00;
             margin-bottom: 20px;
 
         }
