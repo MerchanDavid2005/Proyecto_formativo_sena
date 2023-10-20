@@ -32,7 +32,7 @@
 
     async function verificarDatos(){
 
-        const data = await fetch("http://localhost:8000/login/", {
+        const data = await fetch("http://localhost:8000/login/Administrador/", {
 
             method: 'POST',
             body: JSON.stringify({
@@ -128,6 +128,17 @@
             align-self: center;
             margin: 10px 0;
             font-size: 15px;
+
+        }
+
+    }
+
+    @media(min-width:1600px){
+
+        .cuerpo-login{
+
+            height: 55%;
+            width: 25%;
 
         }
 

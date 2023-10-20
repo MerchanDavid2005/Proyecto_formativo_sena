@@ -10,7 +10,7 @@
 
 </template>
 
-<script setup>
+<script lang="ts" setup>
 
     import { ref, watch } from 'vue'
     import { useStore } from '@/store/pinia';
@@ -27,20 +27,20 @@
 
             let bodyData = new FormData
 
-            bodyData.append("usuario", pinia.datosUsuarioCrear[0]);
-            bodyData.append("nombre", pinia.datosUsuarioCrear[1]);
-            bodyData.append("email", pinia.datosUsuarioCrear[2]);
-            bodyData.append("img", pinia.datosUsuarioCrear[3]);
-            bodyData.append("password", pinia.datosUsuarioCrear[4]);
+            bodyData.append("usuario", pinia.datosUsuarioCrear.usuario);
+            bodyData.append("nombre", pinia.datosUsuarioCrear.nombre);
+            bodyData.append("email", pinia.datosUsuarioCrear.correo);
+            bodyData.append("img", pinia.datosUsuarioCrear.img);
+            bodyData.append("password", pinia.datosUsuarioCrear.password);
 
-            fetch("http://localhost:8000/post/user/Admin/", {
+            fetch("http://localhost:8000/post/user/Client/", {
 
                 method: 'POST',
                 body: bodyData
 
             });
 
-            enrutado.push('/')
+            enrutado.push('/iniciar_sesion')
 
             setTimeout(() => {
                 
@@ -64,6 +64,7 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        position: absolute;
         z-index: 99999;
         background: #fff;
         border-radius: 15px;

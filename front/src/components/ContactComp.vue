@@ -126,10 +126,10 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        background: #08f;
+        background: $fondo-input;
         border-radius: 15px;
         padding: 25px;
-        color: #fff;
+        color: #000;
 
         &-title{
 
@@ -180,7 +180,8 @@
 
                         input{
 
-                            @include inputs()
+                            @include inputs();
+                            background: #fff;
 
                         }
 
@@ -195,7 +196,8 @@
 
                         select{
 
-                            @include inputs()
+                            @include inputs();
+                            background: #fff;
 
                         }
 
@@ -213,19 +215,22 @@
                     input{
 
                         @include inputs();
+                        background: #fff
 
                     }
 
                     textarea{
 
-                        @include inputs();       
-                        height: max-content;  
+                        @include inputs();   
+                        background: #fff;    
+                        height: max-content; 
 
                     }
 
                     input[type="file"]{
 
                         color: #000;
+                        background: #fff
 
                     }
                         
@@ -239,7 +244,7 @@
 
                     button{
 
-                        @include botones('#007');
+                        @include botones($fondo-boton-limpiar);
                         color: #fff;
                         font-weight: 100;
                         width: 50%;

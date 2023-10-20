@@ -13,7 +13,7 @@
                 <ul>
                     <li 
                         @click="pinia.listaProductosFiltrar = pinia.listaProductos,
-                        pinia.listaProductosPagina = pinia.listaProductosFiltrar.slice(0, 2)"
+                        pinia.listaProductosPagina = pinia.listaProductosFiltrar.slice(0, 12)"
                     > Todas </li>
                    <li 
                         v-for="(cate, i) in pinia.listaCategorias" :key="i"
@@ -52,7 +52,7 @@
         pinia.listaProductosFiltrar = pinia.listaProductos.filter(
             i => i.nombre.toLowerCase().startsWith(busqueda.value.toLowerCase())
         );
-        pinia.listaProductosPagina = pinia.listaProductosFiltrar.slice(0, 2);
+        pinia.listaProductosPagina = pinia.listaProductosFiltrar.slice(0, 12);
         pinia.cambiarPagina(1);
 
     }
@@ -60,7 +60,7 @@
     const filtrar = (categoria: string) => {
 
         pinia.listaProductosFiltrar = pinia.listaProductos.filter(i => i.categoria == categoria);
-        pinia.listaProductosPagina = pinia.listaProductosFiltrar.slice(0, 2);
+        pinia.listaProductosPagina = pinia.listaProductosFiltrar.slice(0, 12);
         pinia.cambiarPagina(1);
 
     }
@@ -266,6 +266,22 @@
     
             }
     
+
+        }
+
+    }
+
+    @media(min-width:1600px){
+
+
+        .filtrar-informacion-buscar{
+
+            height: 20vh;
+
+        }
+        .filtrar-informacion-precio{
+
+            height: 15vh;
 
         }
 

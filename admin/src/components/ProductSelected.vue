@@ -122,4 +122,15 @@
 
     }
 
+    @media(min-width: 1600px){
+
+        .select-product{
+
+            height: 80%;
+            width: 30%;
+
+        }
+
+    }
+
 </style>

@@ -6,10 +6,11 @@ import ServiciosView from '../views/ServiciosView.vue'
 import ContactoView from '../views/ContactoView.vue'
 import PedidoIndividualView from '../views/PedidoIndividual.vue'
 import IniciarSesionView from '../views/IniciarSesionView.vue'
+import RegistrarseView from '../views/RegistrarseView.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: '/productos',
+    path: '/',
     name: 'productos',
     component: InicioView
   },
@@ -39,9 +40,14 @@ const routes: Array<RouteRecordRaw> = [
     component: PedidoIndividualView
   },
   {
-    path: '/',
+    path: '/iniciar_sesion',
     name: 'inicion/sesion',
     component: IniciarSesionView
+  },
+  {
+    path: '/registrar',
+    name: 'registrarse',
+    component: RegistrarseView
   }
   
 ]

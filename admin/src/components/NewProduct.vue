@@ -192,6 +192,7 @@
 
                 @include inputs();
                 margin: 10px 0;
+                color: #000;
 
             }
 
@@ -226,6 +227,17 @@
                 height: max-content;
 
             }
+
+        }
+
+    }
+
+    @media(min-width: 1600px){
+
+        .new-product{
+
+            height: 80%;
+            width: 30%;
 
         }
 

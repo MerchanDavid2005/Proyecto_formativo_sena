@@ -2,15 +2,16 @@
     <div class="edit-service" :style="{background: pinia.fondoEdits}">
         
         <h1 class="edit-service-title"> Editar servicio </h1>
+        <p class="error" v-if="error"> {{ mensajeError }} </p>
         <div class="edit-service-campo">
             <label> Nombre del servicio:  </label>
             <input v-model="nombre" type="text" placeholder="Nombre">
         </div>
-        <div class="edit-service-campo">
+        <div class="edit-service-campo-selector">
             <label> Imagen ilustrativa del servicio:  </label>
             <input type="file" :onchange="imagenValor">
         </div>
-        <div class="edit-service-campo">
+        <div class="edit-service-campo-descripcion">
             <label> Descripcion del servicio:  </label>
             <textarea v-model="descripcion" rows="5"></textarea>
         </div>
@@ -40,43 +41,81 @@
     let descripcion = ref("Descripcion")
     let precio = ref(1)
 
+    let error = ref(false)
+    let mensajeError = ref("")
+
     const imagenValor = (img) => imagen.value = img.target.files[0]
+
+    
+    function validar(){
+
+        let validado = false
+
+        if(nombre.value != "" && imagen.value != "" && descripcion.value != "" && precio.value != ""){
+
+            if(imagen.value.name.toLowerCase().endsWith(".png") || 
+            imagen.value.name.toLowerCase().endsWith(".jpg") || 
+            imagen.value.name.toLowerCase().endsWith(".jpeg")){
+
+                validado = true
+
+            }else{
+
+                error.value = true
+                mensajeError.value = "Solo se permiten archivos con extension png, jpg o jpeg"
+
+            }
+
+        }else{
+
+            error.value = true
+            mensajeError.value = "No dejes ningun campo en blanco"
+
+        }
+
+        return validado
+
+    }
 
     function editarServicio(){
 
         let servicio = pinia.listaServicios[ruta.params.id]
 
-        fetch(`http://127.0.0.1:8000/api/Servicio/${servicio.id}/`, {
+        if(validar()){
 
-            method: 'PATCH',
-            body: JSON.stringify({
+            fetch(`http://127.0.0.1:8000/api/Servicio/${servicio.id}/`, {
 
-                nombre: nombre.value,
-                descripcion: descripcion.value,
-                precio: precio.value
+                method: 'PATCH',
+                body: JSON.stringify({
 
-            }),
-            headers: {"content-type": "application/json"}
+                    nombre: nombre.value,
+                    descripcion: descripcion.value,
+                    precio: precio.value
 
-        });
+                }),
+                headers: {"content-type": "application/json"}
 
-        let bodyForm = new FormData()
-        bodyForm.append("img", imagen.value)
+            });
 
-        fetch(`http://127.0.0.1:8000/put/service/img/${servicio.id}/`, {
+            let bodyForm = new FormData()
+            bodyForm.append("img", imagen.value)
 
-            method: 'POST',
-            body: bodyForm
+            fetch(`http://127.0.0.1:8000/put/service/img/${servicio.id}/`, {
 
-        });
+                method: 'POST',
+                body: bodyForm
 
-        enrutado.push('/admin/service')
+            });
 
-        setTimeout(() => {
+            enrutado.push('/admin/service')
 
-            pinia.getServicios()
+            setTimeout(() => {
 
-        }, 600)
+                pinia.getServicios()
+
+            }, 1000)
+
+        }
 
     }
 
@@ -102,6 +141,14 @@
 
         }
 
+        .error{
+
+            text-align: center;
+            color: #f00;
+            margin-bottom: 20px;
+
+        }
+
         &-campo{
 
             margin-bottom: 10px;
@@ -114,26 +161,29 @@
 
         }
 
-        &-campo:nth-child(3){
+        &-campo-selector{
 
             display: flex;
             flex-direction: column;
 
             input{
 
+                @include inputs();
                 margin: 10px 0;
+                color: #000;
 
             }
 
         }
 
-        &-campo:nth-child(4){
+        &-campo-descripcion{
 
             display: flex;
             flex-direction: column;
 
             textarea{
 
+                @include inputs();
                 resize: none;
                 margin: 10px 0;
 
@@ -155,6 +205,17 @@
                 height: max-content;
 
             }
+
+        }
+
+    }
+
+    @media(min-width:1600px){
+
+        .edit-service{
+
+            height: 70%;
+            width: 30%;
 
         }
 

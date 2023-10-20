@@ -110,4 +110,15 @@
 
     }
 
+    @media(min-width:1600px){
+
+        .select-service{
+
+            height: 70%;
+            width: 30%;
+
+        }
+
+    }
+
 </style>

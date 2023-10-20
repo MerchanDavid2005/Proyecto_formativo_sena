@@ -34,11 +34,11 @@ urlpatterns = [
     path('get/orders/all/', views.traer_todos_pedidos, name="Traer todos los pedidos"),
     path('get/orders/<int:id>/', views.traer_pedidos, name="Traer pedidos"),
     path('get/order/<int:id>/', views.traer_pedido_id, name="Traer pedido por id"),
-    path('post/user/', views.crear_usuario_admin, name="Crear usuario administrador"),
+    path('post/user/<str:rol>/', views.crear_usuario, name="Crear usuario administrador"),
     path('delete/img/user/<int:id>/', views.eliminar_imagen_usuario, name="Eliminar imagen"),
 
     path('send/code/verify/', views.enviar_correo_verificacion, name="Enviar correo de verificacion de usuario"),
-    path('login/', views.iniciar_sesion, name="Iniciar sesion"),
+    path('login/<str:rol>/', views.iniciar_sesion, name="Iniciar sesion"),
     path('save/img/correo/', views.guardar_imagen_correo, name="Guardar imagen para enviar"),
     path('send/email/contact/', views.enviar_correo_contacto, name="Contactar por correo")
 ]

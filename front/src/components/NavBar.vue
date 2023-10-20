@@ -42,9 +42,9 @@
                 <img src="https://m.media-amazon.com/images/I/51w7-OAqI+L.jpg" alt="">
             </div>
             <transition name="panelAccount">
-                <div v-show="panel" class="nav-account-panel">
-                    <v-icon name="ri-logout-box-line" scale="1.5"></v-icon>
-                    <h1> Cerrar sesion </h1>
+                <div @click="enrutado.push('/iniciar_sesion')" v-show="panel" class="nav-account-panel">
+                    <v-icon name="hi-login" scale="2"></v-icon>
+                    <h1> Iniciar sesion </h1>
                 </div>
             </transition>
         </div>
@@ -54,7 +54,9 @@
 <script lang="ts" setup>
 
     import { ref } from 'vue'
+    import { useRouter } from 'vue-router';
 
+    const enrutado = useRouter()
     let panel = ref(false)
 
     const abrirPanel = () => panel.value = !panel.value
@@ -147,7 +149,7 @@
 
             &-panel{
 
-                width: 10%;
+                width: 7%;
                 position: fixed;
                 z-index: 10000;
                 top: 10vh;

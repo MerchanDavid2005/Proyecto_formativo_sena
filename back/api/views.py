@@ -90,8 +90,20 @@ def actualizar_imagen_producto(request, id):
 
     producto = Producto.objects.get(id = id)
 
+    ruta_imagen = producto.img.name.split("/")
+    img = os.path.join(settings.MEDIA_ROOT, ruta_imagen[0], ruta_imagen[1])
+
     producto.img = request.FILES.get("img")
     producto.save()
+
+    if os.path.exists(img):
+
+        os.remove(img)
+        print("Imagen eliminada :D")
+
+    else:
+
+        print("Tas loco mi perro")
 
     return HttpResponse('Exito')
 
@@ -101,7 +113,7 @@ def eliminar_imagen_producto(request, id):
     producto = Producto.objects.get(id = id)
 
     ruta_imagen = producto.img.name.split("/")
-    img = os.path.join(settings.MEDIA_ROOT, ruta_imagen[1])
+    img = os.path.join(settings.MEDIA_ROOT, ruta_imagen[0], ruta_imagen[1])
 
     if os.path.exists(img):
 
@@ -135,8 +147,20 @@ def actualizar_imagen_servicio(request, id):
 
     servicio = Servicio.objects.get(id = id)
 
+    ruta_imagen = servicio.img.name.split("/")
+    img = os.path.join(settings.MEDIA_ROOT, ruta_imagen[0], ruta_imagen[1])
     servicio.img = request.FILES.get('img')
     servicio.save()
+
+
+    if os.path.exists(img):
+
+        os.remove(img)
+        print("Imagen eliminada :D")
+
+    else:
+
+        print("Tas loco mi perro")
 
     return HttpResponse ("Actualizado")
 
@@ -146,7 +170,7 @@ def eliminar_imagen_servicio(request, id):
     servicio = Servicio.objects.get(id = id)
 
     ruta_imagen = servicio.img.name.split("/")
-    img = os.path.join(settings.MEDIA_ROOT, ruta_imagen[1])
+    img = os.path.join(settings.MEDIA_ROOT, ruta_imagen[0], ruta_imagen[1])
 
     if os.path.exists(img):
 
@@ -257,7 +281,7 @@ def traer_pedido_id(request, id):
 # ----------------------------------------------- Endpoints de tabla usuarios ------------------------
 
 @csrf_exempt
-def crear_usuario_admin(request):
+def crear_usuario(request, rol):
 
     avatar = ""
 
@@ -267,17 +291,31 @@ def crear_usuario_admin(request):
     
     else:
 
-        avatar = os.path.join(settings.MEDIA_ROOT, "usuarios/default.png")
+        avatar = "usuarios/default.png"
 
-    Usuario.objects.create(
+    if rol == "Admin":
 
-        nombre_usuario = request.POST["usuario"],
-        nombre = request.POST["nombre"],
-        email = request.POST["email"],
-        foto = avatar,
-        password = request.POST["password"],
-        rol = "Administrador"
-    )
+        Usuario.objects.create(
+
+            nombre_usuario = request.POST["usuario"],
+            nombre = request.POST["nombre"],
+            email = request.POST["email"],
+            foto = avatar,
+            password = request.POST["password"],
+            rol = "Administrador"
+        )
+    
+    else:
+
+        Usuario.objects.create(
+
+            nombre_usuario = request.POST["usuario"],
+            nombre = request.POST["nombre"],
+            email = request.POST["email"],
+            foto = avatar,
+            password = request.POST["password"],
+            rol = "Cliente"
+        )
 
     return HttpResponse ('Creado')
 
@@ -309,9 +347,9 @@ def eliminar_imagen_usuario(request, id):
 clave_secreta = 'F9dyj4'
 
 @csrf_exempt
-def iniciar_sesion(request):
+def iniciar_sesion(request, rol):
 
-    usuarios = Usuario.objects.filter(rol = "Administrador")
+    usuarios = Usuario.objects.filter(rol = rol)
     datos = json.loads(request.body)
 
     token = ""
@@ -351,7 +389,7 @@ def enviar_correo_verificacion(request):
         codigo += i
 
     subject = 'Codigo de verificacion'
-    message = "¡Bienvenido {}!, este es el ultimo paso para estar completamente registrado en serviteca admin, solo necesitas copiar el siguiente codigo: {} y ponerlo en el campo correspondiente".format(nombre_usuario, codigo)
+    message = "¡Bienvenido {}!, este es el ultimo paso para estar completamente registrado en serviteca la estacion, solo necesitas copiar el siguiente codigo: {} y ponerlo en el campo correspondiente".format(nombre_usuario, codigo)
     email_from = settings.EMAIL_HOST_USER
     recipient_list = [email_usuario]
 

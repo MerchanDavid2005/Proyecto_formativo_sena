@@ -2,6 +2,7 @@
     <div class="edit-category" :style="{background: pinia.fondoEdits}">
         
         <h1 class="edit-category-title"> Editar categoria </h1>
+        <p class="error" v-if="error"> No dejes ningun campo en blanco </p>
         <div class="edit-category-campo">
             <label> Nombre de la categoria:  </label>
             <input v-model="nombre" type="text" placeholder="Nombre">
@@ -25,29 +26,39 @@
 
     let nombre = ref("")
 
+    let error = ref(false)
+
     function editarCategoria(){
 
         let categoria = pinia.listaCategorias[ruta.params.id]
 
-        fetch(`http://127.0.0.1:8000/api/Categoria/${categoria.id}/`, {
+        if(nombre.value != ""){
 
-            method: 'PATCH',
-            body: JSON.stringify({
+            fetch(`http://127.0.0.1:8000/api/Categoria/${categoria.id}/`, {
 
-                nombre: nombre.value,
+                method: 'PATCH',
+                body: JSON.stringify({
 
-            }),
-            headers: {"content-type": "application/json"}
+                    nombre: nombre.value,
 
-        });
+                }),
+                headers: {"content-type": "application/json"}
 
-        enrutado.push('/admin/category')
+            });
 
-        setTimeout(() => {
+            enrutado.push('/admin/category')
 
-            pinia.getCategorias()
+            setTimeout(() => {
 
-        }, 600)
+                pinia.getCategorias()
+
+            }, 1000)
+
+        }else{
+
+            error.value = true
+
+        }
 
     }
 
@@ -69,6 +80,14 @@
         &-title{
 
             text-align: center;
+            margin-bottom: 20px;
+
+        }
+
+        .error{
+
+            text-align: center;
+            color: #f00;
             margin-bottom: 20px;
 
         }

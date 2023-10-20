@@ -56,6 +56,16 @@ type Usuario = {
 
 }
 
+type UsuarioCrear = {
+
+  usuario: string,
+  nombre: string,
+  img: string,
+  correo: string,
+  password: string
+
+}
+
 export const useStore = defineStore('storeId', {
   state: () => {
 
@@ -64,14 +74,20 @@ export const useStore = defineStore('storeId', {
       // Variables globales
 
       claro: true as boolean,
+      
       productoVerificar: {} as Producto,
-      idEliminar: 0 as number,
-      carrito: [] as Producto [],
-      carritoFiltrar: [] as Producto [],
-      usuario: 1 as number,
       idPedido: {} as Pedido,
+      idEliminar: 0 as number,
+
+      carrito: [] as Producto [],
+
+      codigoVerificacion: "" as string,
+      datosUsuarioCrear: {} as UsuarioCrear,
+      usuario: 1 as number,
+      mensajeUsuarioRegistrado: false as boolean,
 
       paginaActual: "",
+  
 
       // Lista informacion
 

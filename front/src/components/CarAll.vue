@@ -6,7 +6,14 @@
             No tienes productos por esta categoria 
         </h1>
 
-        <h1 v-if="pinia.carrito.length < 1"> No tienes productos en el carrito </h1>
+        <div class="car-all-none" v-if="pinia.carrito.length < 1">
+
+            <v-icon name="bi-cart-x-fill" scale="5"> </v-icon>
+            <h1> Carrito vacio </h1>
+            <p> Aun no tienes ningun producto añadido a tu carrito de compras </p>
+            <button @click="enrutado.push('/')"> Añadir productos </button>
+
+        </div>
         
         <button 
             v-if="pinia.carrito.length > 0" 
@@ -39,8 +46,10 @@
 <script lang="ts" setup>
 
     import { useStore } from '../store/pinia'
+    import { useRouter } from 'vue-router';
     import { defineEmits } from 'vue';
 
+    const enrutado = useRouter()
     const pinia = useStore()
     const emits = defineEmits(['eliminar'])
 
@@ -102,6 +111,27 @@
             display: flex;
             align-items: center;
             z-index: 1000;
+
+        }
+
+        &-none{
+
+            width: 30%;
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            padding: 20px;
+            border-radius: 30px;
+            background: $fondo-input;
+            color: #000;
+
+            button{
+
+                @include botones('#0af');
+
+            }
 
         }
 
