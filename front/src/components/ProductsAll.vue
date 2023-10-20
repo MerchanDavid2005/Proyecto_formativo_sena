@@ -5,7 +5,7 @@
 
             <h1 v-if="pinia.listaProductosPagina.length < 1"> No hay resultados de tu busqueda </h1>
         
-            <div class="products-all-prd-product" v-for="(prd, i) in pinia.listaProductosPagina.slice(0, 12)" :key="i">
+            <div class="products-all-prd-product" v-for="(prd, i) in pinia.listaProductosPagina" :key="i">
                 <h1> {{ prd.nombre }} </h1>
                 <p> <strong> Categoria:  </strong> {{ prd.categoria }} </p>
                 <article class="products-all-prd-product-imagen">
@@ -23,14 +23,13 @@
         </div>
 
         <div class="products-all-pagination">
-            <router-link 
-                :class="{'urls': router.params.id != pag, 'url-selected': router.params.id == pag}"
-                v-for="(pag, i) in numeroPaginas" 
-                :key="i" 
-                :to="{name : 'productos', params: {id: pag}}">
-
+            <p
+                v-for="(pag, i) in listaPaginas" 
+                :key="i"
+                @click="pinia.cambiarPagina(i + 1)"
+                :class="{'urls': pinia.paginaActual != pag, 'url-selected': pinia.paginaActual == pag}">
                 {{ pag }}
-            </router-link>
+            </p>
         </div>
 
     </div>
@@ -38,18 +37,11 @@
 
 <script lang="ts" setup> 
 
-    import { useRoute, useRouter } from 'vue-router';
     import { useStore } from '../store/pinia';
-    import { ref, onUpdated, defineEmits } from 'vue'
+    import { defineEmits, onMounted, computed } from 'vue'
 
-    const router = useRoute()
-    const enrutado = useRouter()
     const pinia = useStore()
     const emits = defineEmits(['verificar'])
-
-    let paginaAnterior = ref<number>(1)
-
-    let numeroPaginas = ref<Array<string>>(["1"])
 
     const comprar = async (id: number) => {
 
@@ -62,43 +54,25 @@
 
     }
 
-    function traerDatos(){
-
-        if(typeof(router.params.id) == "string"){
-
-            paginaAnterior.value = parseInt(router.params.id, 10) - 1
-            pinia.listaProductosPagina = pinia.listaProductosFiltrar.slice(
-
-                paginaAnterior.value * 12,
-                parseInt(router.params.id) * 12
-
-            )
-
-        }
+    const listaPaginas = computed(() => {
 
         let paginas = []
 
-        for(let i = 0; i < pinia.listaProductosFiltrar.length / 12; i++){
+        for(let i = 0; i < Math.ceil(pinia.listaProductosFiltrar.length / 12); i++){
+
             paginas.push(`${i + 1}`)
-        }
-
-        numeroPaginas.value = paginas
-
-        if(pinia.listaProductosFiltrar.length <= 12){
-
-            enrutado.push('/productos/pagina/1/')
 
         }
 
-    }
-
-    onUpdated(() => {
-
-        traerDatos()
+        return paginas
 
     })
 
-    traerDatos()
+    onMounted(() => {
+
+        pinia.cambiarPagina(1);
+
+    })
 
 </script>
 
@@ -198,6 +172,7 @@
                 border-radius: 10px;
                 background: #eee;
                 color: #000;
+                cursor: pointer;
 
             }
 
@@ -209,6 +184,7 @@
                 border-radius: 10px;
                 background: $fondo-boton-limpiar;
                 color: #fff;
+                cursor: pointer;
 
             }
 

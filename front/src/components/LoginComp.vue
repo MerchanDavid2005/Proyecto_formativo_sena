@@ -8,7 +8,7 @@
         <label> Contraseña:  </label>
         <input type="password" placeholder="**********">
         <p> ¿Aun no tienes una cuenta? </p>
-        <p> Puedes registrarte siguien el siguiente enlace <router-link to="/registrar"> registrarse </router-link> </p>
+        <p> Registrate en el siguiente enlace <router-link to="/registrar"> registrarse </router-link> </p>
         <button> Iniciar sesion </button>
 
     </div>
@@ -20,7 +20,7 @@
     .form-login{
 
         width: 25%;
-        height: 45%;
+        height: 60%;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -28,7 +28,7 @@
         z-index: 1000;
         background: #fff;
         border-radius: 15px;
-        padding: 15px;
+        padding: 25px;
 
         h1{
 
@@ -40,14 +40,14 @@
         label{
 
             align-self: flex-start;
-            margin: 5px 0;
 
         }
 
         input{
 
+            align-self: flex-start;
             @include inputs();
-            width: 100%;
+            width: 95%;
             height: max-content;
             margin: 10px 0;
 

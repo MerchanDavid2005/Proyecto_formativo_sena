@@ -5,7 +5,7 @@
         </div>
         <div class="nav-urls">
             <ul>
-                <router-link style="text-decoration: none;" :to="{name: 'productos', params: {id: 1}}">
+                <router-link style="text-decoration: none;" :to="{name: 'productos'}">
                     <li> 
                         <v-icon name="md-home-round" scale="1.6"></v-icon>
                         Inicio 

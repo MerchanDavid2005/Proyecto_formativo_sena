@@ -65,11 +65,13 @@ export const useStore = defineStore('storeId', {
 
       claro: true as boolean,
       productoVerificar: {} as Producto,
-      idEliminar: 0,
+      idEliminar: 0 as number,
       carrito: [] as Producto [],
       carritoFiltrar: [] as Producto [],
-      usuario: 1,
+      usuario: 1 as number,
       idPedido: {} as Pedido,
+
+      paginaActual: "",
 
       // Lista informacion
 
@@ -95,6 +97,19 @@ export const useStore = defineStore('storeId', {
 
   },
   actions: {
+
+    cambiarPagina(numeroPagina: number){
+
+      this.listaProductosPagina = this.listaProductosFiltrar.slice(
+
+        (numeroPagina - 1) * 12,
+        numeroPagina * 12
+
+      )
+
+      this.paginaActual = `${numeroPagina}`
+
+    },
 
     async getProductos(){
 

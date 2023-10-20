@@ -9,7 +9,7 @@ import IniciarSesionView from '../views/IniciarSesionView.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: '/productos/pagina/:id',
+    path: '/productos',
     name: 'productos',
     component: InicioView
   },

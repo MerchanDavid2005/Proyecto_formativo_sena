@@ -13,7 +13,7 @@
                 <ul>
                     <li 
                         @click="pinia.listaProductosFiltrar = pinia.listaProductos,
-                        pinia.listaProductosPagina = pinia.listaProductos"
+                        pinia.listaProductosPagina = pinia.listaProductosFiltrar.slice(0, 2)"
                     > Todas </li>
                    <li 
                         v-for="(cate, i) in pinia.listaCategorias" :key="i"
@@ -51,25 +51,17 @@
 
         pinia.listaProductosFiltrar = pinia.listaProductos.filter(
             i => i.nombre.toLowerCase().startsWith(busqueda.value.toLowerCase())
-        )
-
-        pinia.listaProductosPagina = pinia.listaProductos.filter(
-            i => i.nombre.toLowerCase().startsWith(busqueda.value.toLowerCase())
-        )
-
-        pinia.carritoFiltrar = pinia.carrito.filter(
-            i => i.nombre.toLowerCase().startsWith(busqueda.value.toLowerCase())
-        )
+        );
+        pinia.listaProductosPagina = pinia.listaProductosFiltrar.slice(0, 2);
+        pinia.cambiarPagina(1);
 
     }
 
     const filtrar = (categoria: string) => {
 
-        pinia.listaProductosFiltrar = pinia.listaProductos.filter(i => i.categoria == categoria)
-        pinia.listaCategoriasFiltrar = pinia.listaCategorias.filter(i => i.nombre == categoria)
-
-        pinia.listaProductosPagina = pinia.listaProductos.filter(i => i.categoria == categoria)
-        pinia.carritoFiltrar = pinia.carrito.filter(i => i.categoria == categoria)
+        pinia.listaProductosFiltrar = pinia.listaProductos.filter(i => i.categoria == categoria);
+        pinia.listaProductosPagina = pinia.listaProductosFiltrar.slice(0, 2);
+        pinia.cambiarPagina(1);
 
     }
 
