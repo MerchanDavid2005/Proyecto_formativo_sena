@@ -2,7 +2,7 @@
     <div class="car-all">
 
         <h1 
-            v-if="pinia.carritoFiltrar.length < 1 && pinia.carrito.length > 1"> 
+            v-if="pinia.carrito.length < 1 && pinia.carrito.length > 1"> 
             No tienes productos por esta categoria 
         </h1>
 
@@ -23,7 +23,7 @@
             <v-icon style="margin-left:5px;" name="bi-check-circle-fill" scale="1"></v-icon>
         </button>
         
-        <div class="car-all-prd" v-for="(prd, i) in pinia.carritoFiltrar" :key="i">
+        <div class="car-all-prd" v-for="(prd, i) in pinia.carrito" :key="i">
 
             <h1> {{ prd.nombre }} </h1>
             <p> <strong> Categoria:  </strong> {{ prd.categoria }} </p>
@@ -77,7 +77,6 @@
         })
 
         pinia.carrito = []
-        pinia.carritoFiltrar = []
         localStorage.removeItem("Carrito")
 
         setTimeout(() => {

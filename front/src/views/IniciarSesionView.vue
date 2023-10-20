@@ -10,7 +10,7 @@
 
         </div>
 
-        <div class="login-mensaje">
+        <div class="cuerpo-login-mensaje">
 
             <transition name="panelMensaje">
             
@@ -27,7 +27,7 @@
 <script lang="ts" setup>
 
     import LoginComp from '../components/LoginComp.vue';
-    import UserCreated from '@/components/UserCreated.vue';
+    import UserCreated from '../components/UserCreated.vue';
 
     import { useStore } from '../store/pinia';
 
@@ -71,12 +71,14 @@
         &-mensaje{
 
             width: 100%;
-            height: 100vh;
+            height: 100%;
             display: flex;
             justify-content: flex-end;
             align-items: flex-start;
             padding: 2%;
+            box-sizing: border-box;
             position: absolute;
+            z-index: 10;
             overflow: hidden;
 
         }

@@ -4,18 +4,34 @@
         
         <h1> Registrarse </h1>
         <p v-if="error" class="error"> Los datos ingresados son incorrectos </p>
-        <label> Nombre de usuario: </label>
-        <input v-model="usuario" type="text" placeholder="Usuario">
-        <label> Nombre: </label>
-        <input v-model="nombre" type="text" placeholder="Nombre">
-        <label> Correo: </label>
-        <input v-model="correo" type="text" placeholder="Correo">
-        <label> Avatar (opcional): </label>
-        <input type="file" :onchange="valorAvatar" >
-        <label> Contraseña: </label>
-        <input v-model="contraseña" type="password" placeholder="**********">
-        <label> Verificar contraseña:  </label>
-        <input v-model="contraseñaVerificar" type="password" placeholder="**********">
+        <div class="form-register-row">
+            <div class="form-register-row-column">
+                <label> Nombre de usuario: </label>
+                <input v-model="usuario" type="text" placeholder="Usuario">
+            </div>
+            <div class="form-register-row-column">
+                <label> Nombre: </label>
+                <input v-model="nombre" type="text" placeholder="Nombre">
+            </div>
+        </div>
+        <div class="form-register-correo">
+            <label> Correo: </label>
+            <input v-model="correo" type="text" placeholder="Correo">
+        </div>
+        <div class="form-register-avatar">
+            <label> Avatar (opcional): </label>
+            <input type="file" :onchange="valorAvatar">
+        </div>
+        <div class="form-register-row">
+            <div class="form-register-row-column">
+                <label> Contraseña: </label>
+                <input v-model="contraseña" type="password" placeholder="**********">
+            </div>
+            <div class="form-register-row-column">
+                <label> Verificar contraseña:  </label>
+                <input v-model="contraseñaVerificar" type="password" placeholder="**********">
+            </div>
+        </div>
         <p> ¿Ya tienes una cuenta? </p>
         <p> Inicia sesion en el siguiente enlace <router-link to="/iniciar_sesion"> iniciar sesion </router-link> </p>
         <button @click="registrar"> Registrarse </button>
@@ -76,7 +92,7 @@
 
         if(validar()){
 
-            const data = await fetch("http://localhost:8000/send/code/verify/", {
+            fetch("http://localhost:8000/send/code/verify/", {
 
                 method: 'POST',
                 body: JSON.stringify({
@@ -87,11 +103,11 @@
                 }),
                 headers: {"content-type": "application/json"}
 
-            });
+            }).then(res => res.json()).then(info => {
 
-            let codigo = await data.json()
-
-            pinia.codigoVerificacion = codigo.Codigo
+                pinia.codigoVerificacion = info.Codigo
+                
+            })
 
             pinia.datosUsuarioCrear = {
 
@@ -115,11 +131,11 @@
 
     .form-register{
 
-        width: 25%;
-        height: 90%;
+        width: 40%;
+        height: 75%;
         display: flex;
         flex-direction: column;
-        align-items: center;
+        justify-content: space-between;
         position: static;
         z-index: 1000;
         background: #fff;
@@ -128,8 +144,9 @@
 
         h1{
 
-            margin: 20px 0 45px 0;
+            margin: 15px 0;
             font-size: 40px;
+            text-align: center;
 
         }
 
@@ -141,25 +158,48 @@
 
         }
 
-        label{
+        input, select{
 
-            align-self: flex-start;
+            @include inputs();
+            width: 100%;
 
         }
 
-        input{
+        &-correo{
 
-            align-self: flex-start;
-            @include inputs();
             width: 95%;
             height: max-content;
-            margin: 10px 0;
+
+        }
+
+        &-avatar{
+
+            width: 95%;
+            height: max-content;
+
+        }
+
+        &-row{
+
+            width: 95%;
+            height: max-content;
+            display: flex;
+            justify-content: space-between;
+
+            &-column{
+
+                width: 45%;
+                height: max-content;
+                display: flex;
+                flex-direction: column;
+
+            }
 
         }
 
         p{
 
-            margin: 10px 0;
+            text-align: center
 
         }
 
@@ -167,8 +207,9 @@
 
             @include botones($fondo-boton-limpiar);
             height: max-content;
-            width: max-content;
+            width: 30%;
             margin-top: 20px;
+            align-self: center;
 
         }
 

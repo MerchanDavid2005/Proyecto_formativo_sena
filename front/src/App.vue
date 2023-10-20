@@ -5,6 +5,7 @@
 <script lang="ts" setup>
 
   import { useStore } from './store/pinia';
+  import jwt_decode from 'jwt-decode'
 
   const pinia = useStore()
 
@@ -16,13 +17,33 @@
     pinia.getProductos()
     pinia.getCategorias()
     pinia.getServicios()
-    pinia.getUsuarios()
 
     if(localStorage.getItem("Carrito") !== null){
 
       pinia.carrito = JSON.parse(localStorage.getItem("Carrito") ?? "{}")
-      pinia.carritoFiltrar = pinia.carrito
 
+    }
+
+    if(localStorage.getItem("token") !== null){
+
+      const token:any = localStorage.getItem("token")
+      const tokenDecodificado:any = jwt_decode(token);
+
+      let fechaExpiracion = new Date(tokenDecodificado.exp)
+      let hoy = new Date()
+      
+      if(fechaExpiracion == hoy){
+
+        localStorage.removeItem("token")
+
+      }else{
+
+        pinia.usuarioLogeado = true
+        pinia.usuario = tokenDecodificado.id
+        pinia.getUsuario(tokenDecodificado.id)
+
+      }
+ 
     }
 
   })

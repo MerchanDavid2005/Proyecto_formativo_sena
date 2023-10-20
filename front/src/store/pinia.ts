@@ -51,9 +51,9 @@ type Usuario = {
   nombre_usuario: string,
   nombre: string,
   email: string,
+  foto: string,
   password: string,
-  rol: rol
-
+  rol: string
 }
 
 type UsuarioCrear = {
@@ -85,6 +85,16 @@ export const useStore = defineStore('storeId', {
       datosUsuarioCrear: {} as UsuarioCrear,
       usuario: 1 as number,
       mensajeUsuarioRegistrado: false as boolean,
+      datosUsuario: {
+        id: 1,
+        nombre_usuario: "Anonimo",
+        nombre: "Anonimo",
+        email: "Anomimo@gmail.com",
+        foto: "http://127.0.0.1:8000/media/usuarios/default.png",
+        password: "Anonimo",
+        rol: "Cliente"
+      } as Usuario,
+      usuarioLogeado: false as boolean,
 
       paginaActual: "",
   
@@ -95,7 +105,6 @@ export const useStore = defineStore('storeId', {
       listaCategorias: [] as Categoria [],
       listaServicios: [] as Servicio [],
       listaPedidos: [] as Pedido [],
-      listaUsuarios: [] as Usuario [],
 
       // Lista informacion para filtrar
 
@@ -103,7 +112,6 @@ export const useStore = defineStore('storeId', {
       listaCategoriasFiltrar: [] as Categoria [],
       listaServiciosFiltrar: [] as Servicio [],
       listaPedidosFiltrar: [] as Pedido [],
-      listaUsuariosFiltrar: [] as Usuario [],
 
       // Lista productos por pagina
 
@@ -172,12 +180,12 @@ export const useStore = defineStore('storeId', {
 
     },
 
-    async getUsuarios(){
+    async getUsuario(id: number){
 
-      const data = await fetch("http://127.0.0.1:8000/api/Usuario/")
+      const data = await fetch(`http://127.0.0.1:8000/api/Usuario/${id}/`)
       const info = await data.json()
-      this.listaUsuarios = info.reverse()
-      this.listaUsuariosFiltrar = this.listaUsuarios
+      this.datosUsuario = info
+      console.log(info)
 
     }
 

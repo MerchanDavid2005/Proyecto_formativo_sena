@@ -13,7 +13,7 @@
 <script lang="ts" setup>
 
     import { ref, watch } from 'vue'
-    import { useStore } from '@/store/pinia';
+    import { useStore } from '../store/pinia';
     import { useRouter } from 'vue-router';
 
     const enrutado = useRouter()

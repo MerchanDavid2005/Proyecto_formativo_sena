@@ -39,14 +39,16 @@
         </div>
         <div class="nav-account">
             <div @click="abrirPanel" class="nav-account-img">
-                <img src="https://m.media-amazon.com/images/I/51w7-OAqI+L.jpg" alt="">
+                <img :src="pinia.datosUsuario.foto" alt="">
             </div>
-            <transition name="panelAccount">
-                <div @click="enrutado.push('/iniciar_sesion')" v-show="panel" class="nav-account-panel">
-                    <v-icon name="hi-login" scale="2"></v-icon>
-                    <h1> Iniciar sesion </h1>
-                </div>
-            </transition>
+            <div @click="iniciarSesion" v-show="panel && !pinia.usuarioLogeado" class="nav-account-panel">
+                <v-icon name="hi-login" scale="2"></v-icon>
+                <h1> Iniciar sesion </h1>
+            </div>
+            <div @click="cerrarSesion" v-show="panel && pinia.usuarioLogeado" class="nav-account-panel">
+                <v-icon name="hi-login" scale="2"></v-icon>
+                <h1> Cerrar sesion </h1>
+            </div>
         </div>
     </nav>
 </template>
@@ -55,11 +57,34 @@
 
     import { ref } from 'vue'
     import { useRouter } from 'vue-router';
+    import { useStore } from '../store/pinia'
 
+    const pinia = useStore()
     const enrutado = useRouter()
+
     let panel = ref(false)
 
     const abrirPanel = () => panel.value = !panel.value
+
+    const cerrarSesion = () => {
+
+        localStorage.removeItem("token")
+        enrutado.push('/iniciar_sesion')
+        pinia.datosUsuario = {
+
+            id: 1,
+            nombre_usuario: "Anonimo",
+            nombre: "Anonimo",
+            email: "Anomimo@gmail.com",
+            foto: "http://127.0.0.1:8000/media/usuarios/default.png",
+            password: "Anonimo",
+            rol: "Cliente"
+
+        }
+
+    }
+
+    const iniciarSesion = () => enrutado.push('/')
 
 </script>
 
@@ -149,7 +174,7 @@
 
             &-panel{
 
-                width: 7%;
+                width: 10%;
                 position: fixed;
                 z-index: 10000;
                 top: 10vh;

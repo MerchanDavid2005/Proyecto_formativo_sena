@@ -11,6 +11,7 @@ import random
 from django.core.mail import send_mail
 import jwt
 from django.core.mail import EmailMessage
+from datetime import datetime, timedelta
 
 class ProductoViewset(ModelViewSet):
 
@@ -354,12 +355,17 @@ def iniciar_sesion(request, rol):
 
     token = ""
 
+    hoy = datetime.now()
+    fechaExpiracion = hoy + timedelta(days=7)
+    fechaExpiracion_token = fechaExpiracion.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
+
     for i in usuarios:
 
         if i.nombre_usuario == datos["usuario"] and i.password == datos["password"]:
 
             payload={
                 "id": i.id,
+                "exp": fechaExpiracion_token
             }
 
             token = jwt.encode(payload, clave_secreta, algorithm='HS256')

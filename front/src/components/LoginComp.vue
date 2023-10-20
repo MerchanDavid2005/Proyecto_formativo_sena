@@ -5,9 +5,9 @@
         <h1> Iniciar sesion </h1>
         <p v-if="errorCredenciales" class="error"> Los datos ingresados son incorrectos </p>
         <label> Nombre de usuario: </label>
-        <input type="text" placeholder="Usuario">
+        <input v-model="usuario" type="text" placeholder="Usuario">
         <label> Contraseña:  </label>
-        <input type="password" placeholder="**********">
+        <input v-model="password" type="password" placeholder="**********">
         <p> ¿Aun no tienes una cuenta? </p>
         <p> Registrate en el siguiente enlace <router-link to="/registrar"> registrarse </router-link> </p>
         <button @click="entrar"> Iniciar sesion </button>
@@ -20,12 +20,22 @@
 
     import { ref } from 'vue';
     import { useRouter } from 'vue-router';
+    import { useStore } from '../store/pinia';
+    import jwt_decode from 'jwt-decode'
 
+    const pinia = useStore()
     const enrutado = useRouter();
 
     let usuario = ref<string>("");
     let password = ref<string>("");
     let errorCredenciales = ref(false);
+
+    type infoToken = {
+
+        id: number,
+        exp: string
+
+    }
 
     async function verificarDatos(){
 
@@ -57,9 +67,19 @@
         }else{
 
             localStorage.setItem("token", JSON.stringify({"token": informacion.token}))
-            enrutado.push("/admin/product")
+            const tokenDecodificado: infoToken = jwt_decode(informacion.token);
+            pinia.usuarioLogeado = true
+            pinia.usuario = tokenDecodificado.id
+            pinia.getUsuario(tokenDecodificado.id)
+            enrutado.push("/")
 
         }
+
+    }
+
+    if(localStorage.getItem("token") != null){
+
+        enrutado.push('/')
 
     }
 
@@ -73,6 +93,7 @@
         height: 60%;
         display: flex;
         flex-direction: column;
+        justify-content: space-evenly;
         align-items: center;
         position: static;
         z-index: 1000;
@@ -82,7 +103,7 @@
 
         h1{
 
-            margin: 20px 0;
+            margin: 25px 0;
             font-size: 40px;
 
         }
