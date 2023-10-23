@@ -68,7 +68,7 @@
             method: 'POST',
             body: JSON.stringify({
 
-                pedido_usuario: 1,
+                pedido_usuario: pinia.usuario,
                 lista_productos: JSON.stringify(pinia.carrito)
 
             }),
@@ -83,7 +83,7 @@
 
             pinia.getPedidos()
 
-        })
+        }, 1000)
 
     }
 
@@ -125,7 +125,7 @@
             border-radius: 30px;
             background: $fondo-input;
             color: #000;
-
+        
             button{
 
                 @include botones('#0af');

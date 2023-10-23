@@ -13,7 +13,6 @@
 
   onMounted(() => {
 
-    pinia.getPedidos()
     pinia.getProductos()
     pinia.getCategorias()
     pinia.getServicios()
@@ -39,7 +38,6 @@
       }else{
 
         pinia.usuarioLogeado = true
-        pinia.usuario = tokenDecodificado.id
         pinia.getUsuario(tokenDecodificado.id)
 
       }

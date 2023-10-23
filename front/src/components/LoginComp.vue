@@ -69,7 +69,6 @@
             localStorage.setItem("token", JSON.stringify({"token": informacion.token}))
             const tokenDecodificado: infoToken = jwt_decode(informacion.token);
             pinia.usuarioLogeado = true
-            pinia.usuario = tokenDecodificado.id
             pinia.getUsuario(tokenDecodificado.id)
             enrutado.push("/")
 

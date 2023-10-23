@@ -17,12 +17,6 @@
                         Carrito 
                     </li>
                 </router-link>
-                <router-link style="text-decoration: none;" :to="{name: 'pedidos'}">
-                    <li> 
-                        <v-icon name="bi-bag-check-fill" scale="1.6"></v-icon>
-                        Pedidos 
-                    </li>
-                </router-link>
                 <router-link style="text-decoration: none;" :to="{name: 'servicios'}">
                     <li> 
                         <v-icon name="md-work-sharp" scale="1.6"></v-icon>
@@ -46,8 +40,8 @@
                 <h1> Iniciar sesion </h1>
             </div>
             <div @click="cerrarSesion" v-show="panel && pinia.usuarioLogeado" class="nav-account-panel">
-                <v-icon name="hi-login" scale="2"></v-icon>
-                <h1> Cerrar sesion </h1>
+                <v-icon name="md-accountcircle" scale="2"></v-icon>
+                <h1> Mi cuenta </h1>
             </div>
         </div>
     </nav>
@@ -68,23 +62,12 @@
 
     const cerrarSesion = () => {
 
-        localStorage.removeItem("token")
-        enrutado.push('/iniciar_sesion')
-        pinia.datosUsuario = {
-
-            id: 1,
-            nombre_usuario: "Anonimo",
-            nombre: "Anonimo",
-            email: "Anomimo@gmail.com",
-            foto: "http://127.0.0.1:8000/media/usuarios/default.png",
-            password: "Anonimo",
-            rol: "Cliente"
-
-        }
+        pinia.getPedidos();
+        enrutado.push('/perfil');
 
     }
 
-    const iniciarSesion = () => enrutado.push('/')
+    const iniciarSesion = () => enrutado.push('/iniciar_sesion')
 
 </script>
 

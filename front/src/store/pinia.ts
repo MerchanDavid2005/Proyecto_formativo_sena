@@ -95,6 +95,7 @@ export const useStore = defineStore('storeId', {
         rol: "Cliente"
       } as Usuario,
       usuarioLogeado: false as boolean,
+      datosUsuarioEditar: {},
 
       paginaActual: "",
   
@@ -147,7 +148,7 @@ export const useStore = defineStore('storeId', {
 
     async getPedidos(){
 
-      const data = await fetch(`http://127.0.0.1:8000/get/orders/${this.usuario}/`)
+      const data = await fetch(`http://127.0.0.1:8000/get/orders/${this.datosUsuario.id}/`)
       const info = await data.json()
       this.listaPedidos = info.pedidos.reverse()
       this.listaPedidosFiltrar = this.listaPedidos
@@ -185,7 +186,6 @@ export const useStore = defineStore('storeId', {
       const data = await fetch(`http://127.0.0.1:8000/api/Usuario/${id}/`)
       const info = await data.json()
       this.datosUsuario = info
-      console.log(info)
 
     }
 

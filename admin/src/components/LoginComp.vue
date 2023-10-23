@@ -68,7 +68,6 @@
 
     if(localStorage.getItem("token") != "Error" && localStorage.getItem("token") !== null){
 
-        console.log(localStorage.getItem("token"));
         enrutado.push('/admin/product');
 
     }

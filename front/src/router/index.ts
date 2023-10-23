@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import InicioView from '../views/InicioView.vue'
 import CarritoView from '../views/CarritoView.vue'
-import PedidosView from '../views/PedidosView.vue'
+import PerfilView from '../views/PerfilView.vue'
 import ServiciosView from '../views/ServiciosView.vue'
 import ContactoView from '../views/ContactoView.vue'
 import PedidoIndividualView from '../views/PedidoIndividual.vue'
@@ -20,9 +20,9 @@ const routes: Array<RouteRecordRaw> = [
     component: CarritoView
   },
   {
-    path: '/pedidos',
-    name: 'pedidos',
-    component: PedidosView
+    path: '/perfil',
+    name: 'perfil',
+    component: PerfilView
   },
   {
     path: '/servicios',

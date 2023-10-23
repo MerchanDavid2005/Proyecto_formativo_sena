@@ -8,7 +8,6 @@
         <div class="orders-all-productos">
 
             <div class="orders-all-productos-prd" v-for="(order, i) in pinia.listaPedidos" :key="i">
-                <h1> Numero de pedido: {{ i + 1 }} </h1>
                 <div class="orders-all-productos-prd-img">
                     <div v-for="(prd, i) in order.lista_productos.slice(0, 4) " :key="i">
                         <img :src="prd.img" alt="">
@@ -43,9 +42,7 @@
     .orders-all{
 
         width: 100%;
-        height: 85vh;
-        padding-top: 5vh;
-        overflow: auto;
+        height: 20%;
         display: flex;
         flex-direction: column;
         align-items: center;
