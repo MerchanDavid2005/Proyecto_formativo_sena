@@ -9,7 +9,9 @@
 
             <div class="orders-all-productos-prd" v-for="(order, i) in pinia.listaPedidos" :key="i">
                 <div class="orders-all-productos-prd-img">
-                    <div v-for="(prd, i) in order.lista_productos.slice(0, 4) " :key="i">
+                    <div 
+                        :class="{'img-1': order.lista_productos.length == 1}"
+                        v-for="(prd, i) in order.lista_productos.slice(0, 4) " :key="i">
                         <img :src="prd.img" alt="">
                     </div>
                 </div>
@@ -70,27 +72,27 @@
                 justify-content: space-between;
                 align-items: center;
                 transition: transform 0.5s ease-in-out;
+                margin: 20px 0;
     
                 &-img{
     
                     width: 100%;
-                    height: 60%;
+                    height: 70%;
                     display: grid;
-                    grid-template-columns: repeat(2, 25%);
-                    gap: 15px;
+                    grid-template-columns: repeat(2, 20%);
+                    gap: 5px;
                     justify-content: center;
-    
-                    div{
-    
-                        width: 100%;
-                        height: 100%;
-    
-                        img{
-    
-                            object-fit: contain;
-    
-                        }
-    
+
+                    img{
+
+                        object-fit: contain;
+
+                    }
+                    .img-1{
+
+                        grid-column: 1 / 3;
+                        grid-row: 1 / 3;
+
                     }
     
                 }

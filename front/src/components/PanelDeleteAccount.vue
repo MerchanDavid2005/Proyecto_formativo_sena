@@ -1,30 +1,27 @@
 <template>
-    <div class="verify-delete">
+
+    <div class="panel-eliminar-cuenta">
         
         <h1> Eliminar </h1>
-        <p> {{ props.texto }} </p>
-        <div class="verify-delete-buttons">
+        <p> ¿Estas seguro de querer eliminar tu cuenta? </p>
+        <div class="panel-eliminar-cuenta-buttons">
             <button @click="aceptado"> Si, seguro </button>
-            <button @click="emits('ocultar')"> No, Cancelar </button>
+            <button @click="emits('verifyDelete')"> No, Cancelar </button>
         </div>
 
     </div>
+
 </template>
 
 <script lang="ts" setup>
 
-    import { defineProps, defineEmits } from 'vue';
-    import { useStore } from '../store/pinia'
+    import { defineEmits } from 'vue'
 
-    const pinia = useStore()
-    const props = defineProps(['texto'])
-    const emits = defineEmits(['ocultar'])
+    const emits = defineEmits(['verifyDelete'])
 
-    const aceptado = () => {
+    function aceptado(){
 
-        pinia.carrito.splice(pinia.idEliminar, 1)
-        localStorage.setItem("Carrito", JSON.stringify(pinia.carrito))
-        emits('ocultar', )
+        emits('verifyDelete')
 
     }
 
@@ -32,7 +29,7 @@
 
 <style lang="scss" scoped>
 
-    .verify-delete{
+    .panel-eliminar-cuenta{
 
         position: static;
         z-index: 5000;

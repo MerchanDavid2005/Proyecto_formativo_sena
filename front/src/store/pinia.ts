@@ -38,12 +38,6 @@ type Pedido = {
     
 }
 
-enum rol {
-
-  'Cliente',
-  'Administrador'
-
-}
 
 type Usuario = {
 
@@ -83,7 +77,6 @@ export const useStore = defineStore('storeId', {
 
       codigoVerificacion: "" as string,
       datosUsuarioCrear: {} as UsuarioCrear,
-      usuario: 1 as number,
       mensajeUsuarioRegistrado: false as boolean,
       datosUsuario: {
         id: 1,
@@ -92,10 +85,10 @@ export const useStore = defineStore('storeId', {
         email: "Anomimo@gmail.com",
         foto: "http://127.0.0.1:8000/media/usuarios/default.png",
         password: "Anonimo",
-        rol: "Cliente"
+        rol: 'Cliente'
       } as Usuario,
       usuarioLogeado: false as boolean,
-      datosUsuarioEditar: {},
+      datosUsuarioEditar: {} as Usuario,
 
       paginaActual: "",
   

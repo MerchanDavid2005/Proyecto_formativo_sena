@@ -1,10 +1,7 @@
 <template>
     <div class="car-all">
 
-        <h1 
-            v-if="pinia.carrito.length < 1 && pinia.carrito.length > 1"> 
-            No tienes productos por esta categoria 
-        </h1>
+        <p v-if="!pinia.usuarioLogeado && pinia.carrito.length > 0" class="mensaje-iniciar-sesion"> Para realizar un pedido primero debes iniciar sesion </p>
 
         <div class="car-all-none" v-if="pinia.carrito.length < 1">
 
@@ -16,11 +13,19 @@
         </div>
         
         <button 
-            v-if="pinia.carrito.length > 0" 
-            @click="hacerPedido" 
+            v-if="pinia.carrito.length > 0 && pinia.usuarioLogeado" 
+            @click="limpiarCarrito" 
             class="car-all-pedido"> 
             Realizar pedido 
             <v-icon style="margin-left:5px;" name="bi-check-circle-fill" scale="1"></v-icon>
+        </button>
+
+        <button 
+            v-if="pinia.carrito.length > 0 && !pinia.usuarioLogeado" 
+            @click="enrutado.push('/iniciar_sesion')" 
+            class="car-all-pedido"> 
+            Iniciar sesion
+            <v-icon style="margin-left:5px;" name="hi-login" scale="1"></v-icon>
         </button>
         
         <div class="car-all-prd" v-for="(prd, i) in pinia.carrito" :key="i">
@@ -47,7 +52,10 @@
 
     import { useStore } from '../store/pinia'
     import { useRouter } from 'vue-router';
-    import { defineEmits } from 'vue';
+    import { defineEmits, defineAsyncComponent } from 'vue';
+
+    const mensajeEliminar = defineAsyncComponent(() => import('./VerifyDelete.vue'))
+    const mensajeComprado = defineAsyncComponent(() => import('./OrderExit.vue'))
 
     const enrutado = useRouter()
     const pinia = useStore()
@@ -55,20 +63,20 @@
 
     const eliminar = (id: number) => {
 
-        emits('eliminar')
+        emits('eliminar', mensajeEliminar)
 
         pinia.idEliminar = id
 
     }
 
-    function hacerPedido(){
+    async function hacerPedido(){
 
-        fetch("http://localhost:8000/api/Pedido/", {
+        const data = await fetch("http://localhost:8000/api/Pedido/", {
 
             method: 'POST',
             body: JSON.stringify({
 
-                pedido_usuario: pinia.usuario,
+                pedido_usuario: pinia.datosUsuario.id,
                 lista_productos: JSON.stringify(pinia.carrito)
 
             }),
@@ -76,14 +84,18 @@
 
         })
 
+        return data.json()
+
+    }
+
+    async function limpiarCarrito(){
+
+        await hacerPedido()
+
         pinia.carrito = []
         localStorage.removeItem("Carrito")
-
-        setTimeout(() => {
-
-            pinia.getPedidos()
-
-        }, 1000)
+        emits('eliminar', mensajeComprado)
+        pinia.getPedidos()
 
     }
 
@@ -99,6 +111,14 @@
         display: flex;
         justify-content: space-evenly;
         flex-wrap: wrap;
+
+        .mensaje-iniciar-sesion{
+
+            position: fixed;
+            top: 5%;
+            font-size: 30px;
+
+        }
 
         .car-all-pedido{
 

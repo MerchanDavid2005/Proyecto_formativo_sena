@@ -39,7 +39,7 @@
                 <v-icon name="hi-login" scale="2"></v-icon>
                 <h1> Iniciar sesion </h1>
             </div>
-            <div @click="cerrarSesion" v-show="panel && pinia.usuarioLogeado" class="nav-account-panel">
+            <div @click="enrutado.push('/perfil')" v-show="panel && pinia.usuarioLogeado" class="nav-account-panel">
                 <v-icon name="md-accountcircle" scale="2"></v-icon>
                 <h1> Mi cuenta </h1>
             </div>
@@ -59,13 +59,6 @@
     let panel = ref(false)
 
     const abrirPanel = () => panel.value = !panel.value
-
-    const cerrarSesion = () => {
-
-        pinia.getPedidos();
-        enrutado.push('/perfil');
-
-    }
 
     const iniciarSesion = () => enrutado.push('/iniciar_sesion')
 

@@ -36,6 +36,7 @@ urlpatterns = [
     path('get/order/<int:id>/', views.traer_pedido_id, name="Traer pedido por id"),
     path('post/user/<str:rol>/', views.crear_usuario, name="Crear usuario administrador"),
     path('delete/img/user/<int:id>/', views.eliminar_imagen_usuario, name="Eliminar imagen"),
+    path('put/user/<int:id>/', views.actualizar_usuario, name="Actualizar datos del usuario"),
 
     path('send/code/verify/', views.enviar_correo_verificacion, name="Enviar correo de verificacion de usuario"),
     path('login/<str:rol>/', views.iniciar_sesion, name="Iniciar sesion"),

@@ -341,7 +341,46 @@ def eliminar_imagen_usuario(request, id):
 
             print("Tas loco mi perro")
 
-    return HttpResponse ("Exito")
+    return JsonResponse({"Mensaje": "Imagen eliminada"})
+
+@csrf_exempt
+def actualizar_usuario(request, id):
+
+    usuario = Usuario.objects.get(id = id)
+
+    mensaje = ""
+
+    usuario.nombre_usuario = request.POST["usuario"]
+    usuario.nombre = request.POST["nombre"]
+    usuario.email = request.POST["email"]
+
+    if request.FILES.get("img") != None:
+             
+        ruta_imagen = usuario.foto.name.split("/")
+        img = os.path.join(settings.MEDIA_ROOT, ruta_imagen[0], ruta_imagen[1])  
+        usuario.foto = request.FILES.get("img")
+
+        imgDefault = os.path.join(settings.MEDIA_ROOT, "usuarios\default.png")
+
+        if img != imgDefault:
+
+            if os.path.exists(img):
+
+                os.remove(img)
+                print("Imagen eliminada :D")
+
+            else:
+
+                print("Tas loco mi perro")
+
+    usuario.save()
+
+    mensaje = "¡Actualizado!"
+
+
+    return JsonResponse({"Mensaje": mensaje})
+
+    
 
 # ----------------------------------------------- Endpoints login ------------------------
 

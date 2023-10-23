@@ -112,7 +112,6 @@
         }else{
 
             pinia.carrito.push(productoComprado)
-            pinia.carritoFiltrar = pinia.carrito
             localStorage.setItem("Carrito", JSON.stringify(pinia.carrito))
 
         }

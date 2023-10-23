@@ -118,7 +118,7 @@
     }
 
     .cuadroCompra-enter-from, .cuadroCompra-leave-to {
-        transform: scale(0.1);
+        transform: scale(0);
     }
 
     .animacionCompra-enter-active, .animacionCompra-leave-active {

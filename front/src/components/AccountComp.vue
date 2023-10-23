@@ -49,6 +49,7 @@
                         </button>
                         <button
                             v-if="noEditar == true" 
+                            @click="emits('verify', cuadroEliminar)"
                             class="boton-eliminar"> Eliminar cuenta 
                         </button>
                         <button
@@ -69,13 +70,16 @@
 
     import { useStore } from '../store/pinia'
     import { useRouter } from 'vue-router'; 
-    import { ref, defineEmits } from 'vue';
+    import { ref, defineEmits, onMounted, defineAsyncComponent } from 'vue';
 
     const emits = defineEmits(['verify'])
     const enrutado = useRouter()
     const pinia = useStore()
 
     let noEditar = ref<boolean>(true)
+
+    let cuadroEditar = defineAsyncComponent(() => import('./VerifyEdit.vue'))
+    let cuadroEliminar = defineAsyncComponent(() => import('./PanelDeleteAccount.vue'))
 
     let usuario = ref<string>(pinia.datosUsuario.nombre_usuario)
     let nombre = ref<string>(pinia.datosUsuario.nombre)
@@ -119,14 +123,17 @@
 
         pinia.datosUsuarioEditar = {
 
-            "usuario": usuario.value,
-            "nombre": nombre.value,
-            "correo": email.value,
-            "foto": foto.value,
+            id: pinia.datosUsuario.id,
+            nombre_usuario: usuario.value,
+            nombre: nombre.value,
+            email: email.value,
+            foto: foto.value,
+            password: pinia.datosUsuario.password,
+            rol: "Cliente"
 
         }
 
-        emits('verify')
+        emits('verify', cuadroEditar)
 
     }
 
@@ -135,6 +142,12 @@
         enrutado.push('/')
 
     }
+
+    onMounted(() => {
+        
+        pinia.getPedidos()
+
+    })
 
 </script>
 

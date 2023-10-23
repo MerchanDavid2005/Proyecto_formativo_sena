@@ -2,6 +2,11 @@
 
     <div class="order-id">
 
+        <button @click="enrutado.push('/perfil')" class="order-id-volver">
+            <v-icon style="margin-right:5px;" name="bi-arrow-left-short" scale="1.5"></v-icon>
+            Volver
+        </button>
+
         <div class="order-id-data" v-for="(prd, i) in pinia.idPedido.lista_productos" :key="i">
 
             <h1> {{ prd.nombre }} </h1>
@@ -22,9 +27,10 @@
 <script lang="ts" setup>
 
     import { useStore } from '../store/pinia';
-    import { useRoute } from 'vue-router';
+    import { useRoute, useRouter } from 'vue-router';
     import { onMounted } from 'vue'
 
+    const enrutado = useRouter()
     const pinia = useStore()
     const router = useRoute()
 
@@ -48,6 +54,19 @@
         display: flex;
         justify-content: space-evenly;
         flex-wrap: wrap;
+
+        &-volver{
+
+            position: fixed;
+            left: 2%;
+            top: 15%;
+            @include botones($fondo-boton-limpiar);
+            height: max-content;
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+
+        }
 
         &-data{
 
