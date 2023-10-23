@@ -12,6 +12,10 @@ from django.core.mail import send_mail
 import jwt
 from django.core.mail import EmailMessage
 from datetime import datetime, timedelta
+from fpdf import FPDF
+import locale
+
+locale.setlocale(locale.LC_ALL, 'es_ES.UTF-8')
 
 class ProductoViewset(ModelViewSet):
 
@@ -433,12 +437,33 @@ def enviar_correo_verificacion(request):
 
         codigo += i
 
-    subject = 'Codigo de verificacion'
-    message = "¡Bienvenid@ {}!, este es el ultimo paso para estar completamente registrado en serviteca la estacion, solo necesitas copiar el siguiente codigo: **{}** y ponerlo en el campo correspondiente".format(nombre_usuario, codigo)
-    email_from = settings.EMAIL_HOST_USER
-    recipient_list = [email_usuario]
+    asunto = 'Codigo de verificacion'
+    mensaje = """
 
-    send_mail(subject, message, email_from, recipient_list)
+    <html>
+        <body>
+            <div style='padding:30px; height:300px; background:#eee; border-radius:30px'>
+
+                <h1 style='text-align:center; font-size:45px;'> ¡Bienvenid@ {}! </h1> 
+                <p style='font-size:15px;'> Este es el ultimo paso para estar completamente registrado en serviteca la estacion, solo necesitas copiar el siguiente codigo e ingresarlo en el campo correspondiente </p>
+                <p style='text-align:center; font-weight:bold; font-size:40px;'> 
+                    Codigo: <span> {} </span> 
+                </p>
+
+            </div>
+        </body>
+    <html>
+    """.format(nombre_usuario, codigo)
+    emisor = settings.EMAIL_HOST_USER
+    remitente = [email_usuario]
+
+    send_mail(
+        asunto, 
+        '', 
+        emisor,
+        remitente,
+        html_message=mensaje
+    )
 
     return JsonResponse({"Codigo": codigo})
 
@@ -480,3 +505,52 @@ def enviar_correo_contacto(request):
     email.send()
 
     return HttpResponse("Enviado")
+
+@csrf_exempt
+def generar_factura(request):
+
+    id = request.POST["id"]
+    usuario = request.POST["usuario"]
+    nombre = request.POST["nombre"]
+    correo = request.POST["correo"]
+    data = datetime.now()
+    fecha = data.strftime("%d-%m-%Y %H:%M:%S")
+    carrito = request.POST["carrito"]
+
+    productos = json.loads(carrito)
+
+    pdf = FPDF()
+    pdf.add_page()
+
+    pdf.set_font("Arial", size=30)
+    pdf.cell(200, 30, txt="Datos del pedido", ln=1, align="C")
+    pdf.set_font("Arial", size=20)
+    pdf.cell(200, 20, txt="Serviteca la estacion", ln=1)
+    pdf.set_font("Arial", size=12)
+    pdf.cell(200, 15, txt="---------------------------------------------------------------------------------------------------------------------------------", ln=1)
+    pdf.cell(200, 10, txt="Usuario: {}".format(usuario), ln=1)
+    pdf.cell(200, 10, txt="Nombre: {}".format(nombre), ln=1)
+    pdf.cell(200, 10, txt="Correo: {}".format(correo), ln=1)
+    pdf.cell(200, 10, txt="Fecha: {}".format(fecha), ln=1)
+    pdf.cell(200, 15, txt="---------------------------------------------------------------------------------------------------------------------------------", ln=1)
+
+    total_pedido = 0
+
+    ruta = os.path.join(settings.MEDIA_ROOT, "facturas/Factura_{}_{}.pdf".format(usuario, id))
+    
+    for i in productos:
+
+        precio = locale.format_string("%d", i["precio"], grouping=True)
+        pdf.cell(80, 15, txt="Producto: {}".format(i["nombre"]), ln=0)
+        pdf.cell(50, 15, txt="Unidades: {}".format(i["cantidad"]), ln=0)
+        pdf.cell(65, 15, txt="Total: {}".format(precio), ln=1)
+        total_pedido += i["precio"]
+
+    total_precio = locale.format_string("%d", total_pedido, grouping=True)
+
+    pdf.cell(200, 15, txt="---------------------------------------------------------------------------------------------------------------------------------", ln=1)
+    pdf.cell(200, 15, txt="Total valor del pedido: {}".format(total_precio), ln=1)
+    pdf.output(os.path.join(ruta))
+
+    return JsonResponse({"Mensaje": "¡Creado!"})
+

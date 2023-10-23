@@ -106,6 +106,7 @@
     .car-all{
 
         width: 95%;
+        padding-top: 5vh;
         height: max-content;
         box-sizing: border-box;
         display: flex;
@@ -116,7 +117,7 @@
 
             position: fixed;
             top: 5%;
-            font-size: 30px;
+            font-size: 20px;
 
         }
 

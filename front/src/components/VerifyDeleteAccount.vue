@@ -1,13 +1,13 @@
 <template>
 
-    <div class="panel-verify-delete">
+    <div class="panel-verify">
     
         <h1> Contraseña de verificacion </h1>
-        <p class="panel-verify-delete-error" v-if="error"> La contraseña ingresada es incorrecta </p>
+        <p class="panel-verify-error" v-if="error"> La contraseña ingresada es incorrecta </p>
         <p> Para poder continuar necesitamos que verifiques tu contraseña  </p>
         <input v-model="contra" type="password" placeholder="***********">
-        <button @click="recargarDatos" class="panel-verify-delete-boton-aceptar"> Aceptar </button>
-        <button class="panel-verify-delete-boton-cancelar" @click="emits('verifyDelete')"> Cancelar </button>
+        <button @click="recargarDatos" class="panel-verify-boton-aceptar"> Aceptar </button>
+        <button class="panel-verify-boton-cancelar" @click="emits('ocultar')"> Cancelar </button>
         <p> {{ texto }} </p>
 
     </div>
@@ -22,57 +22,56 @@
 
     const enrutado = useRouter()
     const pinia = useStore()
-    const emits = defineEmits(['verifyDelete'])
+    const emits = defineEmits(['ocultar'])
 
     let contra = ref<string>("")
     let texto = ref<string>("No dudamos que seas tu, solo son temas de seguridad :)")
     let error = ref<boolean>(false)
 
-    async function eliminarCuenta(){
+    async function actualizarDatos(){
 
-        const data = await fetch(`http://localhost:8000/api/Usuario/${pinia.datosUsuario.id}/`, {
+        if(contra.value == pinia.datosUsuario.password){
 
-            method: 'DELETE',
-            headers: {'content-type': 'application/json'}
+            const data = await fetch(`http://localhost:8000/delete/img/user/${pinia.datosUsuario.id}/`);
 
-        })
+            fetch(`http://localhost:8000/api/Usuario/${pinia.datosUsuario.id}/`, {
 
-        return data.json()
+                method: 'DELETE',
+                headers: {"content-type": "application/json"}
 
-    }
+            })
 
-    async function eliminarImagen(){
+            return data.json()
 
-        const data = await fetch(`http://localhost:8000/delete/img/user/${pinia.datosUsuario.id}/`)
-        
-        return data.json()
+        }else{
+
+            error.value = true
+
+        }
 
     }
 
     async function recargarDatos(){
 
-        if(contra.value == pinia.datosUsuario.password){
+        const estado = await actualizarDatos()
 
-            const estado = await eliminarCuenta()
-            const estadoImagen = await eliminarImagen()
+        if(estado.Mensaje == "Imagen eliminada"){
 
-            if(estado.Mensaje == "Eliminado" && estadoImagen.Mensaje == "Imagen eliminada"){
+            localStorage.removeItem("token")
+            pinia.usuarioLogeado = false
+            enrutado.push('/')
+            pinia.datosUsuario = {
 
-                localStorage.removeItem("token")
-                pinia.usuarioLogeado = false
-                enrutado.push('/')
-                pinia.datosUsuario = {
-
-                    id: 1,
-                    nombre_usuario: "Anonimo",
-                    nombre: "Anonimo",
-                    email: "Anomimo@gmail.com",
-                    foto: "http://127.0.0.1:8000/media/usuarios/default.png",
-                    password: "Anonimo",
-                    rol: "Cliente"
-                }
+                id: 1,
+                nombre_usuario: "Anonimo",
+                nombre: "Anonimo",
+                email: "Anomimo@gmail.com",
+                foto: "http://127.0.0.1:8000/media/usuarios/default.png",
+                password: "Anonimo",
+                rol: "Cliente"
 
             }
+            emits('ocultar')
 
         }else{
 
@@ -86,7 +85,7 @@
 
 <style lang="scss" scoped>
 
-    .panel-verify-delete{
+    .panel-verify{
 
         width: 40%;
         height: max-content;

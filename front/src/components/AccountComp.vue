@@ -49,7 +49,7 @@
                         </button>
                         <button
                             v-if="noEditar == true" 
-                            @click="emits('verify', cuadroEliminar)"
+                            @click="emits('verify', 'Eliminar')"
                             class="boton-eliminar"> Eliminar cuenta 
                         </button>
                         <button
@@ -70,16 +70,13 @@
 
     import { useStore } from '../store/pinia'
     import { useRouter } from 'vue-router'; 
-    import { ref, defineEmits, onMounted, defineAsyncComponent } from 'vue';
+    import { ref, defineEmits, onMounted } from 'vue';
 
     const emits = defineEmits(['verify'])
     const enrutado = useRouter()
     const pinia = useStore()
 
     let noEditar = ref<boolean>(true)
-
-    let cuadroEditar = defineAsyncComponent(() => import('./VerifyEdit.vue'))
-    let cuadroEliminar = defineAsyncComponent(() => import('./PanelDeleteAccount.vue'))
 
     let usuario = ref<string>(pinia.datosUsuario.nombre_usuario)
     let nombre = ref<string>(pinia.datosUsuario.nombre)
@@ -115,6 +112,21 @@
 
         noEditar.value = true
 
+        let carrito = new FormData()
+
+        carrito.append("id", `${pinia.listaPedidos.length + 1}`)
+        carrito.append("usuario", pinia.datosUsuario.nombre_usuario)
+        carrito.append("nombre", pinia.datosUsuario.nombre)
+        carrito.append("correo", pinia.datosUsuario.email)
+        carrito.append("carrito", JSON.stringify(pinia.carrito))
+
+        fetch(`http://localhost:8000/send/factur/`, {
+
+            method: 'POST',
+            body: carrito
+
+        }).then(res => res.json()).then(info => console.log(info))
+
     }
 
     const valorImagen = (img: any) => foto.value = img.target.files[0]
@@ -133,7 +145,7 @@
 
         }
 
-        emits('verify', cuadroEditar)
+        emits('verify', 'Editar')
 
     }
 

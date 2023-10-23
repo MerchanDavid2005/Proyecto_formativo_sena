@@ -104,8 +104,6 @@ export const useStore = defineStore('storeId', {
 
       listaProductosFiltrar: [] as Producto [],
       listaCategoriasFiltrar: [] as Categoria [],
-      listaServiciosFiltrar: [] as Servicio [],
-      listaPedidosFiltrar: [] as Pedido [],
 
       // Lista productos por pagina
 
@@ -144,7 +142,6 @@ export const useStore = defineStore('storeId', {
       const data = await fetch(`http://127.0.0.1:8000/get/orders/${this.datosUsuario.id}/`)
       const info = await data.json()
       this.listaPedidos = info.pedidos.reverse()
-      this.listaPedidosFiltrar = this.listaPedidos
 
     },
 
@@ -170,7 +167,6 @@ export const useStore = defineStore('storeId', {
       const data = await fetch("http://127.0.0.1:8000/api/Servicio/")
       const info = await data.json()
       this.listaServicios = info.reverse()
-      this.listaServiciosFiltrar = this.listaServicios
 
     },
 

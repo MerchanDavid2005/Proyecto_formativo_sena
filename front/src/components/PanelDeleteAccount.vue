@@ -5,8 +5,8 @@
         <h1> Eliminar </h1>
         <p> ¿Estas seguro de querer eliminar tu cuenta? </p>
         <div class="panel-eliminar-cuenta-buttons">
-            <button @click="aceptado"> Si, seguro </button>
-            <button @click="emits('verifyDelete')"> No, Cancelar </button>
+            <button @click="emits('verify', 'confirmarDelete')"> Si, seguro </button>
+            <button @click="emits('ocultar')"> No, Cancelar </button>
         </div>
 
     </div>
@@ -17,13 +17,7 @@
 
     import { defineEmits } from 'vue'
 
-    const emits = defineEmits(['verifyDelete'])
-
-    function aceptado(){
-
-        emits('verifyDelete')
-
-    }
+    const emits = defineEmits(['verify', 'ocultar'])
 
 </script>
 

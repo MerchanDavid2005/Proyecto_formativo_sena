@@ -3,7 +3,7 @@
 
         <div class="cuerpo-perfil">
 
-            <div :class="{'cuerpo-perfil-contenido': !panel && !panelDeleteAccount, 'cuerpo-perfil-contenido-none': panel || panelDeleteAccount}">
+            <div :class="{'cuerpo-perfil-contenido': !panel, 'cuerpo-perfil-contenido-none': panel}">
 
                 <AccountComp @verify="abrirPanel" />
                 <OrdersAll />
@@ -12,8 +12,9 @@
     
             <div class="cuerpo-perfil-verify">
     
-                <component :is="cuadro" v-show="panel" @verify="abrirPanel" @verifyDelete="panelEliminarcuenta"></component>
-                <VerifyDeleteAccount v-show="panelDeleteAccount" @verifyDelete="panelEliminarcuenta" />
+                <PanelDeleteAccount v-show="panelEliminar" @verify="abrirPanel" @ocultar="ocultarTodo" />
+                <VerifyEdit v-show="panelEditar" @ocultar="ocultarTodo" />
+                <VerifyDeleteAccount v-show="panelEliminarConfirmar" @ocultar="ocultarTodo" />
     
             </div>
 
@@ -27,27 +28,50 @@
     import MainDefault from '../layouts/MainDefault.vue';
     import OrdersAll from '../components/OrdersAll.vue';
     import AccountComp from '../components/AccountComp.vue';
-    import VerifyDeleteAccount from '../components/VerifyDeleteAccount.vue'
+    import PanelDeleteAccount from '../components/PanelDeleteAccount.vue';
+    import VerifyEdit from '../components/VerifyEdit.vue'
+    import VerifyDeleteAccount from '../components/VerifyDeleteAccount.vue';
 
-    import { ref, defineAsyncComponent, shallowRef } from 'vue'
+    import { ref } from 'vue'
 
     let panel = ref<boolean>(false)
-    let panelDeleteAccount = ref<boolean>(false)
 
-    let cuadroEditar = defineAsyncComponent(() => import('../components/VerifyDelete.vue'))
+    let panelEditar = ref<boolean>(false)
+    let panelEliminar = ref<boolean>(false)
+    let panelEliminarConfirmar = ref<boolean>(false)
 
-    let cuadro = shallowRef(cuadroEditar)
+    const abrirPanel = (interfaz: string) => {
 
-    const abrirPanel = (tabla: any) => {
-        
-        panel.value = !panel.value
-        cuadro.value = tabla
+        if(interfaz == "Editar"){
+
+            panelEditar.value = true
+            panelEliminar.value = false
+            panelEliminarConfirmar.value = false
+            panel.value = true
+
+        }else if(interfaz == "Eliminar"){
+      
+            panelEditar.value = false
+            panelEliminar.value = true
+            panelEliminarConfirmar.value = false
+            panel.value = true
+
+        }else{
+
+            panelEditar.value = false
+            panelEliminar.value = false
+            panelEliminarConfirmar.value = true
+            panel.value = true
+
+        }
 
     }
 
-    const panelEliminarcuenta = () => {
-        
-        panelDeleteAccount.value = !panelDeleteAccount.value
+    const ocultarTodo = () => {
+
+        panelEditar.value = false
+        panelEliminar.value = false
+        panelEliminarConfirmar.value = false
         panel.value = false
 
     }

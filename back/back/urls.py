@@ -41,7 +41,8 @@ urlpatterns = [
     path('send/code/verify/', views.enviar_correo_verificacion, name="Enviar correo de verificacion de usuario"),
     path('login/<str:rol>/', views.iniciar_sesion, name="Iniciar sesion"),
     path('save/img/correo/', views.guardar_imagen_correo, name="Guardar imagen para enviar"),
-    path('send/email/contact/', views.enviar_correo_contacto, name="Contactar por correo")
+    path('send/email/contact/', views.enviar_correo_contacto, name="Contactar por correo"),
+    path('send/factur/', views.generar_factura, name="Generar pdf de factura")
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

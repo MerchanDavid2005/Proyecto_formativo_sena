@@ -56,8 +56,8 @@
         position: static;
         z-index: 5000;
         width: 100%;
-        height: 80vh;
-        padding-top: 10vh;
+        height: 85vh;
+        padding-top: 5vh;
         display: flex;
         justify-content: space-around;
         overflow: auto;

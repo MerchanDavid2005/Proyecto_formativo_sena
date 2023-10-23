@@ -7,7 +7,7 @@
         <p> Para poder continuar necesitamos que verifiques tu contraseña  </p>
         <input v-model="contra" type="password" placeholder="***********">
         <button @click="recargarDatos" class="panel-verify-boton-aceptar"> Aceptar </button>
-        <button class="panel-verify-boton-cancelar" @click="emits('verify')"> Cancelar </button>
+        <button class="panel-verify-boton-cancelar" @click="emits('ocultar')"> Cancelar </button>
         <p> {{ texto }} </p>
 
     </div>
@@ -20,7 +20,7 @@
     import { useStore } from '../store/pinia';
 
     const pinia = useStore()
-    const emits = defineEmits(['verify'])
+    const emits = defineEmits(['ocultar'])
 
     let contra = ref<string>("")
     let texto = ref<string>("No dudamos que seas tu, solo son temas de seguridad :)")
@@ -63,7 +63,7 @@
         if(estado.Mensaje == "¡Actualizado!"){
 
             pinia.getUsuario(pinia.datosUsuario.id);
-            emits('verify')
+            emits('ocultar')
 
         }else{
 
