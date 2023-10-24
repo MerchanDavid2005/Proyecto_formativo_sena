@@ -84,13 +84,50 @@
 
         })
 
-        return data.json()
+        return data
 
     }
 
-    async function limpiarCarrito(){
+    async function generarPdf(){
 
         await hacerPedido()
+
+        let carrito = new FormData()
+
+        carrito.append("id", `${pinia.listaPedidos.length + 1}`)
+        carrito.append("usuario", pinia.datosUsuario.nombre_usuario)
+        carrito.append("nombre", pinia.datosUsuario.nombre)
+        carrito.append("correo", pinia.datosUsuario.email)
+        carrito.append("carrito", JSON.stringify(pinia.carrito))
+
+        const data = await fetch(`http://localhost:8000/generate/factur/`, {
+
+            method: 'POST',
+            body: carrito
+
+        })
+
+        return data.json
+
+    }
+
+    async function limpiarCarrito() {
+        
+        await generarPdf()
+
+        fetch("http://localhost:8000/send/factur/", {
+
+            method: 'POST',
+            body: JSON.stringify({
+
+                id: pinia.listaPedidos.length + 1,
+                usuario: pinia.datosUsuario.nombre_usuario,
+                email: pinia.datosUsuario.email
+
+            }),
+            headers: {"content-type": "application/json"}
+
+        })
 
         pinia.carrito = []
         localStorage.removeItem("Carrito")

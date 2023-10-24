@@ -554,3 +554,43 @@ def generar_factura(request):
 
     return JsonResponse({"Mensaje": "¡Creado!"})
 
+@csrf_exempt
+def enviar_factura(request):
+
+    datosUsuario = json.loads(request.body)
+
+    factura = os.path.join(settings.MEDIA_ROOT, "facturas/factura_{}_{}.pdf").format(datosUsuario["usuario"], datosUsuario["id"])
+
+    if os.path.exists(factura):
+
+        asunto = "Factura_{}_{}".format(datosUsuario["usuario"], datosUsuario["id"])
+        mensaje = """ Gracias por tu compra {}, esperamos que sigas comprando en nuestra pagina web, aqui esta la factura de tu compra""".format(datosUsuario["usuario"])
+        emisor = settings.EMAIL_HOST_USER
+        remitente = [datosUsuario["email"]]
+        correo = EmailMessage(asunto, mensaje, emisor, remitente)
+        correo.content_subtype = "html"
+        html_content = """
+            <html>
+
+                <body>
+
+                    <div style='padding:30px; height:300px; background:#eee; border-radius:30px'>
+
+                        <h1 style='text-align:center; font-size:45px;'> Gracias por tu compra </h1>
+
+                        <p style='font-size:15px;'> Gracias por tu compra {}, esperamos que sigas comprando en nuestra pagina web </p>
+                        <p style='font-size:15px;'> Aqui esta la factura de tu compra: </p>
+
+                    </div>
+
+                </body>
+
+            </html>
+
+        """.format(datosUsuario["usuario"])
+        correo.body = html_content
+        correo.attach_file(factura)
+        correo.send()
+
+    return JsonResponse({"mensaje": "¡Enviado!"})
+

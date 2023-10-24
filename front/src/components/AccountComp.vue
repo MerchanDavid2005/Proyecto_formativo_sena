@@ -112,21 +112,6 @@
 
         noEditar.value = true
 
-        let carrito = new FormData()
-
-        carrito.append("id", `${pinia.listaPedidos.length + 1}`)
-        carrito.append("usuario", pinia.datosUsuario.nombre_usuario)
-        carrito.append("nombre", pinia.datosUsuario.nombre)
-        carrito.append("correo", pinia.datosUsuario.email)
-        carrito.append("carrito", JSON.stringify(pinia.carrito))
-
-        fetch(`http://localhost:8000/send/factur/`, {
-
-            method: 'POST',
-            body: carrito
-
-        }).then(res => res.json()).then(info => console.log(info))
-
     }
 
     const valorImagen = (img: any) => foto.value = img.target.files[0]
