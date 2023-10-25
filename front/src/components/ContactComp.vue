@@ -49,14 +49,16 @@
 
     import { ref } from 'vue'
     import { useRouter } from 'vue-router';
+    import { useStore } from '../store/pinia';
 
+    const pinia = useStore()
     const enrutado = useRouter()
 
     let nombre = ref<string>("")
     let motivo = ref<string>("Error")
     let descripcion = ref<string>("Descripcion del problema o necesidad")
     let imagen = ref<string>("")
-    let imagenDemostracion = ref<string>("https://m.media-amazon.com/images/I/51w7-OAqI+L.jpg")
+    let imagenDemostracion = ref<string>("https://www.lavanguardia.com/andro4all/hero/2021/01/aplicaciones-aprender-mecanica.jpg?width=768&aspect_ratio=16:9&format=nowebp")
 
     let error = ref<boolean>(false)
 
@@ -65,7 +67,7 @@
         "Error",
         "Ayuda",
         "Contactarme",
-        "Otros"
+        "Otro"
 
     ])
 
@@ -127,6 +129,18 @@
             })
 
             enrutado.push("/")
+
+            setTimeout(() => {
+
+                pinia.correoContactoEnviado = true
+
+            }, 500)
+
+            setTimeout(() => {
+
+                pinia.correoContactoEnviado = false
+
+            }, 4000)
 
         }else{
 

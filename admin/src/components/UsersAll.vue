@@ -26,22 +26,22 @@
             <transition-group name="newUser" tag="article">
                 <h1 v-if="pinia.listaUsuariosFilter < 1"> No hay resultados de tu busqueda </h1>
                 <div class="users-all-table-data" v-for="(user, i) in pinia.listaUsuariosFilter" :key="i">
-                    <div>
+                    <div v-show="pinia.datosUsuarioIngresado.id != user.id">
                         <p> {{ user.nombre_usuario }} </p>
                     </div>
-                    <div>
+                    <div v-show="pinia.datosUsuarioIngresado.id != user.id">
                         <p> {{ user.nombre }} </p>
                     </div>
-                    <div>
+                    <div v-show="pinia.datosUsuarioIngresado.id != user.id">
                         <img :src="user.foto" :alt="user.nombre">
                     </div>
-                    <div>
+                    <div v-show="pinia.datosUsuarioIngresado.id != user.id">
                         <p> {{ user.email }} </p>
                     </div>
-                    <div>
+                    <div v-show="pinia.datosUsuarioIngresado.id != user.id">
                         <p> {{ user.rol }} </p>
                     </div>
-                    <div style="color: #f05;">
+                    <div v-show="pinia.datosUsuarioIngresado.id != user.id" style="color: #f05;">
                         <v-icon 
                             @click="emits('eliminar'); pinia.idEliminar = user.id"
                             style="cursor:pointer" 

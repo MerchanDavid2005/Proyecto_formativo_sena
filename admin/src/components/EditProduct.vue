@@ -17,6 +17,7 @@
                 </option>
             </select>
         </div>
+        <p> Si dejas el campo imagen vacio este tomara la imagen ya existente </p>
         <div class="edit-product-campo-selector">
             <label> Imagen ilustrativa del producto:  </label>
             <input type="file" :onchange="imagenValor">
@@ -66,18 +67,26 @@
 
         let validado = false
 
-        if(nombre.value != "" && categoria.value != "" && imagen.value != "" && descripcion.value != "" && cantidad.value != "" && precio.value != ""){
+        if(nombre.value != "" && categoria.value != "" && descripcion.value != "" && cantidad.value != "" && precio.value != ""){
 
-            if(imagen.value.name.toLowerCase().endsWith(".png") || 
-            imagen.value.name.toLowerCase().endsWith(".jpg") || 
-            imagen.value.name.toLowerCase().endsWith(".jpeg")){
+            if(imagen.value != ""){
 
-                validado = true
+                if(imagen.value.name.toLowerCase().endsWith(".png") || 
+                imagen.value.name.toLowerCase().endsWith(".jpg") || 
+                imagen.value.name.toLowerCase().endsWith(".jpeg")){
+
+                    validado = true
+
+                }else{
+
+                    error.value = true
+                    mensajeError.value = "Solo se permiten archivos con extension png, jpg o jpeg"
+
+                }
 
             }else{
 
-                error.value = true
-                mensajeError.value = "Solo se permiten archivos con extension png, jpg o jpeg"
+                validado = true
 
             }
 
@@ -92,13 +101,13 @@
 
     }
 
-    function editarProducto(){
+    async function editarDatos(){
 
         let producto = pinia.listaProductos[ruta.params.id]
 
         if(validar()){
 
-            fetch(`http://127.0.0.1:8000/api/Producto/${producto.id}/`, {
+            const data = fetch(`http://127.0.0.1:8000/api/Producto/${producto.id}/`, {
 
                 method: 'PATCH',
                 body: JSON.stringify({
@@ -113,26 +122,46 @@
                 headers: {"content-type": "application/json"}
 
             });
+            
+            return data
+
+        }
+
+    }
+
+    async function editarImagen(){
+
+        let producto = pinia.listaProductos[ruta.params.id]
+
+        if(imagen.value != ""){
 
             let bodyForm = new FormData()
             bodyForm.append("img", imagen.value)
 
-            fetch(`http://127.0.0.1:8000/put/product/img/${producto.id}/`, {
+            const data = await fetch(`http://127.0.0.1:8000/put/product/img/${producto.id}/`, {
 
                 method: 'POST',
                 body: bodyForm
 
             });
 
-            enrutado.push('/admin/product')
+            return data.json()
 
-            setTimeout(() => {
+        }else{
 
-                pinia.getProductos()
-
-            }, 1000)
+            return "No se ha cambiado la imagen"
 
         }
+
+    }
+
+    async function editarProducto(){
+
+        await editarDatos()
+        await editarImagen()
+
+        pinia.getProductos()
+        enrutado.push('/admin/product')
 
     }
 
@@ -163,6 +192,17 @@
             text-align: center;
             color: #f00;
             margin-bottom: 20px;
+
+        }
+
+        p{
+
+            margin: 15px 0;
+            color: #000;
+            text-align: center;
+            background: #ff0;
+            border-radius: 15px;
+            padding: 5px;
 
         }
 

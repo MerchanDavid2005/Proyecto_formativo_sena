@@ -15,6 +15,12 @@
 
             </transition>
 
+            <transition name="messagges">
+            
+                <MessagesSendContact v-show="pinia.correoContactoEnviado" />
+
+            </transition>
+            
         </div>
 
         <div :class="{'contenedor-compras' : funcionando, 'contenedor-compras-none' : !funcionando}">
@@ -30,17 +36,20 @@
 <script lang="ts" setup>
 
     import { ref } from 'vue';
+    import { useStore } from '../store/pinia';
+
+    const pinia = useStore()
 
     import MainDefault from '../layouts/MainDefault.vue'
     import ProductsAll from '../components/ProductsAll.vue'
     import FilterData from '../components/FilterData.vue';
     import CheckBuy from '../components/CheckBuy.vue';
     import AnimationBuy from '../components/AnimationBuy.vue';
+    import MessagesSendContact from '../components/MessagesSendContact.vue';
 
     let interfazVerificacion = ref<boolean>(false)
     let funcionando = ref<boolean>(true)
     let comprado = ref<boolean>(false)
-
 
     const verificarCompra = () => {
         
@@ -110,6 +119,7 @@
         justify-content: center;
         align-items: center;
         position: absolute;
+        overflow: hidden;
 
     }
 
@@ -127,6 +137,41 @@
 
     .animacionCompra-enter-from, .animacionCompra-leave-to {
         width: 0;
+    }
+
+    
+    @keyframes mensaje {
+
+        0%{
+
+            transform: translateX(600px);
+
+        }
+
+        50%{
+
+            transform: translateX(-50px);
+
+        }
+
+        100%{
+
+            transform: translateX(0px)
+
+        }
+        
+    }
+
+    .messagges-enter-active {
+        
+        animation: mensaje 1s;
+
+    }
+
+    .messagges-leave-active{
+
+        animation: mensaje 1s reverse;
+
     }
 
 </style>

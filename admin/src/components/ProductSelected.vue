@@ -129,6 +129,20 @@
             height: 80%;
             width: 30%;
 
+            &-campo:nth-child(4){
+
+                height: 30%;
+    
+                div{
+    
+                    width: 100%;
+                    height: 100%;
+                    padding: 20px;
+    
+                }
+    
+            }
+
         }
 
     }

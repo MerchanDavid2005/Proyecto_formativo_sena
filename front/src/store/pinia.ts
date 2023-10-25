@@ -72,6 +72,7 @@ export const useStore = defineStore('storeId', {
       productoVerificar: {} as Producto,
       idPedido: {} as Pedido,
       idEliminar: 0 as number,
+      correoContactoEnviado: false as boolean,
 
       carrito: [] as Producto [],
 

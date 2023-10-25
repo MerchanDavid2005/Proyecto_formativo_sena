@@ -11,13 +11,13 @@
 
             <transition name="verifyPanel">
 
-                <OrderExit v-show="mensajeAceptar" @ocultar="ocultarMensaje" @mostrarMensaje="mostrarMensajeComprado" />
+                <OrderVerify v-show="mensajeAceptar" @ocultar="ocultarMensaje" @mostrarMensaje="mostrarMensajeComprado" />
 
             </transition>
 
             <transition name="messagges">
 
-                <MessagesExit @mostrarMensaje="mostrarMensajeComprado" v-show="mensajeComprado" />
+                <MessagesExit v-show="mensajeComprado" />
             
             </transition>
 
@@ -39,7 +39,7 @@
     import MainDefault from '../layouts/MainDefault.vue';
     import CarAll from '../components/CarAll.vue';
     import VerifyDelete from '../components/VerifyDelete.vue';
-    import OrderExit from '../components/OrderExit.vue';
+    import OrderVerify from '../components/OrderVerify.vue';
     import MessagesExit from '../components/MessagesExit.vue';
 
     import { ref } from 'vue';
@@ -72,7 +72,7 @@
 
     }
 
-    const mostrarMensajeComprado = () => mensajeComprado.value = !mensajeComprado.value 
+    const mostrarMensajeComprado = () => mensajeComprado.value = !mensajeComprado.value
 
 </script>
 
@@ -138,16 +138,38 @@
 
     }
 
-    .messagges-enter-active, .messagges-leave-active {
+    @keyframes mensaje {
+
+        0%{
+
+            transform: translateX(600px);
+
+        }
+
+        50%{
+
+            transform: translateX(-50px);
+
+        }
+
+        100%{
+
+            transform: translateX(0px)
+
+        }
         
-        transition: transform 1s ease-in-out;
+    }
+
+    .messagges-enter-active {
+        
+        animation: mensaje 1s;
 
     }
 
-    .messagges-enter-from, .messagges-leave-to {
+    .messagges-leave-active {
 
-        transform: translateY(-500px);
+        
+        animation: mensaje 1s reverse;
 
     }
-
 </style>

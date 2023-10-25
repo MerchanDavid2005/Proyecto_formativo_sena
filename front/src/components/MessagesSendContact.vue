@@ -1,13 +1,13 @@
 <template>
 
-    <div class="messages-buy">
+    <div class="messages-send">
         
-        <div class="messages-buy-icon">
+        <div class="messages-send-icon">
             <v-icon name="bi-check" scale="4"></v-icon>
         </div>
-        <div class="messages-buy-text">
-            <h1> Pedido realizado </h1>
-            <p> El pedido se ha realizado exitosamente </p>
+        <div class="messages-send-text">
+            <h1> Correo enviado </h1>
+            <p> El correo se ha enviado exitosamente </p>
         </div>
 
     </div>
@@ -16,7 +16,7 @@
 
 <style lang="scss" scoped>
 
-    .messages-buy{
+    .messages-send{
 
         width: 30%;
         height: max-content;
@@ -62,9 +62,9 @@
 
     @media (min-width:1600px){
 
-        .messages-buy{
+        .messages-send{
 
-            width: 25%;
+            width: 22%;
 
         }
 

@@ -81,6 +81,9 @@
 
         })
 
+        emits('ocultar')
+        pinia.getPedidos()
+
         setTimeout(() => {
 
             pinia.carrito = []
@@ -88,9 +91,17 @@
 
         }, 1000)
 
-        emits('mostrarMensaje')
-        emits('ocultar')
-        pinia.getPedidos()
+        setTimeout(() => {
+
+            emits('mostrarMensaje')
+
+        }, 1500)
+
+        setTimeout(() => {
+
+            emits('mostrarMensaje')
+
+        }, 4000)
 
     }
 
@@ -107,7 +118,7 @@
         background: $fondo-boton-crear;
         color: #fff;
         position: absolute;
-        z-index: 1000;
+        z-index: 1000000;
 
         h1, p{
 
