@@ -14,7 +14,7 @@
         
         <button 
             v-if="pinia.carrito.length > 0 && pinia.usuarioLogeado" 
-            @click="limpiarCarrito" 
+            @click="verificarCompra" 
             class="car-all-pedido"> 
             Realizar pedido 
             <v-icon style="margin-left:5px;" name="bi-check-circle-fill" scale="1"></v-icon>
@@ -52,10 +52,7 @@
 
     import { useStore } from '../store/pinia'
     import { useRouter } from 'vue-router';
-    import { defineEmits, defineAsyncComponent } from 'vue';
-
-    const mensajeEliminar = defineAsyncComponent(() => import('./VerifyDelete.vue'))
-    const mensajeComprado = defineAsyncComponent(() => import('./OrderExit.vue'))
+    import { defineEmits } from 'vue';
 
     const enrutado = useRouter()
     const pinia = useStore()
@@ -63,76 +60,15 @@
 
     const eliminar = (id: number) => {
 
-        emits('eliminar', mensajeEliminar)
+        emits('eliminar', "Eliminar")
 
         pinia.idEliminar = id
 
     }
 
-    async function hacerPedido(){
+    const verificarCompra = () => {
 
-        const data = await fetch("http://localhost:8000/api/Pedido/", {
-
-            method: 'POST',
-            body: JSON.stringify({
-
-                pedido_usuario: pinia.datosUsuario.id,
-                lista_productos: JSON.stringify(pinia.carrito)
-
-            }),
-            headers: {"content-type" : "application/json"}
-
-        })
-
-        return data
-
-    }
-
-    async function generarPdf(){
-
-        await hacerPedido()
-
-        let carrito = new FormData()
-
-        carrito.append("id", `${pinia.listaPedidos.length + 1}`)
-        carrito.append("usuario", pinia.datosUsuario.nombre_usuario)
-        carrito.append("nombre", pinia.datosUsuario.nombre)
-        carrito.append("correo", pinia.datosUsuario.email)
-        carrito.append("carrito", JSON.stringify(pinia.carrito))
-
-        const data = await fetch(`http://localhost:8000/generate/factur/`, {
-
-            method: 'POST',
-            body: carrito
-
-        })
-
-        return data.json
-
-    }
-
-    async function limpiarCarrito() {
-        
-        await generarPdf()
-
-        fetch("http://localhost:8000/send/factur/", {
-
-            method: 'POST',
-            body: JSON.stringify({
-
-                id: pinia.listaPedidos.length + 1,
-                usuario: pinia.datosUsuario.nombre_usuario,
-                email: pinia.datosUsuario.email
-
-            }),
-            headers: {"content-type": "application/json"}
-
-        })
-
-        pinia.carrito = []
-        localStorage.removeItem("Carrito")
-        emits('eliminar', mensajeComprado)
-        pinia.getPedidos()
+        emits('eliminar', "Comprar")
 
     }
 

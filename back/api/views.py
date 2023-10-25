@@ -486,23 +486,33 @@ def enviar_correo_contacto(request):
     asunto = '{} - {}'.format(request.POST["nombre"] ,request.POST["motivo"])
     mensaje = "{}".format(request.POST["descripcion"])
     remitente = settings.EMAIL_HOST_USER
-    destinatario = ["pipebarret7@gmail.com"]
-
-    nombre_imagen = request.FILES.get("imagen").name
+    destinatario = ["merchangonzalezjuandavid@gmail.com"]
 
     directorio_medios = os.path.join(settings.MEDIA_ROOT, 'correos')
 
     ruta = ""
 
-    for imgs in os.listdir(directorio_medios):
+    if request.FILES.get("imagen") != None:
 
-        if os.path.join(directorio_medios, imgs) == os.path.join(directorio_medios, nombre_imagen):
+        nombre_imagen = request.FILES.get("imagen").name
 
-            ruta = os.path.join(directorio_medios, imgs)
+        for imgs in os.listdir(directorio_medios):
 
-    email = EmailMessage(asunto, mensaje, remitente, destinatario)
-    email.attach_file(ruta)
-    email.send()
+            if os.path.join(directorio_medios, imgs) == os.path.join(directorio_medios, nombre_imagen):
+
+                ruta = os.path.join(directorio_medios, imgs)
+
+                email = EmailMessage(asunto, mensaje, remitente, destinatario)
+                email.attach_file(ruta)
+                email.send()
+
+                os.remove(ruta)
+                break
+
+    else:
+
+        email = EmailMessage(asunto, mensaje, remitente, destinatario)
+        email.send()
 
     return HttpResponse("Enviado")
 
@@ -574,7 +584,7 @@ def enviar_factura(request):
 
                 <body>
 
-                    <div style='padding:30px; height:300px; background:#eee; border-radius:30px'>
+                    <div style='padding:30px; height:250px; background:#eee; border-radius:30px'>
 
                         <h1 style='text-align:center; font-size:45px;'> Gracias por tu compra </h1>
 
@@ -591,6 +601,8 @@ def enviar_factura(request):
         correo.body = html_content
         correo.attach_file(factura)
         correo.send()
+
+        os.remove(factura)
 
     return JsonResponse({"mensaje": "¡Enviado!"})
 

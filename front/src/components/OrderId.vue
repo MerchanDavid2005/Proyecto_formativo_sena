@@ -3,7 +3,7 @@
     <div class="order-id">
 
         <button @click="enrutado.push('/perfil')" class="order-id-volver">
-            <v-icon style="margin-right:5px;" name="bi-arrow-left-short" scale="1.5"></v-icon>
+            <v-icon style="margin-right:5px;" name="bi-arrow-left-short" scale="1.2"></v-icon>
             Volver
         </button>
 

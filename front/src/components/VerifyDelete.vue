@@ -2,7 +2,7 @@
     <div class="verify-delete">
         
         <h1> Eliminar </h1>
-        <p> {{ props.texto }} </p>
+        <p> ¿Estas seguro de querer eliminar este producto del carrito? </p>
         <div class="verify-delete-buttons">
             <button @click="aceptado"> Si, seguro </button>
             <button @click="emits('ocultar')"> No, Cancelar </button>
@@ -13,11 +13,10 @@
 
 <script lang="ts" setup>
 
-    import { defineProps, defineEmits } from 'vue';
+    import { defineEmits } from 'vue';
     import { useStore } from '../store/pinia'
 
     const pinia = useStore()
-    const props = defineProps(['texto'])
     const emits = defineEmits(['ocultar'])
 
     const aceptado = () => {
@@ -68,6 +67,7 @@
                 margin-top: 20px;
                 margin-right: 10px;
                 color: #000;
+                font-weight: lighter;
 
             }
 
@@ -76,6 +76,7 @@
                 @include botones('#fff');
                 margin-top: 20px;
                 color: #000;
+                font-weight: lighter;
 
             }
 

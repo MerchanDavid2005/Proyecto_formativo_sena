@@ -4,6 +4,7 @@
 
         <div class="contact-comp-title">
             <h1> ¡Bienvenido! </h1>
+            <p class="error" v-show="error"> Por favor no dejes campos en blanco </p>
             <p> En este apartado podras contactar conmigo ya sea por errores de nuestra pagina o si deseas contactar conmigo por diferentes razones </p>
         </div>
         <div class="contact-comp-body">
@@ -47,12 +48,17 @@
 <script lang="ts" setup>
 
     import { ref } from 'vue'
+    import { useRouter } from 'vue-router';
+
+    const enrutado = useRouter()
 
     let nombre = ref<string>("")
     let motivo = ref<string>("Error")
     let descripcion = ref<string>("Descripcion del problema o necesidad")
     let imagen = ref<string>("")
     let imagenDemostracion = ref<string>("https://m.media-amazon.com/images/I/51w7-OAqI+L.jpg")
+
+    let error = ref<boolean>(false)
 
     let motivosCorreo = ref<Array<string>>([
 
@@ -66,39 +72,52 @@
     const valorImagen = (img: any) => {
         
         imagen.value = img.target.files[0]
-        imagenDemostracion.value = URL.createObjectURL(img.target.files[0])
+
+        try{
+            imagenDemostracion.value = URL.createObjectURL(img.target.files[0])
+        }catch(e){
+            console.log(e)
+        }
 
     }
 
     async function guardarImagen(){
 
-        let cuerpoInfo = new FormData()
+        if(imagen.value != ""){
 
-        cuerpoInfo.append("imagen", imagen.value)
+            let cuerpoInfo = new FormData()
 
-        const data = await fetch("http://localhost:8000/save/img/correo/", {
+            cuerpoInfo.append("imagen", imagen.value)
 
-            method: 'POST',
-            body: cuerpoInfo
+            const data = await fetch("http://localhost:8000/save/img/correo/", {
 
-        })
+                method: 'POST',
+                body: cuerpoInfo
 
-        return data.json()
+            })
+
+            return data.json()
+
+        }else{
+
+            return "No hay imagen"
+
+        }
 
     }
 
     async function enviarCorreo(){
 
-        let imagenGuardada = await guardarImagen();
+        await guardarImagen();
 
-        let infoCorreo = new FormData()
+        if(nombre.value != "" && descripcion.value != ""){
 
-        infoCorreo.append("nombre", nombre.value)
-        infoCorreo.append("motivo", motivo.value)
-        infoCorreo.append("descripcion", descripcion.value)
-        infoCorreo.append("imagen", imagen.value)
+            let infoCorreo = new FormData()
 
-        if(imagenGuardada.Mensaje == "Imagen guardada exitosamente"){
+            infoCorreo.append("nombre", nombre.value)
+            infoCorreo.append("motivo", motivo.value)
+            infoCorreo.append("descripcion", descripcion.value)
+            infoCorreo.append("imagen", imagen.value)
 
             fetch("http://localhost:8000/send/email/contact/", {
 
@@ -107,9 +126,11 @@
 
             })
 
+            enrutado.push("/")
+
         }else{
 
-            console.log("Ha habido un problema")
+            error.value = true
 
         }
 
@@ -122,7 +143,7 @@
     .contact-comp{
 
         width: 70%;
-        height: 80%;
+        height: 85%;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -144,6 +165,14 @@
                 margin-bottom: 10px;
 
             }
+
+        }
+
+        .error{
+
+            text-align: center;
+            color: #f00;
+            margin: 5px 0;
 
         }
 

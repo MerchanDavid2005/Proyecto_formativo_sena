@@ -1,24 +1,33 @@
 <template>
     <MainDefault>
 
-        <div class="interfaz-eliminar">
+        <div class="interfaz-panel">
 
-            <transition name="messages">
+            <transition name="verifyPanel">
 
-                <component 
-                    v-show="mensajeMostrar" 
-                    @ocultar="ocultarMensaje" 
-                    :is="tipoMensaje"
-                    texto="¿Estas seguro de querer eliminar este producto del carrito?">
-                </component>
+                <VerifyDelete v-show="mensajeEliminar" @ocultar="ocultarMensaje" />
 
+            </transition>
+
+            <transition name="verifyPanel">
+
+                <OrderExit v-show="mensajeAceptar" @ocultar="ocultarMensaje" @mostrarMensaje="mostrarMensajeComprado" />
+
+            </transition>
+
+            <transition name="messagges">
+
+                <MessagesExit @mostrarMensaje="mostrarMensajeComprado" v-show="mensajeComprado" />
+            
             </transition>
 
         </div>
 
-        <main :class="{'cuerpo-carrito-view': !mensajeMostrar, 'cuerpo-none' : mensajeMostrar}">
+        <main :class="
+            {'cuerpo-carrito-view': !mensajeEliminar || !mensajeAceptar,
+            'cuerpo-none' : mensajeEliminar || mensajeAceptar}">
 
-            <CarAll @eliminar="mostrarMensaje" />
+            <CarAll @eliminar="mostrarMensaje"/>
 
         </main>
 
@@ -29,23 +38,41 @@
 
     import MainDefault from '../layouts/MainDefault.vue';
     import CarAll from '../components/CarAll.vue';
+    import VerifyDelete from '../components/VerifyDelete.vue';
+    import OrderExit from '../components/OrderExit.vue';
+    import MessagesExit from '../components/MessagesExit.vue';
 
-    import { ref, defineAsyncComponent, shallowRef } from 'vue';
+    import { ref } from 'vue';
 
-    let mensajeMostrar = ref<boolean>(false)
+    let mensajeComprado = ref<boolean>(false)
 
-    const mensajeCreado = defineAsyncComponent(() => import('../components/OrderExit.vue'))
+    let mensajeEliminar = ref<boolean>(false)
+    let mensajeAceptar = ref<boolean>(false)
 
-    let tipoMensaje = shallowRef(mensajeCreado)
+    const mostrarMensaje = (mensaje: string) => {
 
-    const mostrarMensaje = (mensaje: any) => {
+        if(mensaje == "Eliminar"){
 
-        mensajeMostrar.value = true
-        tipoMensaje.value = mensaje
+            mensajeEliminar.value = true
+            mensajeAceptar.value = false
+
+        }else{
+
+            mensajeEliminar.value = false
+            mensajeAceptar.value = true
+
+        }
 
     }
 
-    const ocultarMensaje = () => mensajeMostrar.value = false
+    const ocultarMensaje = () => { 
+        
+        mensajeEliminar.value = false
+        mensajeAceptar.value = false
+
+    }
+
+    const mostrarMensajeComprado = () => mensajeComprado.value = !mensajeComprado.value 
 
 </script>
 
@@ -84,7 +111,7 @@
 
     }
 
-    .interfaz-eliminar{
+    .interfaz-panel{
 
         width: 100%;
         height: 85vh;
@@ -98,34 +125,29 @@
 
     }
     
-    @keyframes mensajeCreado{
 
-        0%{
-
-            transform: translateY(-800px);
-
-        }
-
-        50%{
-
-            transform: translateY(50px);
-
-        }
-
-        100%{
-
-            transform: translateY(0);
-
-        }
+    .verifyPanel-enter-active, .verifyPanel-leave-active {
+        
+        transition: transform 1s ease-in-out;
 
     }
 
-    .messages-enter-active, .messages-leave-active {
-        animation: mensajeCreado 1s ease;
+    .verifyPanel-enter-from, .verifyPanel-leave-to {
+
+        transform: scale(0);
+
     }
 
-    .messages-enter-from, .messages-leave-to {
-        animation: mensajeCreado 1s ease reverse;
+    .messagges-enter-active, .messagges-leave-active {
+        
+        transition: transform 1s ease-in-out;
+
+    }
+
+    .messagges-enter-from, .messagges-leave-to {
+
+        transform: translateY(-500px);
+
     }
 
 </style>
