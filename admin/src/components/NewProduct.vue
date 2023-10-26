@@ -232,11 +232,27 @@
 
     }
 
+    @media(max-width: 1599px){
+
+        .new-product{
+
+            height: 80%;
+           
+            &-title{
+
+                margin: 20px 0;
+
+            }
+
+        }
+
+    }
+
     @media(min-width: 1600px){
 
         .new-product{
 
-            height: 70%;
+            height: 85%;
             width: 30%;
             
             &-title{

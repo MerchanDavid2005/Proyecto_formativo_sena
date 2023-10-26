@@ -213,6 +213,22 @@
 
     }
 
+    @media(max-width: 1599px){
+
+        .new-service{
+
+            height: 65%;
+           
+            &-title{
+
+                margin: 20px 0;
+
+            }
+
+        }
+
+    }
+
     @media(min-width:1600px){
 
         .new-service{

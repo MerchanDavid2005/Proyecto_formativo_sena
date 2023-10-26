@@ -45,7 +45,6 @@
       }else{
 
         pinia.getUsuario(tokenDecodificado.id)
-        console.log(fechaExpiracion)
 
       }
 

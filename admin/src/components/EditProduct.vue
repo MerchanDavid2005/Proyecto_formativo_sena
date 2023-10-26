@@ -267,6 +267,17 @@
 
     }
 
+    @media(max-width: 1500px){
+
+        .edit-product{
+
+            width: 45%;
+            height: 80%;
+
+        }
+
+    }
+
     @media(min-width: 1600px){
 
         .edit-product{

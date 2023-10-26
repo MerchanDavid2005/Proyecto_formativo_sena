@@ -123,4 +123,14 @@
 
     }
 
+    @media(max-width: 1400px){
+
+        .edit-category{
+
+            width: 45%;
+
+        }
+
+    }
+
 </style>

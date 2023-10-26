@@ -155,7 +155,7 @@
     .edit-service{
 
         height: 80%;
-        width: 30%;
+        width: 35%;
         display: flex;
         flex-direction: column;
         outline: 2px solid #000;
@@ -245,6 +245,17 @@
                 height: max-content;
 
             }
+
+        }
+
+    }
+
+    @media(max-width: 1400px){
+
+        .edit-service{
+
+            width: 45%;
+            height: 80%;
 
         }
 

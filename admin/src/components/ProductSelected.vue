@@ -122,6 +122,17 @@
 
     }
 
+    @media(max-width: 1500px){
+
+        .select-product{
+
+            width: 45%;
+            height: 80%;
+
+        }
+
+    }
+
     @media(min-width: 1600px){
 
         .select-product{

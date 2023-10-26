@@ -157,6 +157,16 @@
 
     }
 
+    @media(max-width:1300px){
+
+        .users-all{
+
+            font-size: 13px;
+            
+        }
+
+    }
+
     .newUser-move, .newUser-enter-active, .newUser-leave-active{
 
         transition: all 1s ease-in-out;

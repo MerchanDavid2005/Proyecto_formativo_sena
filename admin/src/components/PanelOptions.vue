@@ -241,4 +241,20 @@
 
     }
 
+    @media(max-width: 1400px){
+
+        .panel{
+
+            width: 20%;
+            
+            p{
+
+                font-size: 13px;
+
+            }
+
+        }
+        
+    }
+
 </style>

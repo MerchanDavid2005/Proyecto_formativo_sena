@@ -162,4 +162,19 @@
 
     }
 
+    
+    @media(max-width: 1400px){
+
+        .filtrar{
+
+            button, input, select, label{
+
+                margin: 10px;
+
+            }
+
+        }
+
+    }
+
 </style>

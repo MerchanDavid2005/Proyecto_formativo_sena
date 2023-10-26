@@ -134,6 +134,22 @@
 
     }
 
+    @media(max-width: 1599px){
+
+        .new-category{
+
+            width: 40%;
+           
+            &-title{
+
+                margin: 20px 0;
+
+            }
+
+        }
+
+    }
+
     @media(min-width:1600px){
 
         .new-category{

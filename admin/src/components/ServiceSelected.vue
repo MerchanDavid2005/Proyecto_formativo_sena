@@ -54,7 +54,7 @@
     .select-service{
 
         height: 80%;
-        width: 30%;
+        width: 35%;
         display: flex;
         flex-direction: column;
         outline: 2px solid #000;
@@ -105,6 +105,17 @@
                 resize: none;
 
             }
+
+        }
+
+    }
+
+    @media(max-width: 1400px){
+
+        .select-service{
+
+            width: 45%;
+            height: 80%;
 
         }
 

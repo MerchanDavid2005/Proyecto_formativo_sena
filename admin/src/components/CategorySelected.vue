@@ -63,4 +63,14 @@
 
     }
 
+    @media(max-width: 1400px){
+
+        .select-category{
+
+            width: 45%;
+
+        }
+
+    }
+
 </style>
