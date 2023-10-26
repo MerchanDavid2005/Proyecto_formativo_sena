@@ -90,6 +90,7 @@ export const useStore = defineStore('storeId', {
       } as Usuario,
       usuarioLogeado: false as boolean,
       datosUsuarioEditar: {} as Usuario,
+      mensajeTokenCaducado: false as boolean,
 
       paginaActual: "",
   

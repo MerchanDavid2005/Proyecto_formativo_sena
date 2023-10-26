@@ -6,6 +6,7 @@
 
   import { onMounted } from 'vue'
   import { useStore } from '@/store/pinia'
+  import jwt_decode from 'jwt-decode'
 
   const pinia = useStore()
 
@@ -16,6 +17,39 @@
     pinia.getServicios(),
     pinia.getPedidos();
     pinia.getUsuarios();
+
+    if(localStorage.getItem("token") !== null){
+
+      const token = localStorage.getItem("token")
+      const tokenDecodificado = jwt_decode(token);
+
+      let fechaExpiracion = new Date(tokenDecodificado.exp)
+      let hoy = new Date()
+
+      if(fechaExpiracion <= hoy){
+
+        localStorage.removeItem("token")
+
+        setTimeout(() => {
+
+          pinia.messagesSesionCaducada = true
+
+        }, 1000)
+
+        setTimeout(() => {
+          
+          pinia.messagesSesionCaducada = false
+
+        }, 4000 );
+
+      }else{
+
+        pinia.getUsuario(tokenDecodificado.id)
+        console.log(fechaExpiracion)
+
+      }
+
+    }
 
   })
 

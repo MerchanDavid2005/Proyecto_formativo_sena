@@ -134,4 +134,14 @@
 
     }
 
+    @media(min-width:1600px){
+
+        .new-category{
+
+            height: 25%;
+
+        }
+
+    }
+
 </style>

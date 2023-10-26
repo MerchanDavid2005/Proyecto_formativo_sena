@@ -17,12 +17,6 @@
     pinia.getCategorias()
     pinia.getServicios()
 
-    if(localStorage.getItem("Carrito") !== null){
-
-      pinia.carrito = JSON.parse(localStorage.getItem("Carrito") ?? "{}")
-
-    }
-
     if(localStorage.getItem("token") !== null){
 
       const token:any = localStorage.getItem("token")
@@ -31,9 +25,21 @@
       let fechaExpiracion = new Date(tokenDecodificado.exp)
       let hoy = new Date()
       
-      if(fechaExpiracion == hoy){
+      if(fechaExpiracion <= hoy){
 
         localStorage.removeItem("token")
+        
+        setTimeout(() => {
+
+          pinia.mensajeTokenCaducado = true
+
+        }, 1000)
+
+        setTimeout(() => {
+
+          pinia.mensajeTokenCaducado = false
+
+        }, 4000)
 
       }else{
 

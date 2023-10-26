@@ -217,8 +217,14 @@
 
         .new-service{
 
-            height: 65%;
+            height: 60%;
             width: 30%;
+
+            &-title{
+
+                margin: 20px 0;
+                
+            }
 
         }
 

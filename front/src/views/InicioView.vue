@@ -20,6 +20,12 @@
                 <MessagesSendContact v-show="pinia.correoContactoEnviado" />
 
             </transition>
+
+            <transition name="messagges">
+            
+                <MessagesSesion v-show="pinia.mensajeTokenCaducado" />
+
+            </transition>
             
         </div>
 
@@ -46,6 +52,7 @@
     import CheckBuy from '../components/CheckBuy.vue';
     import AnimationBuy from '../components/AnimationBuy.vue';
     import MessagesSendContact from '../components/MessagesSendContact.vue';
+    import MessagesSesion from '../components/MessagesSesion.vue';
 
     let interfazVerificacion = ref<boolean>(false)
     let funcionando = ref<boolean>(true)

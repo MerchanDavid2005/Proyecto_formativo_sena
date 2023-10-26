@@ -27,6 +27,8 @@ export const useStore = defineStore('storeId', {
       colorLetraPanel: '#fff',
       fondoRed: '#f05',
 
+      messagesSesionCaducada: false,
+
       datosUsuarioCrear: [],
       codigoVerificacion: "",
       mensajeUsuarioRegistrado: false,

@@ -18,6 +18,12 @@
 
             </transition>
 
+            <transition name="panelMensaje">
+            
+                <MessagesSesion v-show="pinia.messagesSesionCaducada" />
+
+            </transition>
+
         </div>
 
     </div>
@@ -28,6 +34,7 @@
 
     import LoginComp from '@/components/LoginComp.vue';
     import UsuarioCreado from '@/components/UsuarioCreado.vue';
+    import MessagesSesion from '@/components/MessagesSesion.vue';
 
     import { useStore } from '@/store/pinia';
 
@@ -89,7 +96,7 @@
 
         0%{
 
-            transform: translateX(300px);
+            transform: translateX(600px);
 
         }
 

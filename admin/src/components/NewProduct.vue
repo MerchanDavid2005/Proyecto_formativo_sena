@@ -236,8 +236,14 @@
 
         .new-product{
 
-            height: 80%;
+            height: 70%;
             width: 30%;
+            
+            &-title{
+
+                margin: 20px 0;
+
+            }
 
         }
 
