@@ -5,6 +5,7 @@
         <h1> Codigo de verificacion </h1>
         <p> Se ha enviado un codigo de verificacion al email introducido, por favor ingresa el codigo enviado </p>
         <input v-model="code" type="text" placeholder="XXXXXX" maxlength="6">
+        <p> ¿Aun no te ha llegado el correo? prueba verificar que lo tengas bien escrito </p>
 
     </div>
 
@@ -59,7 +60,7 @@
     .panel-code{
 
         width: 30%;
-        height: 35%;
+        height: 45%;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -80,6 +81,7 @@
         p{
 
             margin: 20px 0;
+            text-align: center
 
         }
 

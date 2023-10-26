@@ -68,7 +68,8 @@
                 email: "Anomimo@gmail.com",
                 foto: "http://127.0.0.1:8000/media/usuarios/default.png",
                 password: "Anonimo",
-                rol: "Cliente"
+                rol: "Cliente",
+                carrito: []
 
             }
             emits('ocultar')

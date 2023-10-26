@@ -27,7 +27,7 @@
                     <v-icon name="bi-cart-x-fill" scale="1.5"></v-icon>
                 </button>
                 <button 
-                    @click="comprar"
+                    @click="actualizar"
                     v-if="cantidad > 0"
                     class="interfaz-verificar-compra-datos-botones-verificar"> 
                     Verificar 
@@ -71,7 +71,7 @@
 
     }
 
-    const comprar = () => {
+    const comprar = async () => {
 
         emits('ocultar');
         emits('animacion');
@@ -91,9 +91,9 @@
         
         }
 
-        for(let i in pinia.carrito){
+        for(let i in pinia.datosUsuario.carrito){
 
-            if(pinia.carrito[i].nombre == productoComprado.nombre){
+            if(pinia.datosUsuario.carrito[i].nombre == productoComprado.nombre){
 
                 productoRepetido = true
                 idProductoRepetido = Number(i)
@@ -105,23 +105,53 @@
 
         if(productoRepetido){
 
-            pinia.carrito[idProductoRepetido].cantidad += productoComprado.cantidad
-            pinia.carrito[idProductoRepetido].precio += productoComprado.precio
-            localStorage.setItem("Carrito", JSON.stringify(pinia.carrito))
+            pinia.datosUsuario.carrito[idProductoRepetido].cantidad += productoComprado.cantidad
+            pinia.datosUsuario.carrito[idProductoRepetido].precio += productoComprado.precio
+
+            const data = await fetch(`http://localhost:8000/api/Usuario/${pinia.datosUsuario.id}/`, {
+
+                method: 'PATCH',
+                body: JSON.stringify({
+
+                    carrito: JSON.stringify(pinia.datosUsuario.carrito)
+
+                }),
+                headers: {"content-type": "application/json"}
+
+            })
+
+            return data.json()
+
 
         }else{
 
-            pinia.carrito.push(productoComprado)
-            localStorage.setItem("Carrito", JSON.stringify(pinia.carrito))
+            pinia.datosUsuario.carrito.push(productoComprado)
+
+            const data = await fetch(`http://localhost:8000/api/Usuario/${pinia.datosUsuario.id}/`, {
+
+                method: 'PATCH',
+                body: JSON.stringify({
+
+                    carrito: JSON.stringify(pinia.datosUsuario.carrito)
+
+                }),
+                headers: {"content-type": "application/json"}
+
+            })
+
+            return data.json()
 
         }
 
-        setTimeout(() => {
+    }
 
-            cantidad.value = 0
-            precio.value = 0
+    const actualizar = async () => {
 
-        }, 500)
+        await comprar()
+
+        cantidad.value = 0
+        precio.value = 0
+        pinia.getUsuario(pinia.datosUsuario.id)
 
     }
 

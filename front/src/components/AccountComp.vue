@@ -96,7 +96,8 @@
             email: "Anomimo@gmail.com",
             foto: "http://127.0.0.1:8000/media/usuarios/default.png",
             password: "Anonimo",
-            rol: "Cliente"
+            rol: "Cliente",
+            carrito: []
 
         }
 
@@ -126,7 +127,8 @@
             email: email.value,
             foto: foto.value,
             password: pinia.datosUsuario.password,
-            rol: "Cliente"
+            rol: "Cliente",
+            carrito: pinia.datosUsuario.carrito
 
         }
 

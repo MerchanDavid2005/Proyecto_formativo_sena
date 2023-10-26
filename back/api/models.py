@@ -10,6 +10,7 @@ class Usuario(models.Model):
     foto = models.ImageField(upload_to='usuarios/')
     password = models.CharField(max_length=50, null=False)
     rol = models.CharField(max_length=50, null=False, default="Cliente")
+    carrito = models.TextField(null=False)
 
 class Categoria(models.Model):
 

@@ -29,7 +29,7 @@
             body: JSON.stringify({
 
                 pedido_usuario: pinia.datosUsuario.id,
-                lista_productos: JSON.stringify(pinia.carrito)
+                lista_productos: JSON.stringify(pinia.datosUsuario.carrito)
 
             }),
             headers: {"content-type" : "application/json"}
@@ -50,7 +50,7 @@
         carrito.append("usuario", pinia.datosUsuario.nombre_usuario)
         carrito.append("nombre", pinia.datosUsuario.nombre)
         carrito.append("correo", pinia.datosUsuario.email)
-        carrito.append("carrito", JSON.stringify(pinia.carrito))
+        carrito.append("carrito", JSON.stringify(pinia.datosUsuario.carrito))
 
         const data = await fetch(`http://localhost:8000/generate/factur/`, {
 
@@ -86,8 +86,19 @@
 
         setTimeout(() => {
 
-            pinia.carrito = []
-            localStorage.removeItem("Carrito")
+            pinia.datosUsuario.carrito = []
+
+            fetch(`http://localhost:8000/api/Usuario/${pinia.datosUsuario.id}/`, {
+
+                method: 'PATCH',
+                body: JSON.stringify({
+
+                    carrito: JSON.stringify(pinia.datosUsuario.carrito)
+
+                }),
+                headers: {"content-type": "application/json"}
+
+            })
 
         }, 1000)
 

@@ -1,9 +1,16 @@
 <template>
     <div class="car-all">
 
-        <p v-if="!pinia.usuarioLogeado && pinia.carrito.length > 0" class="mensaje-iniciar-sesion"> Para realizar un pedido primero debes iniciar sesion </p>
+        <div class="mensaje-iniciar-sesion" v-show="!pinia.usuarioLogeado">
 
-        <div class="car-all-none" v-if="pinia.carrito.length < 1">
+            <v-icon name="fa-user-times" scale="5"> </v-icon>
+            <h1> Aun no has iniciado sesion </h1>
+            <p> Para poder ver tu carrito o añadir productos al carrito primero inicia sesion </p>
+            <button @click="enrutado.push('/iniciar_sesion')"> Iniciar sesion </button>
+
+        </div>
+
+        <div class="car-all-none" v-show="pinia.datosUsuario.carrito.length < 1 && pinia.usuarioLogeado">
 
             <v-icon name="bi-cart-x-fill" scale="5"> </v-icon>
             <h1> Carrito vacio </h1>
@@ -13,22 +20,14 @@
         </div>
         
         <button 
-            v-if="pinia.carrito.length > 0 && pinia.usuarioLogeado" 
+            v-if="pinia.datosUsuario.carrito.length > 0 && pinia.usuarioLogeado" 
             @click="verificarCompra" 
             class="car-all-pedido"> 
             Realizar pedido 
             <v-icon style="margin-left:5px;" name="bi-check-circle-fill" scale="1"></v-icon>
         </button>
-
-        <button 
-            v-if="pinia.carrito.length > 0 && !pinia.usuarioLogeado" 
-            @click="enrutado.push('/iniciar_sesion')" 
-            class="car-all-pedido"> 
-            Iniciar sesion
-            <v-icon style="margin-left:5px;" name="hi-login" scale="1"></v-icon>
-        </button>
         
-        <div class="car-all-prd" v-for="(prd, i) in pinia.carrito" :key="i">
+        <div class="car-all-prd" v-for="(prd, i) in pinia.datosUsuario.carrito" :key="i">
 
             <h1> {{ prd.nombre }} </h1>
             <p> <strong> Categoria:  </strong> {{ prd.categoria }} </p>
@@ -88,9 +87,23 @@
 
         .mensaje-iniciar-sesion{
 
-            position: fixed;
-            top: 5%;
-            font-size: 20px;
+            width: 30%;
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            padding: 20px;
+            border-radius: 30px;
+            background: $fondo-input;
+            color: #000;
+            text-align: center;
+        
+            button{
+
+                @include botones('#0af');
+
+            }
 
         }
 
@@ -119,6 +132,7 @@
             border-radius: 30px;
             background: $fondo-input;
             color: #000;
+            text-align: center;
         
             button{
 

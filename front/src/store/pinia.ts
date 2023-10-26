@@ -47,7 +47,8 @@ type Usuario = {
   email: string,
   foto: string,
   password: string,
-  rol: string
+  rol: string,
+  carrito: Producto [] 
 }
 
 type UsuarioCrear = {
@@ -74,8 +75,6 @@ export const useStore = defineStore('storeId', {
       idEliminar: 0 as number,
       correoContactoEnviado: false as boolean,
 
-      carrito: [] as Producto [],
-
       codigoVerificacion: "" as string,
       datosUsuarioCrear: {} as UsuarioCrear,
       mensajeUsuarioRegistrado: false as boolean,
@@ -86,7 +85,8 @@ export const useStore = defineStore('storeId', {
         email: "Anomimo@gmail.com",
         foto: "http://127.0.0.1:8000/media/usuarios/default.png",
         password: "Anonimo",
-        rol: 'Cliente'
+        rol: 'Cliente',
+        carrito: []
       } as Usuario,
       usuarioLogeado: false as boolean,
       datosUsuarioEditar: {} as Usuario,
@@ -173,9 +173,10 @@ export const useStore = defineStore('storeId', {
 
     async getUsuario(id: number){
 
-      const data = await fetch(`http://127.0.0.1:8000/api/Usuario/${id}/`)
+      const data = await fetch(`http://127.0.0.1:8000/get/user/${id}/`)
       const info = await data.json()
-      this.datosUsuario = info
+      this.datosUsuario = info.usuario
+      console.log(this.datosUsuario)
 
     }
 

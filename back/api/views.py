@@ -307,7 +307,8 @@ def crear_usuario(request, rol):
             email = request.POST["email"],
             foto = avatar,
             password = request.POST["password"],
-            rol = "Administrador"
+            rol = "Administrador",
+            carrito = "[]"
         )
     
     else:
@@ -319,10 +320,37 @@ def crear_usuario(request, rol):
             email = request.POST["email"],
             foto = avatar,
             password = request.POST["password"],
-            rol = "Cliente"
+            rol = "Cliente",
+            carrito = "[]"
+            
         )
 
     return HttpResponse ('Creado')
+
+def traer_datos_usuario(request, id):
+
+    user = Usuario.objects.get(id = id)
+
+    carrito = json.loads(user.carrito)
+
+    lista_productos_carrito = []
+
+    for i in carrito:
+
+        lista_productos_carrito.append(i)
+
+    info_usuario = {
+        "id": user.id,
+        "nombre_usuario": user.nombre_usuario,
+        "nombre": user.nombre,
+        "foto": "http://127.0.0.1:8000/media/" + user.foto.name,
+        "email": user.email,
+        "password": user.password,
+        "rol": user.password,
+        "carrito": lista_productos_carrito
+    }
+
+    return JsonResponse({"usuario": info_usuario})
 
 @csrf_exempt
 def eliminar_imagen_usuario(request, id):

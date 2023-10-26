@@ -4,7 +4,7 @@
         <h1> Eliminar </h1>
         <p> ¿Estas seguro de querer eliminar este producto del carrito? </p>
         <div class="verify-delete-buttons">
-            <button @click="aceptado"> Si, seguro </button>
+            <button @click="actualizar"> Si, seguro </button>
             <button @click="emits('ocultar')"> No, Cancelar </button>
         </div>
 
@@ -19,11 +19,31 @@
     const pinia = useStore()
     const emits = defineEmits(['ocultar'])
 
-    const aceptado = () => {
+    const aceptado = async () => {
 
-        pinia.carrito.splice(pinia.idEliminar, 1)
-        localStorage.setItem("Carrito", JSON.stringify(pinia.carrito))
-        emits('ocultar', )
+        pinia.datosUsuario.carrito.splice(pinia.idEliminar, 1)
+        
+        const data = await fetch(`http://localhost:8000/get/user/${pinia.datosUsuario.id}/`, {
+
+            method: 'POST',
+            body: JSON.stringify({
+
+                carrito: pinia.datosUsuario.carrito
+
+            }),
+            headers: {"content-type": "application/json"}
+
+        })
+
+        return data.json()
+
+    }
+
+    const actualizar = async () => {
+
+        emits('ocultar')
+        await aceptado()
+        pinia.getUsuario(pinia.datosUsuario.id)
 
     }
 
