@@ -95,4 +95,14 @@
 
     }
 
+    @media(min-width: 1600px){
+
+        .panel-code{
+
+            height: 35%;
+
+        }
+
+    }
+
 </style>
