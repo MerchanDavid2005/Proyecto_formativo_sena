@@ -122,4 +122,14 @@
 
     }
 
+    @media(min-width: 1600px){
+
+        .orders-all-productos-prd-img{
+
+            height: 80%;
+
+        }
+
+    }
+
 </style>

@@ -1,33 +1,38 @@
 <template>
 
-    <div class="cuerpo-register">
+    <MainDefault>
 
-        <div :class="{'cuerpo-register-fondo': !panelCodigo, 'cuerpo-register-fondo-none': panelCodigo}"></div>
+        <div class="cuerpo-register">
 
-        <div :class="{'cuerpo-register-content': !panelCodigo, 'cuerpo-register-content-none': panelCodigo}">
-
-            <RegisterComp @verificar="verificarUsuario" />
-
+            <div :class="{'cuerpo-register-fondo': !panelCodigo, 'cuerpo-register-fondo-none': panelCodigo}"></div>
+    
+            <div :class="{'cuerpo-register-content': !panelCodigo, 'cuerpo-register-content-none': panelCodigo}">
+    
+                <RegisterComp @verificar="verificarUsuario" />
+    
+            </div>
+    
+            <div class="cuerpo-register-verify">
+    
+                <button v-show="panelCodigo" @click="verificarUsuario" class="cuerpo-register-verify-cancel"> Cancelar </button>
+    
+                <transition name="transitionVerify">
+                
+                    <CodeVerify v-show="panelCodigo" />
+    
+                </transition>
+    
+            </div>
+    
         </div>
 
-        <div class="cuerpo-register-verify">
-
-            <button v-show="panelCodigo" @click="verificarUsuario" class="cuerpo-register-verify-cancel"> Cancelar </button>
-
-            <transition name="transitionVerify">
-            
-                <CodeVerify v-show="panelCodigo" />
-
-            </transition>
-
-        </div>
-
-    </div>
+    </MainDefault>
 
 </template>
 
 <script lang="ts" setup>
 
+    import MainDefault from '../layouts/MainDefault.vue';
     import RegisterComp from '../components/RegisterComp.vue';
     import CodeVerify from '../components/CodeVerify.vue';
 
@@ -44,7 +49,7 @@
     .cuerpo-register{
 
         width: 100%;
-        height: 100vh;
+        height: 90vh;
         display: flex;
 
         &-content{
@@ -76,7 +81,7 @@
         &-fondo{
 
             width: 100%;
-            height: 100%;
+            height: 90vh;
             background: url(https://www.lavanguardia.com/andro4all/hero/2021/01/aplicaciones-aprender-mecanica.jpg?width=768&aspect_ratio=16:9&format=nowebp);
             background-size: 100%;
             background-repeat: no-repeat;
@@ -89,7 +94,7 @@
         &-fondo-none{
 
             width: 100%;
-            height: 100%;
+            height: 90vh;
             background: url(https://www.lavanguardia.com/andro4all/hero/2021/01/aplicaciones-aprender-mecanica.jpg?width=768&aspect_ratio=16:9&format=nowebp);
             background-size: 100%;
             background-repeat: no-repeat;
@@ -102,7 +107,7 @@
         &-verify{
 
             width: 100%;
-            height: 100%;
+            height: 90vh;
             display: flex;
             justify-content: center;
             align-items: center;
