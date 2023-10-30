@@ -7,6 +7,9 @@ export const useStore = defineStore('storeId', {
 
       temaClaro: true,
 
+      cargandoDatos: false,
+      errorFetch: false,
+
       listaProductos: [],
       listaServicios: [],
       listaPedidos: [],
@@ -99,26 +102,70 @@ export const useStore = defineStore('storeId', {
 
     },
 
-    eliminar(modelo){
-
-      fetch(`http://localhost:8000/api/${modelo}/${this.idEliminar}/`, {
-
-        method: 'DELETE',
-        headers: {"content-type" : "application/json"}
-
-      });
+    async eliminarImagen(modelo){
 
       if(modelo == 'Producto'){
 
-        fetch(`http://localhost:8000/delete/img/product/${this.idEliminar}/`);
+        let respuesta = await fetch(`http://localhost:8000/delete/img/product/${this.idEliminar}/`);
+        return respuesta
 
       }else if(modelo == 'Servicio'){
 
-        fetch(`http://localhost:8000/delete/img/service/${this.idEliminar}/`);
+        let respuesta = await fetch(`http://localhost:8000/delete/img/service/${this.idEliminar}/`);
+        return respuesta
 
       }else{
 
-        fetch(`http://localhost:8000/delete/img/user/${this.idEliminar}/`)
+        let respuesta = await fetch(`http://localhost:8000/delete/img/user/${this.idEliminar}/`)
+        return respuesta
+
+      }
+
+    },
+
+    async eliminar(modelo){
+
+      this.cargandoDatos = true
+
+      try{
+
+        this.eliminarImagen(modelo)
+        const peticion = await fetch(`http://localhost:8000/api/${modelo}/${this.idEliminar}/`, {
+
+          method: 'DELETE',
+          headers: {"content-type" : "application/json"}
+
+        });
+
+        return peticion
+
+      }catch(e){
+
+        return "Error"
+
+      }
+
+    },
+
+    async cargarDatosNuevos(modelo){
+
+      try{
+
+        const respuesta = await this.eliminar(modelo)
+
+        if(respuesta !== "Error"){
+
+          return "Todo good"
+
+        }else{
+
+          return "Error"
+
+        }
+
+      }catch(e){
+
+        alert("Ha habido un error")
 
       }
 

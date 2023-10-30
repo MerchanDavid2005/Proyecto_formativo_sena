@@ -18,7 +18,7 @@
             <button 
 
                 :style="{background: pinia.greentheme}" 
-                @click="nuevaCategoria"> Crear 
+                @click="cargarDatos"> Crear 
 
             </button>
         </div>
@@ -38,11 +38,11 @@
 
     let error = ref(false)
 
-    function nuevaCategoria(){
+    async function nuevaCategoria(){
 
         if(nombre.value != ""){
 
-            fetch(`http://127.0.0.1:8000/api/Categoria/`, {
+            const peticion = await fetch(`http://127.0.0.1:8000/api/Categoria/`, {
 
                 method: 'POST',
                 body: JSON.stringify({
@@ -54,22 +54,42 @@
 
             });
 
-            emits('cerrar')
-
-            setTimeout(() => {
-
-                pinia.getCategorias()
-                nombre.value = ""
-
-            }, 600)
+            return peticion
 
         }else{
 
             error.value = true
+            return "Error"
 
         }
         
     }
+
+    const cargarDatos = async () => {
+
+        pinia.cargandoDatos = true
+
+        try{
+
+            const respuesta = await nuevaCategoria()
+
+            if(respuesta !== "Error"){
+
+                emits('cerrar')
+                pinia.getCategorias()
+                nombre.value = ""
+                pinia.cargandoDatos = false
+
+            }
+
+        }catch(e){
+
+            pinia.cargandoDatos = false
+            alert("Ha habido un error")
+
+        }
+
+    } 
 
 </script>
 

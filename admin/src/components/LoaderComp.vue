@@ -17,11 +17,11 @@
     .animation-load{
 
         width: 100%;
-        height: 90vh;
+        height: 100%;
         display: flex;
         justify-content: center;
         overflow: hidden;
-        background: #666;
+        background: transparent;
         position: absolute;
         z-index: 10000000;
         top: 0;

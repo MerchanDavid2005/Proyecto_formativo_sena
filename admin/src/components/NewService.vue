@@ -17,7 +17,7 @@
         </div>
         <div class="new-service-campo">
             <label> Precio del servicio:  </label>
-            <input v-model="precio" type="text" placeholder="Precio">
+            <input v-model="precio" type="number" placeholder="Precio">
         </div>
         <div class="new-service-button">
             <button 
@@ -30,7 +30,7 @@
             <button 
 
                 :style="{background: pinia.greentheme}" 
-                @click="nuevoServicio"> Crear 
+                @click="cargarDatos"> Crear 
 
             </button>
         </div>
@@ -86,7 +86,7 @@
 
     const imagenValor = (img) => imagen.value = img.target.files[0]
 
-    function nuevoServicio(){
+    async function nuevoServicio(){
 
         if(validar()){
 
@@ -97,27 +97,50 @@
             bodyForm.append('descripcion', descripcion.value)
             bodyForm.append('precio', precio.value)
 
-            fetch(`http://127.0.0.1:8000/post/service/`, {
+            const peticion = await fetch(`http://127.0.0.1:8000/post/service/`, {
 
                 method: 'POST',
                 body: bodyForm
 
             });
 
-            emits('cerrar')
+            return peticion
 
-            setTimeout(() => {
+        }else{
 
+            return "Error"
+
+        }
+                    
+    }
+
+    const cargarDatos = async () => {
+
+        pinia.cargandoDatos = true
+
+        try{
+
+            const respuesta = await nuevoServicio()
+
+            if(respuesta !== "Error"){
+
+                emits('cerrar')
                 pinia.getServicios()
                 nombre.value = ""
                 imagen.value = ""
                 descripcion.value = "Descripcion"
                 precio.value = 1
+                pinia.cargandoDatos = false
+            
+            }
 
-            }, 600)
+        }catch(e){
+
+            pinia.cargandoDatos = false
+            alert("Ha habido un error")
 
         }
-                    
+
     }
 
 </script>
@@ -127,7 +150,7 @@
     .new-service{
 
         height: 75%;
-        width: 40%;
+        width: 35%;
         display: flex;
         flex-direction: column;
         outline: 2px solid #000;
@@ -206,22 +229,6 @@
 
                 @include botones();
                 height: max-content;
-
-            }
-
-        }
-
-    }
-
-    @media(max-width: 1599px){
-
-        .new-service{
-
-            height: 65%;
-           
-            &-title{
-
-                margin: 20px 0;
 
             }
 

@@ -27,11 +27,11 @@
         </div>
         <div class="new-product-campo">
             <label> Cantidad de unidades del producto:  </label>
-            <input v-model="cantidad" type="text" placeholder="Cantidad">
+            <input v-model="cantidad" type="number" placeholder="Cantidad">
         </div>
         <div class="new-product-campo">
             <label> Precio del producto:  </label>
-            <input v-model="precio" type="text" placeholder="Precio">
+            <input v-model="precio" type="number" placeholder="Precio">
         </div>
         <div class="new-product-button">
             <button 
@@ -44,7 +44,7 @@
             <button 
 
                 :style="{background: pinia.greentheme}" 
-                @click="nuevoProducto"> Crear 
+                @click="cargarDatos"> Crear 
 
             </button>
         </div>
@@ -102,7 +102,7 @@
     
     }
 
-    function nuevoProducto(){
+    async function nuevoProducto(){
 
         let bodyForm = new FormData()
 
@@ -115,28 +115,51 @@
 
         if(validar()){
 
-            fetch(`http://127.0.0.1:8000/post/product/`, {
+            const peticion = await fetch(`http://127.0.0.1:8000/post/product/`, {
 
                 method: 'POST',
                 body: bodyForm
 
             });
 
-            emits('cerrar')
+            return peticion
 
-            setTimeout(() => {
+        }else{
 
+            return "Error"
+
+        }
+        
+    }
+
+    async function cargarDatos(){
+
+        pinia.cargandoDatos = true
+
+        try{
+
+            const respuesta = await nuevoProducto()
+
+            if(respuesta !== "Error"){
+
+                emits('cerrar')
                 pinia.getProductos()
                 nombre.value = ""
                 categoria.value = "1"
                 descripcion.value = "Descripcion"
                 cantidad.value = 1
                 precio.value = 1
+                pinia.cargandoDatos = false
 
-            }, 600)
+            }
+
+        }catch(e){
+
+            pinia.cargandoDatos = false
+            alert("Ha habido un error")
 
         }
-        
+
     }
 
 </script>
@@ -225,22 +248,6 @@
 
                 @include botones();
                 height: max-content;
-
-            }
-
-        }
-
-    }
-
-    @media(max-width: 1599px){
-
-        .new-product{
-
-            height: 80%;
-           
-            &-title{
-
-                margin: 20px 0;
 
             }
 

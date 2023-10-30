@@ -18,7 +18,7 @@
             
                 :class="{
                     'todo-contenido-info-ok': panel == false,
-                    'todo-contenido-info-none': panel == true || tablaMostrada == true,
+                    'todo-contenido-info-none': panel == true || tablaMostrada == true || pinia.cargandoDatos,
                     'todo-contenido-info-dark': pinia.temaClaro == false
                 }">
 
@@ -32,6 +32,12 @@
 
             </div>
 
+            <div class="todo-contenido-load">
+
+                <LoaderCompVue v-show="pinia.cargandoDatos" />
+
+            </div>
+
         </div>
 
     </div>
@@ -42,6 +48,7 @@
 
     import NavTop from '@/components/NavTop.vue';
     import PanelOptionsVue from '../components/PanelOptions.vue';
+    import LoaderCompVue from '../components/LoaderComp.vue';
 
     import { ref, defineAsyncComponent } from 'vue'
     import { useStore } from '@/store/pinia';
@@ -183,6 +190,15 @@
                 align-items: center;
                 position: absolute;
                 color: #fff;
+
+            }
+
+            &-load{
+
+                width: 100%;
+                height: 90vh;
+                display: flex;
+                position: absolute;
 
             }
 

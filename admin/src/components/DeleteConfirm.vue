@@ -11,7 +11,7 @@
             </div>
         </div>
         <div class="confirm-delete-buttons">
-            <button @click="eliminar"> Si, aceptar </button>
+            <button @click="traerDatos"> Si, aceptar </button>
             <button @click="emits('cerrar')"> No, cancelar </button>
         </div>
 
@@ -27,13 +27,29 @@
     const emits = defineEmits(['cerrar'])
     const props = defineProps(['modelo', 'registro'])
 
-    function eliminar(){
+    const eliminar = async () => {
 
-        pinia.eliminar(props.modelo)
-        emits('cerrar')
+        try{
 
-        setTimeout(() => {
+            const respuestaTotal = await pinia.cargarDatosNuevos(props.modelo)
 
+            if(respuestaTotal === "Todo good") return respuestaTotal
+
+        }catch(e){
+
+            return "Error"
+
+        }
+
+
+    }
+
+    const traerDatos = async () => {
+
+        try{
+
+            await eliminar()
+            emits('cerrar')
             if(props.modelo == "Producto"){
 
                 pinia.getProductos()
@@ -49,14 +65,20 @@
             }else if(props.modelo == 'Pedido'){
 
                 pinia.getPedidos()
-                
+
             }else{
 
                 pinia.getUsuarios()
 
             }
+            pinia.cargandoDatos = false
 
-        }, 600)
+        }catch(e){
+
+            pinia.cargandoDatos = false
+            alert("Ha habido un error")
+
+        }
 
     }
 
