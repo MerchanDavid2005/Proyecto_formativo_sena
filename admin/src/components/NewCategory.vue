@@ -78,6 +78,12 @@
                 emits('cerrar')
                 pinia.getCategorias()
                 nombre.value = ""
+                pinia.exitoFetch = true
+                setTimeout(() => {
+
+                    pinia.exitoFetch = false
+
+                }, 3000)
 
             }
 

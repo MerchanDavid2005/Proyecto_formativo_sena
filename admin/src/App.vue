@@ -4,19 +4,12 @@
 
 <script setup>
 
-  import { onMounted } from 'vue'
   import { useStore } from '@/store/pinia'
   import jwt_decode from 'jwt-decode'
 
   const pinia = useStore()
 
-  onMounted(() => {
-
-    pinia.getProductos();
-    pinia.getCategorias();
-    pinia.getServicios(),
-    pinia.getPedidos();
-    pinia.getUsuarios();
+  async function traerTodo(){
 
     if(localStorage.getItem("token") !== null){
 
@@ -50,7 +43,33 @@
 
     }
 
-  })
+    try{
+
+      await pinia.getProductos();
+      await pinia.getCategorias();
+      await pinia.getServicios(),
+      await pinia.getPedidos();
+      await pinia.getUsuarios();
+
+    }catch(e){
+
+      setTimeout(() => {
+
+        pinia.errorFetch = true
+
+      }, 500)
+
+      setTimeout(() => {
+
+        pinia.errorFetch = false
+
+      }, 3500)
+
+    }
+
+  }
+
+  traerTodo()
 
 </script>
 

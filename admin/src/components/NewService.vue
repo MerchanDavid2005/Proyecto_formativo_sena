@@ -130,6 +130,12 @@
                 imagen.value = ""
                 descripcion.value = "Descripcion"
                 precio.value = 1
+                pinia.exitoFetch = true
+                setTimeout(() => {
+
+                    pinia.exitoFetch = false
+
+                }, 3000)
             
             }
 

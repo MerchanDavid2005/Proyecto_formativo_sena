@@ -71,7 +71,7 @@
                     <p> Inicia sesion siguiendo el siguien enlace 
                         <router-link to="/"> iniciar sesion </router-link>
                     </p>
-                    <button @click="panelVerificacion"> Registrarse </button>
+                    <button @click="cargarDatos"> Registrarse </button>
     
                 </div>
     
@@ -145,9 +145,11 @@
 
     }
 
-    const panelVerificacion = () => {
+    const panelVerificacion = async () => {
 
         if(validar()){
+
+            emits('mostrarCodigo')
 
             pinia.datosUsuarioCrear.push(usuario.value)
             pinia.datosUsuarioCrear.push(nombre.value)
@@ -155,7 +157,7 @@
             pinia.datosUsuarioCrear.push(imagen.value)
             pinia.datosUsuarioCrear.push(contraseña.value)
 
-            fetch("http://localhost:8000/send/code/verify/", {
+            const peticion = await fetch("http://localhost:8000/send/code/verify/", {
 
                 method: 'POST',
                 body: JSON.stringify({
@@ -166,20 +168,33 @@
                 }),
                 headers: {"content-type": "application/json"}
 
-            }).then(res => res.json()).then(info => {
-                
-                pinia.codigoVerificacion = info.Codigo
-            
             })
 
-            emits('mostrarCodigo')
+            return peticion.json()
 
         }else{
 
+            return {"Codigo": "Error"}
+
+        }
+
+    }
+
+    const cargarDatos = async () => {
+
+        try{
+
+            const codigo = await panelVerificacion()
+
+            if(codigo.Codigo !== "Error") pinia.codigoVerificacion = codigo.Codigo
+
+        }
+        catch(e){
+
+            pinia.errorFetch = true
             setTimeout(() => {
 
-                errorCampos.value = false
-                errorContraseñas.value = false
+                pinia.errorFetch = false
 
             }, 3000)
 

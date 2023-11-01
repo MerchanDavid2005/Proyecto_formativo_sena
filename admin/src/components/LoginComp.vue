@@ -23,7 +23,9 @@
 
     import { ref } from 'vue';
     import { useRouter } from 'vue-router';
+    import { useStore } from '@/store/pinia';
 
+    const pinia = useStore()
     const enrutado = useRouter();
 
     let usuario = ref("");
@@ -51,16 +53,35 @@
 
     async function entrar(){
 
-        let informacion = await verificarDatos()
+        pinia.cargandoDatos = true
 
-        if(informacion.token == "Error"){
+        try{
+        
+            let informacion = await verificarDatos()
 
-            errorCredenciales.value = true
+            if(informacion.token == "Error"){
 
-        }else{
+                errorCredenciales.value = true
 
-            localStorage.setItem("token", JSON.stringify({"token": informacion.token}))
-            enrutado.push("/admin/product")
+            }else{
+
+                localStorage.setItem("token", JSON.stringify({"token": informacion.token}))
+                enrutado.push("/admin/product")
+
+            }
+
+            pinia.cargandoDatos = false
+
+        }catch(e){
+
+            pinia.cargandoDatos = false
+            pinia.errorFetch = true
+
+            setTimeout(() => {
+
+                pinia.errorFetch = false
+
+            }, 3000)
 
         }
 

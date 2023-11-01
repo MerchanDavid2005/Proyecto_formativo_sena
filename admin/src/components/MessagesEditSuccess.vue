@@ -2,8 +2,8 @@
 
     <div class="success">
         
-        <h1> ¡Editado! </h1>
-        <p> El producto ha sido actualizado exitosamente </p>
+        <h1> ¡Exito! </h1>
+        <p> La accion se ha realizado exitosamente </p>
 
     </div>
 

@@ -149,6 +149,12 @@
                 descripcion.value = "Descripcion"
                 cantidad.value = 1
                 precio.value = 1
+                pinia.exitoFetch = true
+                setTimeout(() => {
+
+                    pinia.exitoFetch = false
+
+                }, 3000)
 
             }
 

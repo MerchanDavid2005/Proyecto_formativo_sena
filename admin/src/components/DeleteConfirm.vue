@@ -72,11 +72,22 @@
 
             }
             pinia.cargandoDatos = false
+            pinia.exitoFetch = true
+            setTimeout(() => {
+
+                pinia.exitoFetch = false
+
+            }, 3000)
 
         }catch(e){
 
             pinia.cargandoDatos = false
-            alert("Ha habido un error")
+            pinia.errorFetch = true
+            setTimeout(() => {
+
+                pinia.errorFetch = false
+
+            }, 3000)
 
         }
 

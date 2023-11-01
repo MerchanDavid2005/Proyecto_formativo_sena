@@ -152,6 +152,9 @@
     
                         width: 25%;
                         overflow: auto;
+                        display: flex;
+                        justify-content: flex-start;
+                        align-items: center;
     
                     }
     

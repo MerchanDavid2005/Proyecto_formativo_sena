@@ -4,7 +4,7 @@
 
         <div class="login-fondo"></div>
 
-        <div class="login-body">
+        <div :class="{'login-body': !pinia.cargandoDatos, 'login-body-none': pinia.cargandoDatos}">
 
             <LoginComp />
 
@@ -24,6 +24,18 @@
 
             </transition>
 
+            <transition name="panelMensaje">
+
+                <MessagesError v-show="pinia.errorFetch" />
+
+            </transition>
+
+        </div>
+
+        <div class="login-load">
+
+            <LoaderCompVue v-show="pinia.cargandoDatos" />
+
         </div>
 
     </div>
@@ -35,6 +47,8 @@
     import LoginComp from '@/components/LoginComp.vue';
     import UsuarioCreado from '@/components/UsuarioCreado.vue';
     import MessagesSesion from '@/components/MessagesSesion.vue';
+    import MessagesError from '@/components/MessagesError.vue';
+    import LoaderCompVue from '../components/LoaderComp.vue';
 
     import { useStore } from '@/store/pinia';
 
@@ -77,6 +91,21 @@
 
         }
 
+        &-body-none{
+
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: static;
+            z-index: 10;
+            overflow: hidden;
+            background: #444;
+            filter: brightness(20%);
+
+        }
+
         &-mensaje{
 
             width: 100%;
@@ -87,6 +116,15 @@
             padding: 2%;
             position: absolute;
             overflow: hidden;
+
+        }
+
+        &-load{
+
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            position: absolute;
 
         }
 

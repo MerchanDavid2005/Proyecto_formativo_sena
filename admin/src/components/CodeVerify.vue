@@ -21,34 +21,61 @@
 
     let code = ref("")
 
-    watch(code, () => {
+    async function ingresar(){
+
+        let bodyData = new FormData
+
+        bodyData.append("usuario", pinia.datosUsuarioCrear[0]);
+        bodyData.append("nombre", pinia.datosUsuarioCrear[1]);
+        bodyData.append("email", pinia.datosUsuarioCrear[2]);
+        bodyData.append("img", pinia.datosUsuarioCrear[3]);
+        bodyData.append("password", pinia.datosUsuarioCrear[4]);
+
+        const peticion = await fetch("http://localhost:8000/post/user/Admin/", {
+
+            method: 'POST',
+            body: bodyData
+
+        });
+
+        return peticion
+
+    }
+
+    async function cargarEntrada(){
 
         if(code.value == pinia.codigoVerificacion){
 
-            let bodyData = new FormData
+            try{
 
-            bodyData.append("usuario", pinia.datosUsuarioCrear[0]);
-            bodyData.append("nombre", pinia.datosUsuarioCrear[1]);
-            bodyData.append("email", pinia.datosUsuarioCrear[2]);
-            bodyData.append("img", pinia.datosUsuarioCrear[3]);
-            bodyData.append("password", pinia.datosUsuarioCrear[4]);
-
-            fetch("http://localhost:8000/post/user/Admin/", {
-
-                method: 'POST',
-                body: bodyData
-
-            });
-
-            enrutado.push('/')
-
-            setTimeout(() => {
+                await ingresar()
+                enrutado.push('/')
+                setTimeout(() => {
                 
-                pinia.mensajeUsuarioRegistrado = true
+                    pinia.mensajeUsuarioRegistrado = true
 
-            }, 1000);
+                }, 1000);
+
+            }
+            catch(e){
+
+                pinia.errorFetch = true
+                setTimeout(() => {
+
+                    pinia.errorFetch = false
+
+                }, 3000)
+
+
+            }
 
         }
+
+    }
+
+    watch(code, () => {
+
+        cargarEntrada()
 
     })
 
