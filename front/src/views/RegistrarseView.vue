@@ -49,7 +49,7 @@
     .cuerpo-register{
 
         width: 100%;
-        height: 90vh;
+        height: 100%;
         display: flex;
 
         &-content{
@@ -81,7 +81,7 @@
         &-fondo{
 
             width: 100%;
-            height: 90vh;
+            height: 90%;
             background: url(https://www.lavanguardia.com/andro4all/hero/2021/01/aplicaciones-aprender-mecanica.jpg?width=768&aspect_ratio=16:9&format=nowebp);
             background-size: 100%;
             background-repeat: no-repeat;
@@ -94,7 +94,7 @@
         &-fondo-none{
 
             width: 100%;
-            height: 90vh;
+            height: 90%;
             background: url(https://www.lavanguardia.com/andro4all/hero/2021/01/aplicaciones-aprender-mecanica.jpg?width=768&aspect_ratio=16:9&format=nowebp);
             background-size: 100%;
             background-repeat: no-repeat;
@@ -107,7 +107,7 @@
         &-verify{
 
             width: 100%;
-            height: 90vh;
+            height: 90%;
             display: flex;
             justify-content: center;
             align-items: center;

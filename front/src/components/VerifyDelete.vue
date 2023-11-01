@@ -17,18 +17,18 @@
     import { useStore } from '../store/pinia'
 
     const pinia = useStore()
-    const emits = defineEmits(['ocultar'])
+    const emits = defineEmits(['ocultar', 'error', 'successDelete'])
 
     const aceptado = async () => {
 
         pinia.datosUsuario.carrito.splice(pinia.idEliminar, 1)
         
-        const data = await fetch(`http://localhost:8000/get/user/${pinia.datosUsuario.id}/`, {
+        const data = await fetch(`http://localhost:8000/api/Usuario/${pinia.datosUsuario.id}/`, {
 
-            method: 'POST',
+            method: 'PATCH',
             body: JSON.stringify({
 
-                carrito: pinia.datosUsuario.carrito
+                carrito: JSON.stringify(pinia.datosUsuario.carrito)
 
             }),
             headers: {"content-type": "application/json"}
@@ -41,9 +41,23 @@
 
     const actualizar = async () => {
 
-        emits('ocultar')
-        await aceptado()
-        pinia.getUsuario(pinia.datosUsuario.id)
+        pinia.pantallaCarga = true
+
+        try{
+
+            await aceptado();
+            pinia.getUsuario(pinia.datosUsuario.id);
+            pinia.pantallaCarga = false;
+            emits('ocultar');
+            emits('successDelete')
+
+        }catch(e){
+
+            pinia.pantallaCarga = false;
+            emits('ocultar');
+            emits('error')
+
+        }   
 
     }
 

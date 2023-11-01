@@ -14,7 +14,7 @@
                 <p class="products-all-prd-product-descripcion"> <strong> Descripcion:  </strong> {{ prd.descripcion }} </p>
                 <p> <strong> Cantidad:  </strong> {{ prd.cantidad }} </p>
                 <p> <strong> Precio:  </strong> {{ prd.precio }} </p>
-                <button @click="comprar(prd.id)"> 
+                <button @click="cargarProducto(prd.id)"> 
                     Añadir al carrito 
                     <v-icon style="margin-left: 5px" name="bi-cart-plus-fill" scale="1.3"></v-icon>
                 </button>
@@ -41,16 +41,34 @@
     import { defineEmits, onMounted, computed } from 'vue'
 
     const pinia = useStore()
-    const emits = defineEmits(['verificar'])
+    const emits = defineEmits(['verificar', 'error'])
 
     const comprar = async (id: number) => {
 
         const prd = await fetch(`http://localhost:8000/get/product/${id}/`)
         const data = await prd.json()
 
-        pinia.productoVerificar = data.producto
+        return data.producto
 
-        emits('verificar') 
+    }
+
+    const cargarProducto = async (id:number) => {
+
+        pinia.pantallaCarga = true
+
+        try{
+
+            const resultado = await comprar(id)
+            pinia.productoVerificar = resultado
+            pinia.pantallaCarga = false
+            emits('verificar')
+
+        }catch(e){
+
+            pinia.pantallaCarga = false
+            emits('error')
+
+        }
 
     }
 

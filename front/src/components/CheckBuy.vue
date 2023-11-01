@@ -52,7 +52,7 @@
     import { useStore } from '../store/pinia'
 
     const pinia = useStore()
-    const emits = defineEmits(['ocultar', 'animacion'])
+    const emits = defineEmits(['ocultar', 'animacion', 'error'])
 
     let cantidad = ref<number>(0)
     let precio = ref<number>(0)
@@ -74,7 +74,6 @@
     const comprar = async () => {
 
         emits('ocultar');
-        emits('animacion');
 
         let productoRepetido = false
         let idProductoRepetido = 0
@@ -147,15 +146,28 @@
 
     const actualizar = async () => {
 
-        await comprar()
+        pinia.pantallaCarga = true
 
-        cantidad.value = 0
-        precio.value = 0
-        pinia.getUsuario(pinia.datosUsuario.id)
+        try{
+      
+            await comprar();
+            cantidad.value = 0;
+            precio.value = 0;
+            pinia.getUsuario(pinia.datosUsuario.id);
+            pinia.pantallaCarga = false;
+            emits('ocultar')
+            emits('animacion');
+            
+        }catch(e){
+
+            pinia.pantallaCarga = false;
+            emits('error')
+
+        }
 
     }
 
-    const cerrar = () => {
+    const cerrar = async () => {
 
         emits('ocultar')
         

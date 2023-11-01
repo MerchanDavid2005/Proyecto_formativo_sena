@@ -5,7 +5,7 @@
 
             <transition name="cuadroCompra">
             
-                <CheckBuy v-show="interfazVerificacion" @animacion="verAnimacion" @ocultar="ocultarInterfaz" />
+                <CheckBuy v-show="interfazVerificacion" @animacion="verAnimacion" @ocultar="ocultarInterfaz" @error="error" />
 
             </transition>
 
@@ -26,13 +26,19 @@
                 <MessagesSesion v-show="pinia.mensajeTokenCaducado" />
 
             </transition>
+
+            <transition name="messagges">
+
+                <MessageError v-show="errorCompra" />
+
+            </transition>
             
         </div>
 
-        <div :class="{'contenedor-compras' : funcionando, 'contenedor-compras-none' : !funcionando}">
+        <div :class="{'contenedor-compras' : funcionando, 'contenedor-compras-none' : !funcionando || pinia.pantallaCarga}">
 
             <FilterData />
-            <ProductsAll @verificar="verificarCompra" />
+            <ProductsAll @verificar="verificarCompra" @error="error" />
 
         </div>
 
@@ -53,10 +59,12 @@
     import AnimationBuy from '../components/AnimationBuy.vue';
     import MessagesSendContact from '../components/MessagesSendContact.vue';
     import MessagesSesion from '../components/MessagesSesion.vue';
+    import MessageError from '../components/MessageError.vue';
 
     let interfazVerificacion = ref<boolean>(false)
     let funcionando = ref<boolean>(true)
     let comprado = ref<boolean>(false)
+    let errorCompra = ref<boolean>(false)
 
     const verificarCompra = () => {
         
@@ -81,6 +89,18 @@
     const cerrarAnimacion = () => {
 
         comprado.value = false
+
+    }
+
+    const error = () => {
+
+        errorCompra.value = true
+
+        setTimeout(() => {
+
+            errorCompra.value = false
+
+        }, 3000)
 
     }
 

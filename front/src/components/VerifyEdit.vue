@@ -30,7 +30,6 @@
 
         if(contra.value == pinia.datosUsuario.password){
 
-            
             let datosUsuario = new FormData()
 
             datosUsuario.append("password", contra.value)

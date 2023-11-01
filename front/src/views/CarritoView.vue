@@ -5,13 +5,13 @@
 
             <transition name="verifyPanel">
 
-                <VerifyDelete v-show="mensajeEliminar" @ocultar="ocultarMensaje" />
+                <VerifyDelete v-show="mensajeEliminar" @ocultar="ocultarMensaje" @error="error" @successDelete="mensajeEliminado" />
 
             </transition>
 
             <transition name="verifyPanel">
 
-                <OrderVerify v-show="mensajeAceptar" @ocultar="ocultarMensaje" @mostrarMensaje="mostrarMensajeComprado" />
+                <OrderVerify v-show="mensajeAceptar" @ocultar="ocultarMensaje" @mostrarMensaje="mostrarMensajeComprado" @error="error" />
 
             </transition>
 
@@ -21,13 +21,25 @@
             
             </transition>
 
+            <transition name="messagges">
+
+                <MessageSuccess v-show="successEliminado" />
+
+            </transition>
+
+            <transition name="messagges">
+
+                <MessageError v-show="errorCompra" />
+
+            </transition>
+
         </div>
 
         <main :class="
             {'cuerpo-carrito-view': !mensajeEliminar || !mensajeAceptar,
             'cuerpo-none' : mensajeEliminar || mensajeAceptar}">
 
-            <CarAll @eliminar="mostrarMensaje"/>
+            <CarAll @eliminar="mostrarMensaje" />
 
         </main>
 
@@ -41,6 +53,8 @@
     import VerifyDelete from '../components/VerifyDelete.vue';
     import OrderVerify from '../components/OrderVerify.vue';
     import MessagesExit from '../components/MessagesExit.vue';
+    import MessageError from '../components/MessageError.vue';
+    import MessageSuccess from '../components/MessageSuccess.vue';
 
     import { ref } from 'vue';
 
@@ -48,6 +62,9 @@
 
     let mensajeEliminar = ref<boolean>(false)
     let mensajeAceptar = ref<boolean>(false)
+
+    let errorCompra = ref<boolean>(false)
+    let successEliminado = ref<boolean>(false)
 
     const mostrarMensaje = (mensaje: string) => {
 
@@ -73,6 +90,30 @@
     }
 
     const mostrarMensajeComprado = () => mensajeComprado.value = !mensajeComprado.value
+
+    const error = () => {
+
+        errorCompra.value = true
+
+        setTimeout(() => {
+
+            errorCompra.value = false
+
+        }, 3000)
+
+    }
+
+    const mensajeEliminado = () => {
+
+        successEliminado.value = true
+
+        setTimeout(() => {
+
+            successEliminado.value = false
+
+        }, 3000)
+
+    }
 
 </script>
 
@@ -128,7 +169,7 @@
 
     .verifyPanel-enter-active, .verifyPanel-leave-active {
         
-        transition: transform 1s ease-in-out;
+        transition: transform 0.5s ease-in-out;
 
     }
 
@@ -172,4 +213,5 @@
         animation: mensaje 1s reverse;
 
     }
+    
 </style>

@@ -69,7 +69,7 @@
     .nav{
 
         width: 100%;
-        height: 10vh;
+        height: 100%;
         background: #0af;
         display: flex;
         align-items: center;
