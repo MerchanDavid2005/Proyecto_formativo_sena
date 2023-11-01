@@ -9,6 +9,7 @@ export const useStore = defineStore('storeId', {
 
       cargandoDatos: false,
       errorFetch: false,
+      exitoFetch: false,
 
       listaProductos: [],
       listaServicios: [],

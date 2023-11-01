@@ -47,7 +47,6 @@
 
     const imagenValor = (img) => imagen.value = img.target.files[0]
 
-    
     function validar(){
 
         let validado = false
@@ -108,6 +107,10 @@
 
             return data
 
+        }else{
+
+            return false
+
         }
 
     }
@@ -140,11 +143,45 @@
 
     async function editarServicio(){
 
-        await editarData()
-        await editarImagen()
+        pinia.cargandoDatos = true
 
-        pinia.getServicios()
-        enrutado.push('/admin/service')
+        try{
+
+            const cambiosRealizados = await editarData()
+
+            if(cambiosRealizados){
+
+                await editarImagen();
+                pinia.getServicios();
+                enrutado.push('/admin/service')   
+                setTimeout(() => {
+
+                    pinia.exitoFetch = true
+
+                }, 500)
+
+                setTimeout(() => {
+
+                    pinia.exitoFetch = false
+
+                }, 3500)
+
+            }
+
+            pinia.cargandoDatos = false
+
+        }catch(e){
+
+            pinia.cargandoDatos = false;
+            pinia.errorFetch = true
+            setTimeout(() => {
+
+                pinia.errorFetch = false
+
+            }, 3000)
+
+        }
+
 
     }
 

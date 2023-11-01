@@ -38,6 +38,22 @@
 
             </div>
 
+            <div class="todo-contenido-mensaje">
+
+                <transition name="mensaje">
+                
+                    <MessagesEditSuccess v-show="pinia.exitoFetch" />
+
+                </transition>
+
+                <transition name="mensaje">
+                
+                    <MessagesError v-show="pinia.errorFetch" />
+
+                </transition>
+
+            </div>
+
         </div>
 
     </div>
@@ -49,6 +65,8 @@
     import NavTop from '@/components/NavTop.vue';
     import PanelOptionsVue from '../components/PanelOptions.vue';
     import LoaderCompVue from '../components/LoaderComp.vue';
+    import MessagesEditSuccess from '@/components/MessagesEditSuccess.vue';
+    import MessagesError from '@/components/MessagesError.vue';
 
     import { ref, defineAsyncComponent } from 'vue'
     import { useStore } from '@/store/pinia';
@@ -202,6 +220,40 @@
 
             }
 
+            &-mensaje{
+
+                width: 100%;
+                height: 90vh;
+                display: flex;
+                justify-content: flex-end;
+                align-items: flex-start;
+                position: absolute;
+                box-sizing: border-box;
+                padding: 2%;
+                overflow: hidden;
+
+            }
+
+        }
+
+    }
+
+    @keyframes mensaje {
+        
+        0%{
+
+            transform: translateX(500px);
+
+        }
+        50%{
+
+            transform: translateX(-50px);
+
+        }
+        100%{
+
+            transform: translateX(0);
+
         }
 
     }
@@ -216,6 +268,18 @@
 
         height: 0%;
 
+    }
+
+    .mensaje-enter-active{
+
+        animation: mensaje 1s ease;
+
+    }
+
+    .mensaje-leave-active{
+
+        animation: mensaje 1s ease reverse;
+    
     }
 
 </style>

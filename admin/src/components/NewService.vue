@@ -130,14 +130,20 @@
                 imagen.value = ""
                 descripcion.value = "Descripcion"
                 precio.value = 1
-                pinia.cargandoDatos = false
             
             }
+
+            pinia.cargandoDatos = false
 
         }catch(e){
 
             pinia.cargandoDatos = false
-            alert("Ha habido un error")
+            pinia.errorFetch = true
+            setTimeout(() => {
+
+                pinia.errorFetch = false
+
+            }, 3000)
 
         }
 

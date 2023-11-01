@@ -2,7 +2,7 @@
     <div class="edit-product" :style="{background: pinia.fondoEdits}">
         
         <h1 class="edit-product-title"> Editar producto </h1>
-        <p class="error" v-if="error"> {{ mensajeError }} </p>
+        <span class="error" v-if="error"> {{ mensajeError }} </span>
         <div class="edit-product-campo">
             <label> Nombre del producto:  </label>
             <input v-model="nombre" type="text" placeholder="Nombre">
@@ -125,6 +125,10 @@
             
             return data
 
+        }else{
+
+            return false
+
         }
 
     }
@@ -157,11 +161,44 @@
 
     async function editarProducto(){
 
-        await editarDatos()
-        await editarImagen()
+        pinia.cargandoDatos = true
 
-        pinia.getProductos()
-        enrutado.push('/admin/product')
+        try{
+
+            const cambiosRealizados = await editarDatos()
+
+            if(cambiosRealizados){
+
+                await editarImagen()
+                pinia.getProductos();
+                enrutado.push('/admin/product')
+                setTimeout(() => {
+
+                    pinia.exitoFetch = true
+
+                }, 500)
+
+                setTimeout(() => {
+
+                    pinia.exitoFetch = false
+
+                }, 3500)
+
+            }
+
+            pinia.cargandoDatos = false
+
+        }catch(e){
+
+            pinia.cargandoDatos = false
+            pinia.errorFetch = true
+            setTimeout(() => {
+
+                pinia.errorFetch = false
+
+            }, 3000)
+
+        }
 
     }
 
@@ -171,8 +208,8 @@
 
     .edit-product{
 
-        height: 90%;
-        width: 30%;
+        height: 95%;
+        width: 35%;
         display: flex;
         flex-direction: column;
         outline: 2px solid #000;
@@ -191,7 +228,7 @@
 
             text-align: center;
             color: #f00;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
 
         }
 
@@ -262,17 +299,6 @@
                 height: max-content;
 
             }
-
-        }
-
-    }
-
-    @media(max-width: 1500px){
-
-        .edit-product{
-
-            width: 45%;
-            height: 80%;
 
         }
 

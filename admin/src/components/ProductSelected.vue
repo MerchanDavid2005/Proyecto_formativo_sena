@@ -65,8 +65,8 @@
 
     .select-product{
 
-        height: 90%;
-        width: 30%;
+        height: 95%;
+        width: 40%;
         display: flex;
         flex-direction: column;
         outline: 2px solid #000;
@@ -117,17 +117,6 @@
                 resize: none;
 
             }
-
-        }
-
-    }
-
-    @media(max-width: 1500px){
-
-        .select-product{
-
-            width: 45%;
-            height: 80%;
 
         }
 

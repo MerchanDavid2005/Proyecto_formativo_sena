@@ -33,7 +33,7 @@
 
     .select-category{
 
-        height: 30%;
+        height: 35%;
         width: 30%;
         display: flex;
         flex-direction: column;
