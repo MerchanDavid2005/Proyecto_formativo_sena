@@ -1,8 +1,4 @@
 import { defineStore } from 'pinia'
-import jwt_decode from 'jwt-decode'
-import { useRouter } from 'vue-router'
-
-const enrutado = useRouter()
 
 type Categoria = {
 
@@ -186,58 +182,25 @@ export const useStore = defineStore('storeId', {
 
     },
 
-    async inicializar(){
+    async cargarDatos(){
 
-      this.pantallaCarga = true
-  
       try{
-  
-        if(localStorage.getItem("token") !== null){
-  
-          const token:any = localStorage.getItem("token")
-          const tokenDecodificado:any = jwt_decode(token);
-  
-          let fechaExpiracion = new Date(tokenDecodificado.exp)
-          let hoy = new Date()
-          
-          if(fechaExpiracion <= hoy){
-  
-            localStorage.removeItem("token")
-            
-            setTimeout(() => {
-  
-              this.mensajeTokenCaducado = true
-  
-            }, 1000)
-  
-            setTimeout(() => {
-  
-              this.mensajeTokenCaducado = false
-  
-            }, 4000)
-  
-          }else{
-  
-            this.usuarioLogeado = true
-            await this.getUsuario(tokenDecodificado.id)
-  
-          }
-    
-        }
-        
+
         await this.getProductos()
         await this.getCategorias()
-        await this.getServicios()
-        this.pantallaCarga = false
-  
-      }catch(e){
-  
-        this.pantallaCarga = false
-        enrutado.push('/error')
-  
+        await this.getServicios()  
+
+        return "Exito"
+
       }
-  
-    },
+      catch(e){
+
+        return "Error"
+
+      }
+
+
+    }
 
   }
 

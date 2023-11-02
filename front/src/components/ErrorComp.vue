@@ -1,11 +1,10 @@
 <template>
 
-    <div class="error-load">
+    <div class="error-load-comp">
         
-        <v-icon name="md-error" scale="5"></v-icon>
+        <v-icon name="md-error" scale="7"></v-icon>
         <h1> Error </h1>
-        <p> Ha habido un error al cargar la pagina </p>
-        <button> Volver a intentar </button>
+        <p> El servidor esta caido, por favor vuelve a ingresar mas tarde </p>
 
     </div>
 
@@ -13,17 +12,34 @@
 
 <style lang="scss" scoped>
 
-    .error-load{
+    .error-load-comp{
 
         width: 40%;
         height: max-content;
-        padding: 20px;
-        border-radius: 30px;
         display: flex;
         flex-direction: column;
+        justify-content: center;
         align-items: center;
-        background: $fondo-input;
-        color: #000;
+        color: #fff;
+
+        h1{
+
+            margin: 10px 0;
+
+        }
+
+        p{
+
+            margin: 20px 0;
+
+        }
+
+        button{
+
+            @include botones($fondo-boton-limpiar);
+            color: #fff;
+
+        }
 
     }
 

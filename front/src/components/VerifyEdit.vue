@@ -20,7 +20,7 @@
     import { useStore } from '../store/pinia';
 
     const pinia = useStore()
-    const emits = defineEmits(['ocultar'])
+    const emits = defineEmits(['ocultar', 'error'])
 
     let contra = ref<string>("")
     let texto = ref<string>("No dudamos que seas tu, solo son temas de seguridad :)")
@@ -57,16 +57,29 @@
 
     async function recargarDatos(){
 
-        const estado = await actualizarDatos()
+        pinia.pantallaCarga = true
 
-        if(estado.Mensaje == "¡Actualizado!"){
+        try{
 
-            pinia.getUsuario(pinia.datosUsuario.id);
-            emits('ocultar')
+            const estado = await actualizarDatos()
 
-        }else{
+            if(estado.Mensaje == "¡Actualizado!"){
 
-            error.value = true
+                pinia.getUsuario(pinia.datosUsuario.id);
+                emits('ocultar')
+
+            }else{
+
+                error.value = true
+
+            }
+
+            pinia.pantallaCarga = false
+
+        }catch(e){
+
+            pinia.pantallaCarga = false
+            emits('error')
 
         }
 

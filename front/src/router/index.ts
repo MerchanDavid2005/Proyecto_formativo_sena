@@ -7,6 +7,7 @@ import ContactoView from '../views/ContactoView.vue'
 import PedidoIndividualView from '../views/PedidoIndividual.vue'
 import IniciarSesionView from '../views/IniciarSesionView.vue'
 import RegistrarseView from '../views/RegistrarseView.vue'
+import ErrorView from '../views/ErrorView.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -48,6 +49,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/registrar',
     name: 'registrarse',
     component: RegistrarseView
+  },
+  {
+    path: '/error',
+    name: 'Error',
+    component: ErrorView
   }
   
 ]

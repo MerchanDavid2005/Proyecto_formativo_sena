@@ -18,11 +18,12 @@
 
 <script lang="ts" setup>
 
-    import { ref } from 'vue';
+    import { ref, defineEmits } from 'vue';
     import { useRouter } from 'vue-router';
     import { useStore } from '../store/pinia';
     import jwt_decode from 'jwt-decode'
 
+    const emits = defineEmits(['error'])
     const pinia = useStore()
     const enrutado = useRouter();
 
@@ -58,19 +59,32 @@
 
     async function entrar(){
 
-        let informacion = await verificarDatos()
+        pinia.pantallaCarga = true
 
-        if(informacion.token == "Error"){
+        try{
 
-            errorCredenciales.value = true
+            let informacion = await verificarDatos()
 
-        }else{
+            if(informacion.token == "Error"){
 
-            localStorage.setItem("token", JSON.stringify({"token": informacion.token}))
-            const tokenDecodificado: infoToken = jwt_decode(informacion.token);
-            pinia.usuarioLogeado = true
-            pinia.getUsuario(tokenDecodificado.id)
-            enrutado.push("/")
+                errorCredenciales.value = true
+
+            }else{
+
+                localStorage.setItem("token", JSON.stringify({"token": informacion.token}))
+                const tokenDecodificado: infoToken = jwt_decode(informacion.token);
+                pinia.usuarioLogeado = true
+                pinia.getUsuario(tokenDecodificado.id)
+                enrutado.push("/")
+
+            }
+
+            pinia.pantallaCarga = false
+
+        }catch(e){
+
+            pinia.pantallaCarga = false
+            emits('error')
 
         }
 

@@ -13,9 +13,10 @@
             <div class="cuerpo-perfil-verify">
     
                 <PanelDeleteAccount v-show="panelEliminar" @verify="abrirPanel" @ocultar="ocultarTodo" />
-                <VerifyEdit v-show="panelEditar" @ocultar="ocultarTodo" />
-                <VerifyDeleteAccount v-show="panelEliminarConfirmar" @ocultar="ocultarTodo" />
-    
+                <VerifyEdit v-show="panelEditar" @ocultar="ocultarTodo" @error="mensajeError" />
+                <VerifyDeleteAccount v-show="panelEliminarConfirmar" @ocultar="ocultarTodo" @error="mensajeError"/>
+                <MessageError v-show="error" />
+
             </div>
 
         </div>
@@ -29,8 +30,9 @@
     import OrdersAll from '../components/OrdersAll.vue';
     import AccountComp from '../components/AccountComp.vue';
     import PanelDeleteAccount from '../components/PanelDeleteAccount.vue';
-    import VerifyEdit from '../components/VerifyEdit.vue'
+    import VerifyEdit from '../components/VerifyEdit.vue';
     import VerifyDeleteAccount from '../components/VerifyDeleteAccount.vue';
+    import MessageError from '../components/MessageError.vue';
 
     import { ref } from 'vue'
 
@@ -39,6 +41,8 @@
     let panelEditar = ref<boolean>(false)
     let panelEliminar = ref<boolean>(false)
     let panelEliminarConfirmar = ref<boolean>(false)
+    
+    let error = ref<boolean>(false)
 
     const abrirPanel = (interfaz: string) => {
 
@@ -73,6 +77,18 @@
         panelEliminar.value = false
         panelEliminarConfirmar.value = false
         panel.value = false
+
+    }
+
+    const mensajeError = () => {
+
+        error.value = true
+
+        setTimeout(() => {
+
+            error.value = false
+
+        }, 3000)
 
     }
 

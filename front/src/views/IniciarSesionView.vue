@@ -8,7 +8,7 @@
 
             <div class="cuerpo-login-content">
 
-                <LoginComp />
+                <LoginComp @error="mensajeError" />
 
             </div>
 
@@ -17,6 +17,12 @@
                 <transition name="panelMensaje">
                 
                     <UserCreated v-show="pinia.mensajeUsuarioRegistrado" />
+
+                </transition>
+
+                <transition name="panelMensaje">
+
+                    <MessageError v-show="error" />
 
                 </transition>
 
@@ -33,12 +39,26 @@
     import MainDefault from '../layouts/MainDefault.vue';
     import LoginComp from '../components/LoginComp.vue';
     import UserCreated from '../components/UserCreated.vue';
+    import MessageError from '../components/MessageError.vue';
 
     import { useStore } from '../store/pinia';
+    import { ref } from 'vue'
 
     const pinia = useStore()
 
-    pinia.inicializar()
+    let error = ref<boolean>(false)
+
+    const mensajeError = () => {
+
+        error.value = true
+
+        setTimeout(() => {
+
+            error.value = false
+
+        }, 3000)
+
+    }
 
 </script>
 

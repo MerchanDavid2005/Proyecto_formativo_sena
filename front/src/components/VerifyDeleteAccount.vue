@@ -22,7 +22,7 @@
 
     const enrutado = useRouter()
     const pinia = useStore()
-    const emits = defineEmits(['ocultar'])
+    const emits = defineEmits(['ocultar', 'error'])
 
     let contra = ref<string>("")
     let texto = ref<string>("No dudamos que seas tu, solo son temas de seguridad :)")
@@ -53,30 +53,43 @@
 
     async function recargarDatos(){
 
-        const estado = await actualizarDatos()
+        pinia.pantallaCarga = true
 
-        if(estado.Mensaje == "Imagen eliminada"){
+        try{
 
-            localStorage.removeItem("token")
-            pinia.usuarioLogeado = false
-            enrutado.push('/')
-            pinia.datosUsuario = {
+            const estado = await actualizarDatos()
 
-                id: 1,
-                nombre_usuario: "Anonimo",
-                nombre: "Anonimo",
-                email: "Anomimo@gmail.com",
-                foto: "http://127.0.0.1:8000/media/usuarios/default.png",
-                password: "Anonimo",
-                rol: "Cliente",
-                carrito: []
+            if(estado.Mensaje == "Imagen eliminada"){
+
+                localStorage.removeItem("token")
+                pinia.usuarioLogeado = false
+                enrutado.push('/')
+                pinia.datosUsuario = {
+
+                    id: 1,
+                    nombre_usuario: "Anonimo",
+                    nombre: "Anonimo",
+                    email: "Anomimo@gmail.com",
+                    foto: "http://127.0.0.1:8000/media/usuarios/default.png",
+                    password: "Anonimo",
+                    rol: "Cliente",
+                    carrito: []
+
+                }
+                emits('ocultar')
+
+            }else{
+
+                error.value = true
 
             }
-            emits('ocultar')
 
-        }else{
+            pinia.pantallaCarga = false
 
-            error.value = true
+        }catch(e){
+
+            pinia.pantallaCarga = false
+            emits('error')
 
         }
 

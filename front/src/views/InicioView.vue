@@ -106,8 +106,6 @@
 
     }
 
-    pinia.inicializar()
-
 </script>
 
 <style lang="scss" scoped>
