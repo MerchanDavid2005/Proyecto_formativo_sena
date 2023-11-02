@@ -24,15 +24,21 @@
                     @click="cerrar" 
                     class="interfaz-verificar-compra-datos-botones-cerrar"> 
                     Volver 
-                    <v-icon name="bi-cart-x-fill" scale="1.5"></v-icon>
+                    <v-icon name="bi-cart-x-fill" scale="1"></v-icon>
                 </button>
                 <button 
                     @click="actualizar"
-                    v-if="cantidad > 0"
+                    v-if="cantidad > 0 && pinia.usuarioLogeado"
                     class="interfaz-verificar-compra-datos-botones-verificar"> 
                     Verificar 
-                    <v-icon name="bi-cart-check-fill" scale="1.5"></v-icon>
-                </button>    
+                    <v-icon name="bi-cart-check-fill" scale="1"></v-icon>
+                </button>
+                <button
+                    @click="enrutado.push('/iniciar_sesion')"
+                    v-if="!pinia.usuarioLogeado"
+                    class="interfaz-verificar-compra-datos-botones-sesion"> 
+                    Iniciar sesion 
+                </button> 
             </div>
 
         </section>
@@ -50,7 +56,9 @@
 
     import { ref, defineEmits } from 'vue'
     import { useStore } from '../store/pinia'
+    import { useRouter } from 'vue-router'
 
+    const enrutado = useRouter()
     const pinia = useStore()
     const emits = defineEmits(['ocultar', 'animacion', 'error'])
 
@@ -266,7 +274,7 @@
                 &-verificar{
 
                     @include botones($fondo-boton-crear);
-                    font-size: 20px;
+                    font-size: 15px;
                     padding: 15px;
 
                 }
@@ -274,7 +282,15 @@
                 &-cerrar{
 
                     @include botones($fondo-boton-eliminar);
-                    font-size: 20px;
+                    font-size: 15px;
+                    padding: 15px;
+
+                }
+
+                &-sesion{
+
+                    @include botones($fondo-boton-limpiar);
+                    font-size: 15px;
                     padding: 15px;
 
                 }

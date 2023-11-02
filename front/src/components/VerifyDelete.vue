@@ -21,14 +21,14 @@
 
     const aceptado = async () => {
 
-        pinia.datosUsuario.carrito.splice(pinia.idEliminar, 1)
+        let carritoCopy = pinia.datosUsuario.carrito.splice(pinia.idEliminar, 1)
         
         const data = await fetch(`http://localhost:8000/api/Usuario/${pinia.datosUsuario.id}/`, {
 
             method: 'PATCH',
             body: JSON.stringify({
 
-                carrito: JSON.stringify(pinia.datosUsuario.carrito)
+                carrito: JSON.stringify(carritoCopy)
 
             }),
             headers: {"content-type": "application/json"}
@@ -49,13 +49,22 @@
             pinia.getUsuario(pinia.datosUsuario.id);
             pinia.pantallaCarga = false;
             emits('ocultar');
-            emits('successDelete')
+            setTimeout(() => {
+
+                emits('successDelete')
+
+            }, 500)
+
 
         }catch(e){
 
             pinia.pantallaCarga = false;
             emits('ocultar');
-            emits('error')
+            setTimeout(() => {
+
+                emits('error')
+
+            }, 500)
 
         }   
 

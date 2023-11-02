@@ -5,7 +5,7 @@
         <h1> Realizar pedido </h1>
         <p> ¿Estas seguro de querer realizar el pedido? </p>
         <div class="verify-buy-buttons">
-            <button @click="limpiarCarrito"> Si, seguro </button>
+            <button @click="cargarDatos"> Si, seguro </button>
             <button @click="emits('ocultar')"> No, Cancelar </button>
         </div>
 
@@ -19,30 +19,9 @@
     import { useStore } from '../store/pinia';
 
     const pinia = useStore()
-    const emits = defineEmits(['ocultar', 'mostrarMensaje'])
-
-    async function hacerPedido(){
-
-        const data = await fetch("http://localhost:8000/api/Pedido/", {
-
-            method: 'POST',
-            body: JSON.stringify({
-
-                pedido_usuario: pinia.datosUsuario.id,
-                lista_productos: JSON.stringify(pinia.datosUsuario.carrito)
-
-            }),
-            headers: {"content-type" : "application/json"}
-
-        })
-
-        return data
-
-    }
+    const emits = defineEmits(['ocultar', 'mostrarMensaje', 'error'])
 
     async function generarPdf(){
-
-        await hacerPedido()
 
         let carrito = new FormData()
 
@@ -63,56 +42,105 @@
 
     }
 
-    async function limpiarCarrito() {
+    async function enviarFactura() {
 
-        await generarPdf()
+        try{
 
-        fetch("http://localhost:8000/send/factur/", {
+            await generarPdf()
+
+            const peticion = await fetch("http://localhost:8000/send/factur/", {
+
+                method: 'POST',
+                body: JSON.stringify({
+
+                    id: pinia.listaPedidos.length + 1,
+                    usuario: pinia.datosUsuario.nombre_usuario,
+                    email: pinia.datosUsuario.email
+
+                }),
+                headers: {"content-type": "application/json"}
+
+            });
+
+            return peticion
+
+        }catch(e){
+
+            emits('error')
+
+        }
+
+    }
+
+    async function hacerPedido(){
+
+        const data = await fetch("http://localhost:8000/api/Pedido/", {
 
             method: 'POST',
             body: JSON.stringify({
 
-                id: pinia.listaPedidos.length + 1,
-                usuario: pinia.datosUsuario.nombre_usuario,
-                email: pinia.datosUsuario.email
+                pedido_usuario: pinia.datosUsuario.id,
+                lista_productos: JSON.stringify(pinia.datosUsuario.carrito)
+
+            }),
+            headers: {"content-type" : "application/json"}
+
+        })
+
+        return data
+
+    }
+
+    async function limpiarCarrito(){
+
+        pinia.datosUsuario.carrito = []
+        const peticion = await fetch(`http://localhost:8000/api/Usuario/${pinia.datosUsuario.id}/`, {
+
+            method: 'PATCH',
+            body: JSON.stringify({
+
+                carrito: JSON.stringify(pinia.datosUsuario.carrito)
 
             }),
             headers: {"content-type": "application/json"}
 
         })
 
-        emits('ocultar')
-        pinia.getPedidos()
+        return peticion
 
-        setTimeout(() => {
+    }
 
-            pinia.datosUsuario.carrito = []
+    const cargarDatos = async () => {
 
-            fetch(`http://localhost:8000/api/Usuario/${pinia.datosUsuario.id}/`, {
+        pinia.pantallaCarga = true
 
-                method: 'PATCH',
-                body: JSON.stringify({
+        try{
 
-                    carrito: JSON.stringify(pinia.datosUsuario.carrito)
+            enviarFactura();
+            await hacerPedido();
+            await limpiarCarrito();
+            pinia.getPedidos()
+            emits('ocultar')
+            pinia.pantallaCarga = false
 
-                }),
-                headers: {"content-type": "application/json"}
+            setTimeout(() => {
 
-            })
+                emits('mostrarMensaje')
 
-        }, 1000)
+            }, 500)
 
-        setTimeout(() => {
+            setTimeout(() => {
 
-            emits('mostrarMensaje')
+                emits('mostrarMensaje')
 
-        }, 1500)
+            }, 3500)
 
-        setTimeout(() => {
+        }catch(e){
 
-            emits('mostrarMensaje')
+            emits('error')
+            pinia.pantallaCarga = false
 
-        }, 4000)
+        }
 
     }
 

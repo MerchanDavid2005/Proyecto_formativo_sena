@@ -38,6 +38,8 @@
 
     const pinia = useStore()
 
+    pinia.inicializar()
+
 </script>
 
 <style lang="scss" scoped>

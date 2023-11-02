@@ -152,7 +152,7 @@
 
                 width: 10%;
                 position: fixed;
-                z-index: 10000;
+                z-index: 1000;
                 top: 10vh;
                 height: max-content;
                 background: $fondo-boton-limpiar;

@@ -1,4 +1,5 @@
 <template>
+
     <MainDefault>
 
         <div class="verificar-compra">
@@ -43,6 +44,7 @@
         </div>
 
     </MainDefault>
+
 </template>
 
 <script lang="ts" setup>
@@ -103,6 +105,8 @@
         }, 3000)
 
     }
+
+    pinia.inicializar()
 
 </script>
 

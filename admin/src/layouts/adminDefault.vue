@@ -42,7 +42,7 @@
 
                 <transition name="mensaje">
                 
-                    <MessagesSuccess v-show="pinia.exitoFetch" />
+                    <MessageSuccess v-show="pinia.exitoFetch" />
 
                 </transition>
 
@@ -65,7 +65,7 @@
     import NavTop from '@/components/NavTop.vue';
     import PanelOptionsVue from '../components/PanelOptions.vue';
     import LoaderCompVue from '../components/LoaderComp.vue';
-    import MessagesSuccess from '@/components/MessagesSuccess.vue';
+    import MessageSuccess from '@/components/MessageSuccess.vue';
     import MessagesError from '@/components/MessagesError.vue';
 
     import { ref, defineAsyncComponent } from 'vue'
