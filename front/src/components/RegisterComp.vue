@@ -88,7 +88,7 @@
 
     }
 
-    async function registrar(){
+    function registrar(){
 
         if(validar()){
 
