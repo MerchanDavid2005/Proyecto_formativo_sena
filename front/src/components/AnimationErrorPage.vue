@@ -2,7 +2,7 @@
 
     <div class="animation-error">
 
-        <v-icon class="animation-error-car" name="bi-cart-x-fill" scale="7"></v-icon>
+        <v-icon class="animation-error-car" name="bi-cart-x-fill" scale="5"></v-icon>
         <div class="animation-error-floor"></div>
 
     </div>
@@ -21,7 +21,7 @@
 
         20%{
 
-            transform: translate(600px);
+            transform: translate(480px);
 
         }
 
@@ -54,7 +54,7 @@
     .animation-error{
 
         width: 60%;
-        height: 50%;
+        height: 40%;
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
@@ -64,6 +64,7 @@
         outline: 2px solid #fff;
         border-radius: 10px;
         overflow: hidden;
+        margin-top: 5vh;
 
         &-car{
 

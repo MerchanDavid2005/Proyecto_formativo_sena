@@ -19,16 +19,18 @@
     const pinia = useStore()
     const emits = defineEmits(['ocultar', 'error', 'successDelete'])
 
+    let carritoCopia = pinia.datosUsuario.carrito
+
     const aceptado = async () => {
 
-        let carritoCopy = pinia.datosUsuario.carrito.splice(pinia.idEliminar, 1)
+        carritoCopia.splice(pinia.idEliminar, 1)
         
         const data = await fetch(`http://localhost:8000/api/Usuario/${pinia.datosUsuario.id}/`, {
 
             method: 'PATCH',
             body: JSON.stringify({
 
-                carrito: JSON.stringify(carritoCopy)
+                carrito: JSON.stringify(carritoCopia)
 
             }),
             headers: {"content-type": "application/json"}
